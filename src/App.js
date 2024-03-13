@@ -15,6 +15,12 @@ import Geography from "./scenes/geography";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
+import IncomeTax from "./scenes/form/IncomeTax";
+import GST from "./scenes/form/GST";
+import MCA from "./scenes/form/MCA";
+import PF from "./scenes/form/PF";
+import ESIC from "./scenes/form/ESIC";
+import TDS from "./scenes/form/TDS";
 
 function App() {
   const [theme, colorMode] = useMode();

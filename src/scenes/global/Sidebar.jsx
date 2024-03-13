@@ -152,7 +152,7 @@ const Sidebar = () => {
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            />*/}
 
             <Typography
               variant="h6"
@@ -167,7 +167,7 @@ const Sidebar = () => {
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            /> */}
+            /> 
             <Item
               title="Calendar"
               to="/calendar"

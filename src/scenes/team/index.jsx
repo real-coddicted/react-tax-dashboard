@@ -25,6 +25,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import Invoices from "../invoices";
+import Form from "../form";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -35,7 +36,6 @@ const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [open, setOpen] = React.useState(false);
-  const [openUserPortfolio, setOpenUserPortfolio] = React.useState(false);
 
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
@@ -46,14 +46,6 @@ const Team = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const handleRowClick = (params) => {
-    setOpenUserPortfolio(true);
-  };
-
-  const handleUserPortfolioClose =() =>{
-    setOpenUserPortfolio(false);
-  }
 
   const columns = [
     { field: "id", headerName: "ID" },
@@ -79,38 +71,7 @@ const Team = () => {
       field: "email",
       headerName: "Email",
       flex: 1,
-    },
-    // {
-    //   field: "accessLevel",
-    //   headerName: "Access Level",
-    //   flex: 1,
-    //   renderCell: ({ row: { access } }) => {
-    //     return (
-    //       <Box
-    //         width="60%"
-    //         m="0 auto"
-    //         p="5px"
-    //         display="flex"
-    //         justifyContent="center"
-    //         backgroundColor={
-    //           access === "admin"
-    //             ? colors.greenAccent[600]
-    //             : access === "manager"
-    //             ? colors.greenAccent[700]
-    //             : colors.greenAccent[700]
-    //         }
-    //         borderRadius="4px"
-    //       >
-    //         {access === "admin" && <AdminPanelSettingsOutlinedIcon />}
-    //         {access === "manager" && <SecurityOutlinedIcon />}
-    //         {access === "user" && <LockOpenOutlinedIcon />}
-    //         <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
-    //           {access}
-    //         </Typography>
-    //       </Box>
-    //     );
-    //   },
-    // },
+    }
   ];
 
   return (
@@ -150,119 +111,9 @@ const Team = () => {
               Add User
           </Button>
           <Dialog
-            open={open}
-            onClose={handleClose}
-            PaperProps={{
-              component: 'form',
-              onSubmit: (event) => {
-                event.preventDefault();
-                const formData = new FormData(event.currentTarget);
-                const formJson = Object.fromEntries(formData.entries());
-                const email = formJson.email;
-                const mockData = {id: 10, name: formJson.firstName, email: email, phone: formJson.contact};
-                setRows((prevRows) => [...prevRows, mockData]);
-                console.log(email);
-                handleClose();
-              },
-            }}
-        >
-        <DialogTitle>Add User</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            {/* add dialog content here */}
-          </DialogContentText>
-          {/* <Formik
-            onSubmit={handleFormSubmit}
-            initialValues={initialValues}
-            validationSchema={checkoutSchema}
-          >
-            {({
-              values,
-              errors,
-              touched,
-              handleBlur,
-              handleChange,
-              handleSubmit,
-            }) => (
-            <form onSubmit={handleSubmit}> */}
-              <Box
-                display="grid"
-                gap="30px"
-                gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-                sx={{
-                  "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-                }}
-              >
-                <TextField
-                  required
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="First Name"
-                  name="firstName"
-                  sx={{ gridColumn: "span 2" }}
-                />
-                <TextField
-                  required
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Last Name"
-                  name="lastName"
-                  sx={{ gridColumn: "span 2" }}
-                />
-                <TextField
-                  required
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Email"
-                  name="email"
-                  sx={{ gridColumn: "span 4" }}
-                />
-                <TextField
-                  required
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Contact Number"
-                  name="contact"
-                  sx={{ gridColumn: "span 4" }}
-                />
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Address 1"
-                  name="address1"
-                  sx={{ gridColumn: "span 4" }}
-                />
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  type="text"
-                  label="Address 2"
-                  name="address2"
-                  sx={{ gridColumn: "span 4" }}
-                />
-              </Box>
-            {/* </form>
-         )} */}
-         
-        {/* </Formik> */}
-        </DialogContent>
-        <DialogActions>
-          <Button color="secondary" onClick={handleClose}>Cancel</Button>
-          <Button color="secondary" type="submit" >Subscribe</Button>
-        </DialogActions>
-      </Dialog>
-      </Box>
-        <DataGrid checkboxSelection onRowClick={handleRowClick} rows={rows} columns={columns} getRowId={(row) => row.id} />
-      </Box>
-      <Dialog
         fullScreen
-        open={openUserPortfolio}
-        onClose={handleUserPortfolioClose}
+        open={open}
+        onClose={handleClose}
         TransitionComponent={Transition}
       >
         <AppBar sx={{ position: 'relative' }}>
@@ -270,33 +121,24 @@ const Team = () => {
             <IconButton
               edge="start"
               color="inherit"
-              onClick={handleUserPortfolioClose}
+              onClick={handleClose}
               aria-label="close"
             >
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Jon's Portfolio
+              Add New User
             </Typography>
             {/* <Button autoFocus color="inherit" onClick={handleUserPortfolioClose}>
               close
             </Button> */}
           </Toolbar>
         </AppBar>
-        {/* <List>
-          <ListItemButton>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
-          </ListItemButton>
-          <Divider />
-          <ListItemButton>
-            <ListItemText
-              primary="Default notification ringtone"
-              secondary="Tethys"
-            />
-          </ListItemButton>
-        </List> */}
-        <Invoices/>
+        <Form/>
       </Dialog>
+      </Box>
+        <DataGrid checkboxSelection rows={rows} columns={columns} getRowId={(row) => row.id} />
+      </Box>
     </Box>
   );
 };
