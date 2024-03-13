@@ -1,29 +1,26 @@
 import { tokens } from "../theme";
 
-export const mockDataTeam = [
+export let mockDataTeam = [
   {
     id: 1,
     name: "Jon Snow",
     email: "jonsnow@gmail.com",
-    age: 35,
     phone: "(665)121-5454",
-    access: "admin",
+    // access: "admin",
   },
   {
     id: 2,
     name: "Cersei Lannister",
     email: "cerseilannister@gmail.com",
-    age: 42,
     phone: "(421)314-2288",
-    access: "manager",
+    // access: "manager",
   },
   {
     id: 3,
     name: "Jaime Lannister",
     email: "jaimelannister@gmail.com",
-    age: 45,
     phone: "(422)982-6739",
-    access: "user",
+    // access: "user",
   },
   {
     id: 4,
@@ -31,7 +28,7 @@ export const mockDataTeam = [
     email: "anyastark@gmail.com",
     age: 16,
     phone: "(921)425-6742",
-    access: "admin",
+    // access: "admin",
   },
   {
     id: 5,
@@ -39,7 +36,7 @@ export const mockDataTeam = [
     email: "daenerystargaryen@gmail.com",
     age: 31,
     phone: "(421)445-1189",
-    access: "user",
+    // access: "user",
   },
   {
     id: 6,
@@ -47,7 +44,7 @@ export const mockDataTeam = [
     email: "evermelisandre@gmail.com",
     age: 150,
     phone: "(232)545-6483",
-    access: "manager",
+    // access: "manager",
   },
   {
     id: 7,
@@ -55,7 +52,7 @@ export const mockDataTeam = [
     email: "ferraraclifford@gmail.com",
     age: 44,
     phone: "(543)124-0123",
-    access: "user",
+    // access: "user",
   },
   {
     id: 8,
@@ -63,7 +60,7 @@ export const mockDataTeam = [
     email: "rossinifrances@gmail.com",
     age: 36,
     phone: "(222)444-5555",
-    access: "user",
+    // access: "user",
   },
   {
     id: 9,
@@ -71,7 +68,7 @@ export const mockDataTeam = [
     email: "harveyroxie@gmail.com",
     age: 65,
     phone: "(444)555-6239",
-    access: "admin",
+    // access: "admin",
   },
 ];
 
@@ -202,116 +199,81 @@ export const mockDataContacts = [
 export const mockDataInvoices = [
   {
     id: 1,
-    name: "Jon Snow",
-    email: "jonsnow@gmail.com",
-    cost: "21.24",
-    phone: "(665)121-5454",
-    date: "03/12/2022",
+    stock: "Apple (APPL)",
+    total: "23",
+    cost: "180.09",
+    last_purchase_date: "03/12/2022",
   },
   {
     id: 2,
-    name: "Cersei Lannister",
-    email: "cerseilannister@gmail.com",
-    cost: "1.24",
-    phone: "(421)314-2288",
-    date: "06/15/2021",
+    stock: "Microsoft (MSFT)",
+    total: "90",
+    cost: "178.09",
+    last_purchase_date: "03/18/2022",
   },
   {
     id: 3,
-    name: "Jaime Lannister",
-    email: "jaimelannister@gmail.com",
-    cost: "11.24",
-    phone: "(422)982-6739",
-    date: "05/02/2022",
-  },
-  {
-    id: 4,
-    name: "Anya Stark",
-    email: "anyastark@gmail.com",
-    cost: "80.55",
-    phone: "(921)425-6742",
-    date: "03/21/2022",
-  },
-  {
-    id: 5,
-    name: "Daenerys Targaryen",
-    email: "daenerystargaryen@gmail.com",
-    cost: "1.24",
-    phone: "(421)445-1189",
-    date: "01/12/2021",
-  },
-  {
-    id: 6,
-    name: "Ever Melisandre",
-    email: "evermelisandre@gmail.com",
-    cost: "63.12",
-    phone: "(232)545-6483",
-    date: "11/02/2022",
-  },
-  {
-    id: 7,
-    name: "Ferrara Clifford",
-    email: "ferraraclifford@gmail.com",
-    cost: "52.42",
-    phone: "(543)124-0123",
-    date: "02/11/2022",
-  },
-  {
-    id: 8,
-    name: "Rossini Frances",
-    email: "rossinifrances@gmail.com",
-    cost: "21.24",
-    phone: "(222)444-5555",
-    date: "05/02/2021",
-  },
+    stock: "Google (MSFT)",
+    total: "100",
+    cost: "178.09",
+    last_purchase_date: "04/18/2022",
+  }
 ];
 
 export const mockTransactions = [
   {
     txId: "01e4dsa",
-    user: "johndoe",
+    user: "John Snow",
+    stock: "APPL",
     date: "2021-09-01",
     cost: "43.95",
   },
   {
     txId: "0315dsaa",
-    user: "jackdower",
+    user: "Jack Dower",
+    stock: "MSFT",
     date: "2022-04-01",
     cost: "133.45",
   },
   {
     txId: "01e4dsa",
-    user: "aberdohnny",
+    user: "Abe Rick",
+    stock: "TSLA",
     date: "2021-09-01",
     cost: "43.95",
   },
   {
     txId: "51034szv",
-    user: "goodmanave",
+    user: "Manave Goodman",
+    stock: "TSLA",
     date: "2022-11-05",
     cost: "200.95",
   },
   {
     txId: "0a123sb",
-    user: "stevebower",
+    user: "Steve Bower",
+    stock: "TSLA",
     date: "2022-11-02",
     cost: "13.55",
   },
   {
     txId: "01e4dsa",
-    user: "aberdohnny",
+    user: "John Snow",
+    stock: "TSLA",
     date: "2021-09-01",
     cost: "43.95",
   },
   {
     txId: "120s51a",
-    user: "wootzifer",
+    user: "Zifer Woot",
+    stock: "TSLA",
     date: "2019-04-15",
     cost: "24.20",
   },
   {
     txId: "0315dsaa",
-    user: "jackdower",
+    user: "Jack Dower",
+    stock: "TSLA",
     date: "2022-04-01",
     cost: "133.45",
   },
@@ -432,163 +394,163 @@ export const mockPieData = [
 
 export const mockLineData = [
   {
-    id: "japan",
+    id: "mutual funds aum",
     color: tokens("dark").greenAccent[500],
     data: [
       {
-        x: "plane",
+        x: "Jan",
         y: 101,
       },
       {
-        x: "helicopter",
+        x: "Feb",
         y: 75,
       },
       {
-        x: "boat",
+        x: "Mar",
         y: 36,
       },
       {
-        x: "train",
+        x: "Apr",
         y: 216,
       },
       {
-        x: "subway",
+        x: "May",
         y: 35,
       },
       {
-        x: "bus",
+        x: "Jun",
         y: 236,
       },
       {
-        x: "car",
+        x: "Jul",
         y: 88,
       },
       {
-        x: "moto",
+        x: "Aug",
         y: 232,
       },
       {
-        x: "bicycle",
+        x: "Sep",
         y: 281,
       },
       {
-        x: "horse",
+        x: "Oct",
         y: 1,
       },
       {
-        x: "skateboard",
+        x: "Nov",
         y: 35,
       },
       {
-        x: "others",
+        x: "Dec",
         y: 14,
       },
     ],
   },
   {
-    id: "france",
+    id: "equity aum",
     color: tokens("dark").blueAccent[300],
     data: [
       {
-        x: "plane",
+        x: "Jan",
         y: 212,
       },
       {
-        x: "helicopter",
+        x: "Feb",
         y: 190,
       },
       {
-        x: "boat",
+        x: "Mar",
         y: 270,
       },
       {
-        x: "train",
+        x: "Apr",
         y: 9,
       },
       {
-        x: "subway",
+        x: "May",
         y: 75,
       },
       {
-        x: "bus",
+        x: "Jun",
         y: 175,
       },
       {
-        x: "car",
+        x: "Jul",
         y: 33,
       },
       {
-        x: "moto",
+        x: "Aug",
         y: 189,
       },
       {
-        x: "bicycle",
+        x: "Sep",
         y: 97,
       },
       {
-        x: "horse",
+        x: "Oct",
         y: 87,
       },
       {
-        x: "skateboard",
+        x: "Nov",
         y: 299,
       },
       {
-        x: "others",
+        x: "Dec",
         y: 251,
       },
     ],
   },
   {
-    id: "us",
+    id: "pms aum",
     color: tokens("dark").redAccent[200],
     data: [
       {
-        x: "plane",
+        x: "Jan",
         y: 191,
       },
       {
-        x: "helicopter",
+        x: "Feb",
         y: 136,
       },
       {
-        x: "boat",
+        x: "Mar",
         y: 91,
       },
       {
-        x: "train",
+        x: "Apr",
         y: 190,
       },
       {
-        x: "subway",
+        x: "May",
         y: 211,
       },
       {
-        x: "bus",
+        x: "Jun",
         y: 152,
       },
       {
-        x: "car",
+        x: "Jul",
         y: 189,
       },
       {
-        x: "moto",
+        x: "Aug",
         y: 152,
       },
       {
-        x: "bicycle",
+        x: "Sep",
         y: 8,
       },
       {
-        x: "horse",
+        x: "Oct",
         y: 197,
       },
       {
-        x: "skateboard",
+        x: "Nov",
         y: 107,
       },
       {
-        x: "others",
+        x: "Dec",
         y: 170,
       },
     ],

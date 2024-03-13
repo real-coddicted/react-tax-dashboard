@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataInvoices } from "../../data/mockData";
@@ -10,24 +10,19 @@ const Invoices = () => {
   const columns = [
     { field: "id", headerName: "ID" },
     {
-      field: "name",
-      headerName: "Name",
+      field: "stock",
+      headerName: "Holdings",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "phone",
-      headerName: "Phone Number",
-      flex: 1,
-    },
-    {
-      field: "email",
-      headerName: "Email",
+      field: "total",
+      headerName: "Quantity",
       flex: 1,
     },
     {
       field: "cost",
-      headerName: "Cost",
+      headerName: "Average Price",
       flex: 1,
       renderCell: (params) => (
         <Typography color={colors.greenAccent[500]}>
@@ -36,15 +31,36 @@ const Invoices = () => {
       ),
     },
     {
-      field: "date",
-      headerName: "Date",
+      field: "last_purchase_date",
+      headerName: "Last Purchase Date",
       flex: 1,
     },
+    {
+      field: 'action',
+      headerName: 'Action',
+      flex: 1,
+      sortable: false,
+      disableClickEventBubbling: true,
+      
+      renderCell: (params) => {
+          const onClick = (e) => {
+            const currentRow = params.row;
+            return alert(JSON.stringify(currentRow, null, 4));
+          };
+          
+          return (
+            <Box display="grid" gap="20px">
+              <Button variant="outlined" color="warning" size="small" onClick={onClick}>Buy</Button>
+              <Button variant="outlined" color="error" size="small" onClick={onClick}>Sell</Button>
+            </Box>
+          );
+      },
+    }
   ];
 
   return (
     <Box m="20px">
-      <Header title="INVOICES" subtitle="List of Invoice Balances" />
+      {/* <Header title="INVOICES" subtitle="List of Invoice Balances" /> */}
       <Box
         m="40px 0 0 0"
         height="75vh"
