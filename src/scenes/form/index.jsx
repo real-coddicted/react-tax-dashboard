@@ -10,6 +10,7 @@ import MCA from './MCA';
 import PF from './PF';
 import ESIC from './ESIC';
 import TDS from './TDS';
+import Profile from './Profile';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -54,31 +55,40 @@ export default function Form() {
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Income Tax" {...a11yProps(0)} />
-          <Tab label="GST" {...a11yProps(1)} />
-          <Tab label="MCA" {...a11yProps(2)} />
-          <Tab label="PF" {...a11yProps(3)} />
-          <Tab label="ESIC" {...a11yProps(4)} />
-          <Tab label="TDS" {...a11yProps(5)} />
+        <Tabs 
+          textColor="secondary"
+          indicatorColor="secondary"
+          value={value} 
+          onChange={handleChange} 
+          aria-label="basic tabs example">
+          <Tab  label="Profile" {...a11yProps(0)} />
+          <Tab  label="Income Tax" {...a11yProps(1)} />
+          <Tab label="GST" {...a11yProps(2)} />
+          <Tab label="MCA" {...a11yProps(3)} />
+          <Tab label="PF" {...a11yProps(4)} />
+          <Tab label="ESIC" {...a11yProps(5)} />
+          <Tab label="TDS" {...a11yProps(6)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <IncomeTax/>
+        <Profile/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <GST/>
+        <IncomeTax/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <MCA/>
+        <GST/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <PF/>
+        <MCA/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        <ESIC/>
+        <PF/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
+        <ESIC/>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={6}>
         <TDS/>
       </CustomTabPanel>
     </Box>
