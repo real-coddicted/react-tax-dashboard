@@ -6,10 +6,25 @@ import dayjs from "dayjs";
 import React from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { getById } from "../../service/userService";
 
-const Profile = () => {
+const Profile = ({ id }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [value, setValue] = React.useState(dayjs("2022-04-17"));
+  const isAddMode = !id;
+  const [user, setUser] = React.useState({});
+
+  React.useEffect(() => {
+    if (!isAddMode) {
+      // get user and set form fields
+      getById(id).then((user) => {
+        const fields = ["firstName", "lastName"];
+        fields.forEach((field) => setValue(field, user[field]));
+        setUser(user);
+      });
+    }
+  }, []);
+
   return (
     <Box m="20px">
       <Box
@@ -20,7 +35,7 @@ const Profile = () => {
         <Header title="Profile" subtitle="Details" />
         <Box
           sx={{ gridColumn: "span 3" }}
-          height="45px"
+          height="35px"
           display="flex"
           justifyContent="end"
           mt="10px"
@@ -43,6 +58,7 @@ const Profile = () => {
           variant="filled"
           type="text"
           label="First Name"
+          value={user.firstName}
           name="firstName"
           sx={{ gridColumn: "span 2" }}
         />
@@ -50,6 +66,7 @@ const Profile = () => {
           fullWidth
           variant="filled"
           type="text"
+          value={user.lastName}
           label="Last Name"
           name="lastName"
           sx={{ gridColumn: "span 2" }}
@@ -75,6 +92,7 @@ const Profile = () => {
             label="DOB/DOI"
             value={value}
             onChange={(newValue) => setValue(newValue)}
+            sx={{ gridColumn: "span 2" }}
           />
         </LocalizationProvider>
         <TextField

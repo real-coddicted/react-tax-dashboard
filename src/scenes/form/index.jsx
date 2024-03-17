@@ -1,16 +1,16 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import IncomeTax from './IncomeTax';
-import GST from './GST';
-import MCA from './MCA';
-import PF from './PF';
-import ESIC from './ESIC';
-import TDS from './TDS';
-import Profile from './Profile';
+import * as React from "react";
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import IncomeTax from "./IncomeTax";
+import GST from "./GST";
+import MCA from "./MCA";
+import PF from "./PF";
+import ESIC from "./ESIC";
+import TDS from "./TDS";
+import Profile from "./Profile";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -41,11 +41,11 @@ CustomTabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
-export default function Form() {
+export default function Form({ id, name }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -53,16 +53,17 @@ export default function Form() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs 
+    <Box sx={{ width: "100%" }}>
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs
           textColor="secondary"
           indicatorColor="secondary"
-          value={value} 
-          onChange={handleChange} 
-          aria-label="basic tabs example">
-          <Tab  label="Profile" {...a11yProps(0)} />
-          <Tab  label="Income Tax" {...a11yProps(1)} />
+          value={value}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+        >
+          <Tab label="Profile" {...a11yProps(0)} />
+          <Tab label="Income Tax" {...a11yProps(1)} />
           <Tab label="GST" {...a11yProps(2)} />
           <Tab label="MCA" {...a11yProps(3)} />
           <Tab label="PF" {...a11yProps(4)} />
@@ -71,25 +72,25 @@ export default function Form() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <Profile/>
+        <Profile id={id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <IncomeTax/>
+        <IncomeTax id={id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <GST/>
+        <GST id={id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <MCA/>
+        <MCA id={id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        <PF/>
+        <PF id={id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
-        <ESIC/>
+        <ESIC id={id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={6}>
-        <TDS/>
+        <TDS id={id} />
       </CustomTabPanel>
     </Box>
   );

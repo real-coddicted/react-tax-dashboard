@@ -5,9 +5,13 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { DatePicker } from "@mui/x-date-pickers";
 import React from "react";
+import dayjs from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-const GST = () => {
+const GST = ({ id }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const [dealerType, setDealerType] = React.useState("");
@@ -22,9 +26,28 @@ const GST = () => {
     setReturnType(event.target.value);
   };
 
+  const [value, setValue] = React.useState(dayjs("2022-04-17"));
+
   return (
     <Box m="20px">
-      <Header title="GST" subtitle="Details" />
+      <Box
+        display="grid"
+        gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+        sx={{ "& > div": { gridColumn: isNonMobile ? undefined : "span 4" } }}
+      >
+        <Header title="GST" subtitle="Details" />
+        <Box
+          sx={{ gridColumn: "span 3" }}
+          height="35px"
+          display="flex"
+          justifyContent="end"
+          mt="10px"
+        >
+          <Button type="submit" color="secondary" variant="contained">
+            Save
+          </Button>
+        </Box>
+      </Box>
       <Box
         display="grid"
         gap="30px"
@@ -83,14 +106,14 @@ const GST = () => {
             <MenuItem value="RETURN_TYPE_QUARTERLY">Quarterly</MenuItem>
           </Select>
         </FormControl>
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Date of Reg."
-          name="dateOfRef"
-          sx={{ gridColumn: "span 2" }}
-        />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            label="Date of Reg."
+            value={value}
+            onChange={(newValue) => setValue(newValue)}
+            sx={{ gridColumn: "span 2" }}
+          />
+        </LocalizationProvider>
         <TextField
           fullWidth
           variant="filled"
@@ -133,11 +156,6 @@ const GST = () => {
           name="address2"
           sx={{ gridColumn: "span 4" }}
         />
-      </Box>
-      <Box display="flex" justifyContent="end" mt="20px">
-        <Button type="submit" color="secondary" variant="contained">
-          Create New User
-        </Button>
       </Box>
     </Box>
   );

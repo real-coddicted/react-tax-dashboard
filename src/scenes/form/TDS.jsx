@@ -2,12 +2,29 @@ import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 
-const TDS = () => {
+const TDS = ({ id }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
   return (
     <Box m="20px">
-      <Header title="TDS" subtitle="Details" />
+      <Box
+        display="grid"
+        gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+        sx={{ "& > div": { gridColumn: isNonMobile ? undefined : "span 4" } }}
+      >
+        <Header title="TDS" subtitle="Details" />
+        <Box
+          sx={{ gridColumn: "span 3" }}
+          height="35px"
+          display="flex"
+          justifyContent="end"
+          mt="10px"
+        >
+          <Button type="submit" color="secondary" variant="contained">
+            Save
+          </Button>
+        </Box>
+      </Box>
       <Box
         display="grid"
         gap="30px"
@@ -82,11 +99,6 @@ const TDS = () => {
           name="login_password"
           sx={{ gridColumn: "span 4" }}
         />
-      </Box>
-      <Box display="flex" justifyContent="end" mt="20px">
-        <Button type="submit" color="secondary" variant="contained">
-          Create New User
-        </Button>
       </Box>
     </Box>
   );

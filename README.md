@@ -1,4 +1,6 @@
-# React Admin Dashboard
+# React tax Dashboard
+
+- [Prettier](https://stackoverflow.com/questions/75582427/prettier-not-working-on-save-from-within-visual-studio-code)
 
 Build a COMPLETE React Admin Dashboard App | React, Material UI, Data Grid, Light & Dark Mode
 

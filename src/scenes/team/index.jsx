@@ -6,24 +6,24 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
-import * as React from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import * as React from "react";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import ListItemText from '@mui/material/ListItemText';
-import ListItemButton from '@mui/material/ListItemButton';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import Slide from '@mui/material/Slide';
+import ListItemText from "@mui/material/ListItemText";
+import ListItemButton from "@mui/material/ListItemButton";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import Slide from "@mui/material/Slide";
 import Invoices from "../invoices";
 import Form from "../form";
 
@@ -36,8 +36,12 @@ const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [open, setOpen] = React.useState(false);
+  const [id, setId] = React.useState();
+  const [name, setName] = React.useState();
 
   const handleClickOpen = () => {
+    setId();
+    setName();
     setOpen(true);
   };
 
@@ -62,12 +66,42 @@ const Team = () => {
       field: "email",
       headerName: "Email",
       flex: 1,
-    }
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      flex: 1,
+      sortable: false,
+      disableClickEventBubbling: true,
+
+      renderCell: (params) => {
+        const onClick = (e) => {
+          const currentRow = params.row;
+          setId(currentRow.id);
+          setName(currentRow.name);
+          setOpen(true);
+          //return alert(JSON.stringify(currentRow, null, 4));
+        };
+
+        return (
+          <Box display="grid" gap="20px">
+            <Button
+              variant="outlined"
+              color="warning"
+              size="small"
+              onClick={onClick}
+            >
+              View / Edit
+            </Button>
+          </Box>
+        );
+      },
+    },
   ];
 
   return (
     <Box m="20px">
-      <Header title="Users" subtitle="Manage Users" /> 
+      <Header title="Users" subtitle="Manage Users" />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -98,41 +132,46 @@ const Team = () => {
         }}
       >
         <Box display="flex" justifyContent="left" mt="5px" marginBottom="10px">
-          <Button type="button" color="secondary" variant="contained" onClick={handleClickOpen}>
-              Add User
+          <Button
+            type="button"
+            color="secondary"
+            variant="contained"
+            onClick={handleClickOpen}
+          >
+            Add User
           </Button>
           <Dialog
-        fullScreen
-        open={open}
-        onClose={handleClose}
-        TransitionComponent={Transition}
-      >
-        <AppBar sx={{ position: 'relative' }}>
-          <Toolbar>
-            <IconButton
-              edge="start"
-              color="inherit"
-              onClick={handleClose}
-              aria-label="close"
-            >
-              <CloseIcon />
-            </IconButton>
-            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Add New User
-            </Typography>
-            {/* <Button autoFocus color="inherit" onClick={handleUserPortfolioClose}>
-              close
-            </Button> */}
-          </Toolbar>
-        </AppBar>
-        <Form/>
-      </Dialog>
-      </Box>
-        <DataGrid checkboxSelection rows={rows} columns={columns} getRowId={(row) => row.id} />
+            fullScreen
+            open={open}
+            onClose={handleClose}
+            TransitionComponent={Transition}
+          >
+            <AppBar sx={{ position: "relative" }}>
+              <Toolbar>
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  onClick={handleClose}
+                  aria-label="close"
+                >
+                  <CloseIcon />
+                </IconButton>
+                <Typography
+                  sx={{ ml: 2, flex: 1 }}
+                  variant="h6"
+                  component="div"
+                >
+                  {!id ? "Add User" : name}
+                </Typography>
+              </Toolbar>
+            </AppBar>
+            <Form id={id} name={name} />
+          </Dialog>
+        </Box>
+        <DataGrid rows={rows} columns={columns} getRowId={(row) => row.id} />
       </Box>
     </Box>
   );
 };
 
 export default Team;
-
