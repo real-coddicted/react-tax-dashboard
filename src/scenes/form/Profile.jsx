@@ -6,24 +6,61 @@ import dayjs from "dayjs";
 import React from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { getById } from "../../service/userService";
+import { getUserById, createUser } from "../../service/userService";
 
 const Profile = ({ id }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [phoneNumber, setPhoneNumber] = React.useState("");
+  const [panId, setPanId] = React.useState("");
+  const [aadharId, setAadharId] = React.useState("");
+  const [address1, setAddress1] = React.useState("");
+  const [address2, setAddress2] = React.useState("");
   const [value, setValue] = React.useState(dayjs("2022-04-17"));
   const isAddMode = !id;
-  const [user, setUser] = React.useState({});
+
+  function setUser(user) {
+    setFirstName(user["firstName"]);
+    setLastName(user["lastName"]);
+    setEmail(user["email"]);
+    setPhoneNumber(user["phoneNumber"]);
+    setPanId(user["panId"]);
+    setAadharId(user["aadharId"]);
+    setAddress1(user["address1"]);
+    setAddress2(user["address2"]);
+  }
 
   React.useEffect(() => {
     if (!isAddMode) {
       // get user and set form fields
-      getById(id).then((user) => {
-        const fields = ["firstName", "lastName"];
-        fields.forEach((field) => setValue(field, user[field]));
+      getUserById(id).then((user) => {
         setUser(user);
       });
     }
   }, []);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log("onsubmit");
+    if (isAddMode) {
+      let user = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phoneNumber: phoneNumber,
+        panId: panId,
+        aadharId: aadharId,
+        address1: address1,
+        address2: address2,
+      };
+      createUser(user).then((user) => {
+        setUser(user);
+        console.log("created user successfully");
+      });
+    }
+  };
 
   return (
     <Box m="20px">
@@ -40,7 +77,12 @@ const Profile = ({ id }) => {
           justifyContent="end"
           mt="10px"
         >
-          <Button type="submit" color="secondary" variant="contained">
+          <Button
+            type="submit"
+            onClick={onSubmit}
+            color="secondary"
+            variant="contained"
+          >
             Save
           </Button>
         </Box>
@@ -58,7 +100,8 @@ const Profile = ({ id }) => {
           variant="filled"
           type="text"
           label="First Name"
-          value={user.firstName}
+          value={firstName}
+          onChange={(event) => setFirstName(event.target.value)}
           name="firstName"
           sx={{ gridColumn: "span 2" }}
         />
@@ -66,7 +109,8 @@ const Profile = ({ id }) => {
           fullWidth
           variant="filled"
           type="text"
-          value={user.lastName}
+          value={lastName}
+          onChange={(event) => setLastName(event.target.value)}
           label="Last Name"
           name="lastName"
           sx={{ gridColumn: "span 2" }}
@@ -75,6 +119,8 @@ const Profile = ({ id }) => {
           fullWidth
           variant="filled"
           type="text"
+          value={panId}
+          onChange={(event) => setPanId(event.target.value)}
           label="Pan No"
           name="Pan No."
           sx={{ gridColumn: "span 2" }}
@@ -83,6 +129,8 @@ const Profile = ({ id }) => {
           fullWidth
           variant="filled"
           type="text"
+          value={aadharId}
+          onChange={(event) => setAadharId(event.target.value)}
           label="Aadhar"
           name="aadhar"
           sx={{ gridColumn: "span 2" }}
@@ -99,6 +147,8 @@ const Profile = ({ id }) => {
           required
           fullWidth
           variant="filled"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
           type="text"
           label="Email"
           name="email"
@@ -109,6 +159,8 @@ const Profile = ({ id }) => {
           fullWidth
           variant="filled"
           type="text"
+          value={phoneNumber}
+          onChange={(event) => setPhoneNumber(event.target.value)}
           label="Contact Number"
           name="contact"
           sx={{ gridColumn: "span 4" }}
@@ -117,6 +169,8 @@ const Profile = ({ id }) => {
           fullWidth
           variant="filled"
           type="text"
+          value={address1}
+          onChange={(event) => setAddress1(event.target.value)}
           label="Address 1"
           name="address1"
           sx={{ gridColumn: "span 4" }}
@@ -125,6 +179,8 @@ const Profile = ({ id }) => {
           fullWidth
           variant="filled"
           type="text"
+          value={address2}
+          onChange={(event) => setAddress2(event.target.value)}
           label="Address 2"
           name="address2"
           sx={{ gridColumn: "span 4" }}

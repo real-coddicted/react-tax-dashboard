@@ -26,18 +26,26 @@ import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import Invoices from "../invoices";
 import Form from "../form";
+import { getUsers } from "../../service/userService";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const Team = () => {
-  const [rows, setRows] = React.useState(() => mockDataTeam);
+  const [rows, setRows] = React.useState([]);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [open, setOpen] = React.useState(false);
   const [id, setId] = React.useState();
   const [name, setName] = React.useState();
+
+  React.useEffect(() => {
+    // get user and set form fields
+    getUsers().then((users) => {
+      setRows(users);
+    });
+  }, []);
 
   const handleClickOpen = () => {
     setId();
