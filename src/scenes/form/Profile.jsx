@@ -13,7 +13,7 @@ const Profile = ({ id }) => {
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
-  const [phoneNumber, setPhoneNumber] = React.useState("");
+  const [mobileNumber, setMobileNumber] = React.useState("");
   const [panId, setPanId] = React.useState("");
   const [aadharId, setAadharId] = React.useState("");
   const [address1, setAddress1] = React.useState("");
@@ -25,7 +25,7 @@ const Profile = ({ id }) => {
     setFirstName(user["firstName"]);
     setLastName(user["lastName"]);
     setEmail(user["email"]);
-    setPhoneNumber(user["phoneNumber"]);
+    setMobileNumber(user["mobileNumber"]);
     setPanId(user["panId"]);
     setAadharId(user["aadharId"]);
     setAddress1(user["address1"]);
@@ -49,7 +49,7 @@ const Profile = ({ id }) => {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        phoneNumber: phoneNumber,
+        mobileNumber: mobileNumber,
         panId: panId,
         aadharId: aadharId,
         address1: address1,
@@ -159,8 +159,8 @@ const Profile = ({ id }) => {
           fullWidth
           variant="filled"
           type="text"
-          value={phoneNumber}
-          onChange={(event) => setPhoneNumber(event.target.value)}
+          value={mobileNumber}
+          onChange={(event) => setMobileNumber(event.target.value)}
           label="Contact Number"
           name="contact"
           sx={{ gridColumn: "span 4" }}
