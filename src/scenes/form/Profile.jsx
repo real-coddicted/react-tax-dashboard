@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import React from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { getUserById, createUser } from "../../service/userService";
+import { getUserById, createUser, updateUser } from "../../service/userService";
 
 const Profile = ({ id }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -58,6 +58,22 @@ const Profile = ({ id }) => {
       createUser(user).then((user) => {
         setUser(user);
         console.log("created user successfully");
+      });
+    } else {
+      let user = {
+        id: id,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        mobileNumber: mobileNumber,
+        panId: panId,
+        aadharId: aadharId,
+        address1: address1,
+        address2: address2,
+      };
+      updateUser(user).then((user) => {
+        setUser(user);
+        console.log("User updated successfully");
       });
     }
   };
