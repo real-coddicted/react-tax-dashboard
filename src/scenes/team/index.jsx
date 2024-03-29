@@ -40,12 +40,21 @@ const Team = () => {
   const [id, setId] = React.useState();
   const [firstName, setFirstName] = React.useState();
 
+  //on page load - fetch users
   React.useEffect(() => {
     // get user and set form fields
     getUsers().then((users) => {
       setRows(users);
     });
   }, []);
+
+  //on modal close - fetch users
+  React.useEffect(() => {
+    // get user and set form fields
+    getUsers().then((users) => {
+      setRows(users);
+    });
+  }, [open]);
 
   const handleClickOpen = () => {
     setId();
