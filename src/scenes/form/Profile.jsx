@@ -6,7 +6,10 @@ import dayjs from "dayjs";
 import React from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { getUserById, createUser } from "../../service/userService";
+import { getUserById, createUser, updateUser } from "../../service/userService";
+import Snackbar, { snackbarClasses } from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Profile = ({ id }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -19,6 +22,8 @@ const Profile = ({ id }) => {
   const [address1, setAddress1] = React.useState("");
   const [address2, setAddress2] = React.useState("");
   const [value, setValue] = React.useState(dayjs("2022-04-17"));
+  const [message, setMessage] = React.useState("");
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const isAddMode = !id;
 
   function setUser(user) {
@@ -57,10 +62,49 @@ const Profile = ({ id }) => {
       };
       createUser(user).then((user) => {
         setUser(user);
-        console.log("created user successfully");
+        setMessage("User created successfully");
+        setOpenSnackbar(true);
+      });
+    } else {
+      let user = {
+        id: id,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        mobileNumber: mobileNumber,
+        panId: panId,
+        aadharId: aadharId,
+        address1: address1,
+        address2: address2,
+      };
+      updateUser(user).then((user) => {
+        setUser(user);
+        setMessage("User updated successfully");
+        setOpenSnackbar(true);
       });
     }
   };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setMessage("");
+    setOpenSnackbar(false);
+  };
+
+  const snackbarAction = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleSnackbarClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <Box m="20px">
@@ -186,6 +230,14 @@ const Profile = ({ id }) => {
           sx={{ gridColumn: "span 4" }}
         />
       </Box>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={5000}
+        onClose={handleSnackbarClose}
+        message={message}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        action={snackbarAction}
+      />
     </Box>
   );
 };

@@ -38,8 +38,9 @@ const Team = () => {
   const colors = tokens(theme.palette.mode);
   const [open, setOpen] = React.useState(false);
   const [id, setId] = React.useState();
-  const [name, setName] = React.useState();
+  const [firstName, setFirstName] = React.useState();
 
+  //on page load - fetch users
   React.useEffect(() => {
     // get user and set form fields
     getUsers().then((users) => {
@@ -47,9 +48,17 @@ const Team = () => {
     });
   }, []);
 
+  //on modal close - fetch users
+  React.useEffect(() => {
+    // get user and set form fields
+    getUsers().then((users) => {
+      setRows(users);
+    });
+  }, [open]);
+
   const handleClickOpen = () => {
     setId();
-    setName();
+    setFirstName();
     setOpen(true);
   };
 
@@ -92,7 +101,7 @@ const Team = () => {
         const onClick = (e) => {
           const currentRow = params.row;
           setId(currentRow.id);
-          setName(currentRow.name);
+          setFirstName(currentRow.firstName);
           setOpen(true);
           //return alert(JSON.stringify(currentRow, null, 4));
         };
@@ -175,11 +184,11 @@ const Team = () => {
                   variant="h6"
                   component="div"
                 >
-                  {!id ? "Add User" : name}
+                  {!id ? "Add User" : `${firstName}'s Details`}
                 </Typography>
               </Toolbar>
             </AppBar>
-            <Form id={id} name={name} />
+            <Form id={id} firstName={firstName} />
           </Dialog>
         </Box>
         <DataGrid rows={rows} columns={columns} getRowId={(row) => row.id} />
