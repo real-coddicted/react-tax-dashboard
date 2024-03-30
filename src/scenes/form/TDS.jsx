@@ -34,7 +34,7 @@ const TDS = (props) => {
   const [modifiedDateTime, setModifiedDateTime] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
-  const isAddMode = !id;
+  const isAddMode = !ownerRef;
   //----
   function setTDSDetails(tdsDetails) {
     setId(tdsDetails["id"]);
@@ -54,11 +54,12 @@ const TDS = (props) => {
 
   React.useEffect(() => {
     console.log(isAddMode);
-
-    // get user and set form fields
-    getTDSRecordByOwnerRefId(ownerRef).then((tdsDetails) => {
-      setTDSDetails(tdsDetails);
-    });
+    if (!isAddMode) {
+      // get user and set form fields
+      getTDSRecordByOwnerRefId(ownerRef).then((tdsDetails) => {
+        setTDSDetails(tdsDetails);
+      });
+    }
   }, []);
 
   const onSubmit = (e) => {
