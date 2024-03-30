@@ -15,6 +15,12 @@ import Snackbar, { snackbarClasses } from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+
 const ESIC = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [id, setId] = React.useState("");
@@ -134,6 +140,10 @@ const ESIC = (props) => {
     </React.Fragment>
   );
 
+  const handleCoveredUnderAuditChange = (event) => {
+    setIsCoveredUnderAudit(event.target.value);
+  };
+
   //----
   return (
     <Box m="20px">
@@ -188,16 +198,21 @@ const ESIC = (props) => {
           onChange={(event) => setEsicRegistrationNo(event.target.value)}
           sx={{ gridColumn: "span 2" }}
         />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Covered Under Audit"
-          name="covered_under_audit"
-          value={isCoveredUnderAudit}
-          onChange={(event) => setIsCoveredUnderAudit(event.target.value)}
-          sx={{ gridColumn: "span 4" }}
-        />
+        <FormControl sx={{ gridColumn: "span 4" }}>
+          <FormLabel id="coveredUnderAuditRadioGroupLabel">
+            Covered Under Audit
+          </FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="coveredUnderAuditRadioGroupLabel"
+            name="coveredUnderAuditRadioGroup"
+            value={isCoveredUnderAudit}
+            onChange={handleCoveredUnderAuditChange}
+          >
+            <FormControlLabel value="true" control={<Radio />} label="Yes" />
+            <FormControlLabel value="false" control={<Radio />} label="No" />
+          </RadioGroup>
+        </FormControl>
         <TextField
           fullWidth
           variant="filled"
