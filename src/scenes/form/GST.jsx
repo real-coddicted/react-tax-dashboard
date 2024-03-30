@@ -42,7 +42,7 @@ const GST = (props) => {
   const [modifiedDateTime, setModifiedDateTime] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
-  const isAddMode = !id;
+  const isAddMode = !ownerRef;
   //----
   function setGSTDetails(gstDetails) {
     setId(gstDetails["id"]);
@@ -63,11 +63,12 @@ const GST = (props) => {
 
   React.useEffect(() => {
     console.log(isAddMode);
-
-    // get user and set form fields
-    getGSTRecordByOwnerRefId(ownerRef).then((gstDetails) => {
-      setGSTDetails(gstDetails);
-    });
+    if (!isAddMode) {
+      // get user and set form fields
+      getGSTRecordByOwnerRefId(ownerRef).then((gstDetails) => {
+        setGSTDetails(gstDetails);
+      });
+    }
   }, []);
 
   const onSubmit = (e) => {

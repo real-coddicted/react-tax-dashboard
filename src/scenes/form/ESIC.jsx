@@ -44,7 +44,7 @@ const ESIC = (props) => {
   const [modifiedDateTime, setModifiedDateTime] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
-  const isAddMode = !id;
+  const isAddMode = !ownerRef;
   //----
   function setESICDetails(esicDetails) {
     setId(esicDetails["id"]);
@@ -65,11 +65,12 @@ const ESIC = (props) => {
 
   React.useEffect(() => {
     console.log(isAddMode);
-
-    // get user and set form fields
-    getESICRecordByOwnerRefId(ownerRef).then((esicDetails) => {
-      setESICDetails(esicDetails);
-    });
+    if (!isAddMode) {
+      // get user and set form fields
+      getESICRecordByOwnerRefId(ownerRef).then((esicDetails) => {
+        setESICDetails(esicDetails);
+      });
+    }
   }, []);
 
   const onSubmit = (e) => {

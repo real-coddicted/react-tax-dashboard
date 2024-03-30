@@ -47,7 +47,7 @@ const MCA = (props) => {
   const [modifiedDateTime, setModifiedDateTime] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
-  const isAddMode = !id;
+  const isAddMode = !ownerRef;
   //----
   function setMCADetails(mcaDetails) {
     setId(mcaDetails["id"]);
@@ -74,11 +74,12 @@ const MCA = (props) => {
 
   React.useEffect(() => {
     console.log(isAddMode);
-
-    // get user and set form fields
-    getMCARecordByOwnerRefId(ownerRef).then((mcaDetails) => {
-      setMCADetails(mcaDetails);
-    });
+    if (!isAddMode) {
+      // get user and set form fields
+      getMCARecordByOwnerRefId(ownerRef).then((mcaDetails) => {
+        setMCADetails(mcaDetails);
+      });
+    }
   }, []);
 
   const onSubmit = (e) => {

@@ -44,7 +44,7 @@ const PF = (props) => {
   const [modifiedDateTime, setModifiedDateTime] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
-  const isAddMode = !id;
+  const isAddMode = !ownerRef;
   //----
   function setPFDetails(pfDetails) {
     setId(pfDetails["id"]);
@@ -65,11 +65,12 @@ const PF = (props) => {
 
   React.useEffect(() => {
     console.log(isAddMode);
-
-    // get user and set form fields
-    getPFRecordByOwnerRefId(ownerRef).then((pfDetails) => {
-      setPFDetails(pfDetails);
-    });
+    if (!isAddMode) {
+      // get user and set form fields
+      getPFRecordByOwnerRefId(ownerRef).then((pfDetails) => {
+        setPFDetails(pfDetails);
+      });
+    }
   }, []);
 
   const onSubmit = (e) => {
