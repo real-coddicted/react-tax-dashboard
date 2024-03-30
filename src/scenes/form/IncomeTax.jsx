@@ -6,10 +6,129 @@ import dayjs from "dayjs";
 import React from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import {
+  getIncomeTaxRecordByOwnerRefId,
+  createIncomeTaxRecord,
+  updateIncomeTaxRecord,
+} from "../../service/incomeTaxService";
+import Snackbar, { snackbarClasses } from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
-const IncomeTax = ({ id }) => {
+const IncomeTax = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const [value, setValue] = React.useState(dayjs("2022-04-17"));
+  const [id, setId] = React.useState("");
+  const [ownerRef, setOwnerRef] = React.useState(props.id);
+  const [panNumber, setPanNumber] = React.useState("");
+  const [aadharNumber, setAadharNumber] = React.useState("");
+  const [dateOfInit, setDateOfInit] = React.useState(dayjs("2022-04-17"));
+  const [fatherName, setFatherName] = React.useState("");
+  const [address, setAddress] = React.useState("");
+  const [isCoveredUnderAudit, setIsCoveredUnderAudit] = React.useState(false);
+  const [mobileNumber, setMobileNumber] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [status, setStatus] = React.useState();
+  const [createdDateTime, setCreatedDateTime] = React.useState("");
+  const [modifiedDateTime, setModifiedDateTime] = React.useState("");
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+  const isAddMode = !ownerRef;
+  //----
+  function setIncomeTaxDetails(incomeTaxDetails) {
+    setId(incomeTaxDetails["id"]);
+    setOwnerRef(incomeTaxDetails["ownerRef"]);
+    setPanNumber(incomeTaxDetails["panNumber"]);
+    setAadharNumber(incomeTaxDetails["aadharNumber"]);
+    setDateOfInit(incomeTaxDetails["dateOfInit"]);
+    setFatherName(incomeTaxDetails["fatherName"]);
+    setIsCoveredUnderAudit(incomeTaxDetails["isCoveredUnderAudit"]);
+    setAddress(incomeTaxDetails["address"]);
+    setMobileNumber(incomeTaxDetails["mobileNumber"]);
+    setEmail(incomeTaxDetails["email"]);
+    setPassword(incomeTaxDetails["password"]);
+    setStatus(incomeTaxDetails["status"]);
+    setCreatedDateTime(incomeTaxDetails["createdDateTime"]);
+    setModifiedDateTime(incomeTaxDetails["modifiedDateTime"]);
+  }
+
+  React.useEffect(() => {
+    console.log(isAddMode);
+    if (!isAddMode) {
+      // get user and set form fields
+      getIncomeTaxRecordByOwnerRefId(ownerRef).then((incomeTaxDetails) => {
+        setIncomeTaxDetails(incomeTaxDetails);
+      });
+    }
+  }, []);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log("onsubmit");
+    if (isAddMode) {
+      let incomeTaxRecord = {
+        ownerRef: ownerRef,
+        panNumber: panNumber,
+        aadharNumber: aadharNumber,
+        dateOfInit: dateOfInit,
+        fatherName: fatherName,
+        isCoveredUnderAudit: isCoveredUnderAudit,
+        address: address,
+        mobileNumber: mobileNumber,
+        email: email,
+        password: password,
+        status: status,
+      };
+      createIncomeTaxRecord(incomeTaxRecord).then((incomeTaxRecord) => {
+        setIncomeTaxDetails(incomeTaxRecord);
+        setMessage("Income Tax Record created successfully");
+        setOpenSnackbar(true);
+      });
+    } else {
+      let incomeTaxRecord = {
+        id: id,
+        ownerRef: ownerRef,
+        panNumber: panNumber,
+        aadharNumber: aadharNumber,
+        dateOfInit: dateOfInit,
+        fatherName: fatherName,
+        isCoveredUnderAudit: isCoveredUnderAudit,
+        address: address,
+        mobileNumber: mobileNumber,
+        email: email,
+        password: password,
+        status: status,
+      };
+      updateIncomeTaxRecord(incomeTaxRecord).then((incomeTaxRecord) => {
+        setIncomeTaxDetails(incomeTaxRecord);
+        setMessage("Income Tax Record updated successfully");
+        setOpenSnackbar(true);
+      });
+    }
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setMessage("");
+    setOpenSnackbar(false);
+  };
+
+  const snackbarAction = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleSnackbarClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
+  //----
   return (
     <Box m="20px">
       <Box
@@ -25,7 +144,12 @@ const IncomeTax = ({ id }) => {
           justifyContent="end"
           mt="10px"
         >
-          <Button type="submit" color="secondary" variant="contained">
+          <Button
+            type="submit"
+            color="secondary"
+            variant="contained"
+            onClick={onSubmit}
+          >
             Save
           </Button>
         </Box>
@@ -44,6 +168,8 @@ const IncomeTax = ({ id }) => {
           type="text"
           label="First Name"
           name="firstName"
+          // value={firstName}
+          // onChange={(event) => setFirstName(event.target.value)}
           sx={{ gridColumn: "span 2" }}
         />
         <TextField
@@ -60,6 +186,8 @@ const IncomeTax = ({ id }) => {
           type="text"
           label="Category"
           name="category"
+          // value={category}
+          // onChange={(event) => setCategory(event.target.value)}
           sx={{ gridColumn: "span 2" }}
         />
         <TextField
@@ -68,6 +196,8 @@ const IncomeTax = ({ id }) => {
           type="text"
           label="Pan No"
           name="Pan No."
+          value={panNumber}
+          onChange={(event) => setPanNumber(event.target.value)}
           sx={{ gridColumn: "span 2" }}
         />
         <TextField
@@ -76,13 +206,15 @@ const IncomeTax = ({ id }) => {
           type="text"
           label="Aadhar"
           name="aadhar"
+          value={aadharNumber}
+          onChange={(event) => setAadharNumber(event.target.value)}
           sx={{ gridColumn: "span 2" }}
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label="DOB/DOI"
-            value={value}
-            onChange={(newValue) => setValue(newValue)}
+            value={dateOfInit}
+            onChange={(newValue) => setDateOfInit(newValue)}
             sx={{ gridColumn: "span 2" }}
           />
         </LocalizationProvider>
@@ -94,6 +226,8 @@ const IncomeTax = ({ id }) => {
           type="text"
           label="Email"
           name="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
         <TextField
@@ -103,6 +237,8 @@ const IncomeTax = ({ id }) => {
           type="text"
           label="Contact Number"
           name="contact"
+          value={mobileNumber}
+          onChange={(event) => setMobileNumber(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
         <TextField
@@ -111,6 +247,8 @@ const IncomeTax = ({ id }) => {
           type="text"
           label="Address 1"
           name="address1"
+          value={address}
+          onChange={(event) => setAddress(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
         <TextField
@@ -127,6 +265,8 @@ const IncomeTax = ({ id }) => {
           type="text"
           label="Login Password"
           name="login_password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
         <TextField
@@ -135,9 +275,19 @@ const IncomeTax = ({ id }) => {
           type="text"
           label="Covered Under Audit"
           name="covered_under_audit"
+          value={isCoveredUnderAudit}
+          onChange={(event) => setIsCoveredUnderAudit(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
       </Box>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={5000}
+        onClose={handleSnackbarClose}
+        message={message}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        action={snackbarAction}
+      />
     </Box>
   );
 };

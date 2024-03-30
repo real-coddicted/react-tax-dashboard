@@ -11,22 +11,142 @@ import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-const GST = ({ id }) => {
+import {
+  getGSTRecordByOwnerRefId,
+  createGSTRecord,
+  updateGSTRecord,
+} from "../../service/gstService";
+import Snackbar, { snackbarClasses } from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+
+const GST = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
+  const [id, setId] = React.useState("");
+  const [ownerRef, setOwnerRef] = React.useState(props.id);
+  const [tradeName, setTradeName] = React.useState("");
+  const [gstin, setGstin] = React.useState("");
   const [dealerType, setDealerType] = React.useState("");
+  const [returnType, setReturnType] = React.useState("");
+  const [dateOfRegistration, setDateOfRegistration] = React.useState(
+    dayjs("2022-04-17")
+  );
+  const [currentStatus, setCurrentStatus] = React.useState();
+  const [address, setAddress] = React.useState("");
+  const [mobileNumber, setMobileNumber] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [status, setStatus] = React.useState();
+
+  const [createdDateTime, setCreatedDateTime] = React.useState("");
+  const [modifiedDateTime, setModifiedDateTime] = React.useState("");
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+  const isAddMode = !id;
+  //----
+  function setGSTDetails(gstDetails) {
+    setId(gstDetails["id"]);
+    // setOwnerRef(gstDetails["ownerRef"]);
+    setTradeName(gstDetails["tradeName"]);
+    setGstin(gstDetails["gstin"]);
+    setDealerType(gstDetails["dealerType"]);
+    setReturnType(gstDetails["returnType"]);
+    setDateOfRegistration(gstDetails["dateOfRegistration"]);
+    setCurrentStatus(gstDetails["currentStatus"]);
+    setAddress(gstDetails["address"]);
+    setMobileNumber(gstDetails["mobileNumber"]);
+    setEmail(gstDetails["email"]);
+    setStatus(gstDetails["status"]);
+    setCreatedDateTime(gstDetails["createdDateTime"]);
+    setModifiedDateTime(gstDetails["modifiedDateTime"]);
+  }
+
+  React.useEffect(() => {
+    console.log(isAddMode);
+    if (!isAddMode) {
+      // get user and set form fields
+      getGSTRecordByOwnerRefId(ownerRef).then((gstDetails) => {
+        setGSTDetails(gstDetails);
+      });
+    }
+  }, []);
+
+  const onSubmit = (e) => {
+    console.log(ownerRef);
+    e.preventDefault();
+    console.log("onsubmit");
+    if (isAddMode) {
+      let gstRecord = {
+        ownerRef: ownerRef,
+        tradeName: tradeName,
+        gstin: gstin,
+        dealerType: dealerType,
+        returnType: returnType,
+        dateOfRegistration: dateOfRegistration,
+        currentStatus: currentStatus,
+        address: address,
+        mobileNumber: mobileNumber,
+        email: email,
+        status: status,
+      };
+      createGSTRecord(gstRecord).then((gstRecord) => {
+        setGSTDetails(gstRecord);
+        setMessage("GST Record created successfully");
+        setOpenSnackbar(true);
+      });
+    } else {
+      let gstRecord = {
+        id: id,
+        ownerRef: ownerRef,
+        tradeName: tradeName,
+        gstin: gstin,
+        dealerType: dealerType,
+        returnType: returnType,
+        dateOfRegistration: dateOfRegistration,
+        currentStatus: currentStatus,
+        address: address,
+        mobileNumber: mobileNumber,
+        email: email,
+        status: status,
+      };
+      updateGSTRecord(gstRecord).then((gstRecord) => {
+        setGSTDetails(gstRecord);
+        setMessage("Income Tax Record updated successfully");
+        setOpenSnackbar(true);
+      });
+    }
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setMessage("");
+    setOpenSnackbar(false);
+  };
+
+  const snackbarAction = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleSnackbarClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
+  //----
 
   const handleDealerTypeChange = (event) => {
     setDealerType(event.target.value);
   };
 
-  const [returnType, setReturnType] = React.useState("");
-
   const handleReturnTypeChange = (event) => {
     setReturnType(event.target.value);
   };
-
-  const [value, setValue] = React.useState(dayjs("2022-04-17"));
 
   return (
     <Box m="20px">
@@ -43,7 +163,12 @@ const GST = ({ id }) => {
           justifyContent="end"
           mt="10px"
         >
-          <Button type="submit" color="secondary" variant="contained">
+          <Button
+            type="submit"
+            color="secondary"
+            variant="contained"
+            onClick={onSubmit}
+          >
             Save
           </Button>
         </Box>
@@ -62,6 +187,8 @@ const GST = ({ id }) => {
           type="text"
           label="Trade Name"
           name="tradeName"
+          value={tradeName}
+          onChange={(event) => setTradeName(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
         <TextField
@@ -70,6 +197,8 @@ const GST = ({ id }) => {
           type="text"
           label="GSTIN"
           name="gstin"
+          value={gstin}
+          onChange={(event) => setGstin(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
         <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
@@ -85,8 +214,8 @@ const GST = ({ id }) => {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            <MenuItem value="DEALER_TYPE_REGULAR">Regular</MenuItem>
-            <MenuItem value="DEALER_TYPE_COMPOSITION">Composition</MenuItem>
+            <MenuItem value="REGULAR">Regular</MenuItem>
+            <MenuItem value="COMPOSITION">Composition</MenuItem>
           </Select>
         </FormControl>
         <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
@@ -109,8 +238,8 @@ const GST = ({ id }) => {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label="Date of Reg."
-            value={value}
-            onChange={(newValue) => setValue(newValue)}
+            value={dateOfRegistration}
+            onChange={(newValue) => setDateOfRegistration(newValue)}
             sx={{ gridColumn: "span 2" }}
           />
         </LocalizationProvider>
@@ -120,6 +249,8 @@ const GST = ({ id }) => {
           type="text"
           label="Current Status"
           name="currentStatus"
+          value={currentStatus}
+          onChange={(event) => setCurrentStatus(event.target.value)}
           sx={{ gridColumn: "span 2" }}
         />
         <TextField
@@ -129,6 +260,8 @@ const GST = ({ id }) => {
           type="text"
           label="Email"
           name="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
         <TextField
@@ -138,6 +271,8 @@ const GST = ({ id }) => {
           type="text"
           label="Contact Number"
           name="contact"
+          value={mobileNumber}
+          onChange={(event) => setMobileNumber(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
         <TextField
@@ -146,6 +281,8 @@ const GST = ({ id }) => {
           type="text"
           label="Address 1"
           name="address1"
+          value={address}
+          onChange={(event) => setAddress(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
         <TextField
@@ -157,6 +294,14 @@ const GST = ({ id }) => {
           sx={{ gridColumn: "span 4" }}
         />
       </Box>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={5000}
+        onClose={handleSnackbarClose}
+        message={message}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        action={snackbarAction}
+      />
     </Box>
   );
 };
