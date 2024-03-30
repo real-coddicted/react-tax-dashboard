@@ -54,12 +54,11 @@ const TDS = (props) => {
 
   React.useEffect(() => {
     console.log(isAddMode);
-    if (!isAddMode) {
-      // get user and set form fields
-      getTDSRecordByOwnerRefId(ownerRef).then((tdsDetails) => {
-        setTDSDetails(tdsDetails);
-      });
-    }
+
+    // get user and set form fields
+    getTDSRecordByOwnerRefId(ownerRef).then((tdsDetails) => {
+      setTDSDetails(tdsDetails);
+    });
   }, []);
 
   const onSubmit = (e) => {

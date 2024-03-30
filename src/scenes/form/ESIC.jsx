@@ -65,12 +65,11 @@ const ESIC = (props) => {
 
   React.useEffect(() => {
     console.log(isAddMode);
-    if (!isAddMode) {
-      // get user and set form fields
-      getESICRecordByOwnerRefId(ownerRef).then((esicDetails) => {
-        setESICDetails(esicDetails);
-      });
-    }
+
+    // get user and set form fields
+    getESICRecordByOwnerRefId(ownerRef).then((esicDetails) => {
+      setESICDetails(esicDetails);
+    });
   }, []);
 
   const onSubmit = (e) => {

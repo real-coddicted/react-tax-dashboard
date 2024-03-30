@@ -60,12 +60,11 @@ const IncomeTax = (props) => {
 
   React.useEffect(() => {
     console.log(isAddMode);
-    if (!isAddMode) {
-      // get user and set form fields
-      getIncomeTaxRecordByOwnerRefId(ownerRef).then((incomeTaxDetails) => {
-        setIncomeTaxDetails(incomeTaxDetails);
-      });
-    }
+
+    // get user and set form fields
+    getIncomeTaxRecordByOwnerRefId(ownerRef).then((incomeTaxDetails) => {
+      setIncomeTaxDetails(incomeTaxDetails);
+    });
   }, []);
 
   const onSubmit = (e) => {

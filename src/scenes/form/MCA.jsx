@@ -74,12 +74,11 @@ const MCA = (props) => {
 
   React.useEffect(() => {
     console.log(isAddMode);
-    if (!isAddMode) {
-      // get user and set form fields
-      getMCARecordByOwnerRefId(ownerRef).then((mcaDetails) => {
-        setMCADetails(mcaDetails);
-      });
-    }
+
+    // get user and set form fields
+    getMCARecordByOwnerRefId(ownerRef).then((mcaDetails) => {
+      setMCADetails(mcaDetails);
+    });
   }, []);
 
   const onSubmit = (e) => {

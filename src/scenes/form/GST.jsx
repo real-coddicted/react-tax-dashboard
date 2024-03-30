@@ -23,7 +23,7 @@ import CloseIcon from "@mui/icons-material/Close";
 const GST = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
-  const [id, setId] = React.useState("");
+  const [id, setId] = React.useState();
   const [ownerRef, setOwnerRef] = React.useState(props.id);
   const [tradeName, setTradeName] = React.useState("");
   const [gstin, setGstin] = React.useState("");
@@ -63,12 +63,11 @@ const GST = (props) => {
 
   React.useEffect(() => {
     console.log(isAddMode);
-    if (!isAddMode) {
-      // get user and set form fields
-      getGSTRecordByOwnerRefId(ownerRef).then((gstDetails) => {
-        setGSTDetails(gstDetails);
-      });
-    }
+
+    // get user and set form fields
+    getGSTRecordByOwnerRefId(ownerRef).then((gstDetails) => {
+      setGSTDetails(gstDetails);
+    });
   }, []);
 
   const onSubmit = (e) => {

@@ -65,12 +65,11 @@ const PF = (props) => {
 
   React.useEffect(() => {
     console.log(isAddMode);
-    if (!isAddMode) {
-      // get user and set form fields
-      getPFRecordByOwnerRefId(ownerRef).then((pfDetails) => {
-        setPFDetails(pfDetails);
-      });
-    }
+
+    // get user and set form fields
+    getPFRecordByOwnerRefId(ownerRef).then((pfDetails) => {
+      setPFDetails(pfDetails);
+    });
   }, []);
 
   const onSubmit = (e) => {
