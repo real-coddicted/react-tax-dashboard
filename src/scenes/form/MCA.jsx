@@ -47,25 +47,26 @@ const MCA = (props) => {
   const [modifiedDateTime, setModifiedDateTime] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
-  const isAddMode = !ownerRef;
   //----
   function setMCADetails(mcaDetails) {
-    setId(mcaDetails["id"]);
-    // setOwnerRef(gstDetails["ownerRef"]);
-    setCompanyName(mcaDetails["companyName"]);
-    setCompanyType(mcaDetails["companyType"]);
-    setCin(mcaDetails["cin"]);
-    setPanNumber(mcaDetails["panNumber"]);
-    setDateOfInit(mcaDetails["dateOfInit"]);
-    setCountOfDirector(mcaDetails["countOfDirector"]);
-    setAddress(mcaDetails["address"]);
-    setMobileNumber(mcaDetails["mobileNumber"]);
-    setEmail(mcaDetails["email"]);
-    setPassword(mcaDetails["password"]);
-    setIsCoveredUnderAudit(mcaDetails["isCoveredUnderAudit"]);
-    setStatus(mcaDetails["status"]);
-    setCreatedDateTime(mcaDetails["createdDateTime"]);
-    setModifiedDateTime(mcaDetails["modifiedDateTime"]);
+    if (mcaDetails) {
+      setId(mcaDetails["id"]);
+      // setOwnerRef(gstDetails["ownerRef"]);
+      setCompanyName(mcaDetails["companyName"]);
+      setCompanyType(mcaDetails["companyType"]);
+      setCin(mcaDetails["cin"]);
+      setPanNumber(mcaDetails["panNumber"]);
+      setDateOfInit(mcaDetails["dateOfInit"]);
+      setCountOfDirector(mcaDetails["countOfDirector"]);
+      setAddress(mcaDetails["address"]);
+      setMobileNumber(mcaDetails["mobileNumber"]);
+      setEmail(mcaDetails["email"]);
+      setPassword(mcaDetails["password"]);
+      setIsCoveredUnderAudit(mcaDetails["isCoveredUnderAudit"]);
+      setStatus(mcaDetails["status"]);
+      setCreatedDateTime(mcaDetails["createdDateTime"]);
+      setModifiedDateTime(mcaDetails["modifiedDateTime"]);
+    }
   }
 
   const handleTypeOfEntityChange = (event) => {
@@ -73,8 +74,8 @@ const MCA = (props) => {
   };
 
   React.useEffect(() => {
-    console.log(isAddMode);
-    if (!isAddMode) {
+    console.log(id);
+    if (ownerRef) {
       // get user and set form fields
       getMCARecordByOwnerRefId(ownerRef).then((mcaDetails) => {
         setMCADetails(mcaDetails);
@@ -86,7 +87,7 @@ const MCA = (props) => {
     console.log(ownerRef);
     e.preventDefault();
     console.log("onsubmit");
-    if (isAddMode) {
+    if (!id) {
       let mcaRecord = {
         ownerRef: ownerRef,
         companyName: companyName,

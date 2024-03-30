@@ -34,27 +34,28 @@ const TDS = (props) => {
   const [modifiedDateTime, setModifiedDateTime] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
-  const isAddMode = !ownerRef;
   //----
   function setTDSDetails(tdsDetails) {
-    setId(tdsDetails["id"]);
-    // setOwnerRef(gstDetails["ownerRef"]);
-    setCompanyName(tdsDetails["companyName"]);
-    setTanNumber(tdsDetails["tanNumber"]);
-    setPanNumber(tdsDetails["panNumber"]);
-    setAuthorizedSignatory(tdsDetails["authorizedSignatory"]);
-    setMobileNumber(tdsDetails["mobileNumber"]);
-    setEmail(tdsDetails["email"]);
-    setPassword(tdsDetails["password"]);
-    setIsCoveredUnderAudit(tdsDetails["isCoveredUnderAudit"]);
-    setStatus(tdsDetails["status"]);
-    setCreatedDateTime(tdsDetails["createdDateTime"]);
-    setModifiedDateTime(tdsDetails["modifiedDateTime"]);
+    if (tdsDetails) {
+      setId(tdsDetails["id"]);
+      // setOwnerRef(gstDetails["ownerRef"]);
+      setCompanyName(tdsDetails["companyName"]);
+      setTanNumber(tdsDetails["tanNumber"]);
+      setPanNumber(tdsDetails["panNumber"]);
+      setAuthorizedSignatory(tdsDetails["authorizedSignatory"]);
+      setMobileNumber(tdsDetails["mobileNumber"]);
+      setEmail(tdsDetails["email"]);
+      setPassword(tdsDetails["password"]);
+      setIsCoveredUnderAudit(tdsDetails["isCoveredUnderAudit"]);
+      setStatus(tdsDetails["status"]);
+      setCreatedDateTime(tdsDetails["createdDateTime"]);
+      setModifiedDateTime(tdsDetails["modifiedDateTime"]);
+    }
   }
 
   React.useEffect(() => {
-    console.log(isAddMode);
-    if (!isAddMode) {
+    console.log(ownerRef);
+    if (ownerRef) {
       // get user and set form fields
       getTDSRecordByOwnerRefId(ownerRef).then((tdsDetails) => {
         setTDSDetails(tdsDetails);
@@ -66,7 +67,7 @@ const TDS = (props) => {
     console.log(ownerRef);
     e.preventDefault();
     console.log("onsubmit");
-    if (isAddMode) {
+    if (!id) {
       let tdsRecord = {
         ownerRef: ownerRef,
         companyName: companyName,

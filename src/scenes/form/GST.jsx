@@ -42,28 +42,29 @@ const GST = (props) => {
   const [modifiedDateTime, setModifiedDateTime] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
-  const isAddMode = !ownerRef;
   //----
   function setGSTDetails(gstDetails) {
-    setId(gstDetails["id"]);
-    // setOwnerRef(gstDetails["ownerRef"]);
-    setTradeName(gstDetails["tradeName"]);
-    setGstin(gstDetails["gstin"]);
-    setDealerType(gstDetails["dealerType"]);
-    setReturnType(gstDetails["returnType"]);
-    setDateOfRegistration(gstDetails["dateOfRegistration"]);
-    setCurrentStatus(gstDetails["currentStatus"]);
-    setAddress(gstDetails["address"]);
-    setMobileNumber(gstDetails["mobileNumber"]);
-    setEmail(gstDetails["email"]);
-    setStatus(gstDetails["status"]);
-    setCreatedDateTime(gstDetails["createdDateTime"]);
-    setModifiedDateTime(gstDetails["modifiedDateTime"]);
+    if (gstDetails) {
+      setId(gstDetails["id"]);
+      // setOwnerRef(gstDetails["ownerRef"]);
+      setTradeName(gstDetails["tradeName"]);
+      setGstin(gstDetails["gstin"]);
+      setDealerType(gstDetails["dealerType"]);
+      setReturnType(gstDetails["returnType"]);
+      setDateOfRegistration(gstDetails["dateOfRegistration"]);
+      setCurrentStatus(gstDetails["currentStatus"]);
+      setAddress(gstDetails["address"]);
+      setMobileNumber(gstDetails["mobileNumber"]);
+      setEmail(gstDetails["email"]);
+      setStatus(gstDetails["status"]);
+      setCreatedDateTime(gstDetails["createdDateTime"]);
+      setModifiedDateTime(gstDetails["modifiedDateTime"]);
+    }
   }
 
   React.useEffect(() => {
-    console.log(isAddMode);
-    if (!isAddMode) {
+    console.log(id);
+    if (ownerRef) {
       // get user and set form fields
       getGSTRecordByOwnerRefId(ownerRef).then((gstDetails) => {
         setGSTDetails(gstDetails);
@@ -75,7 +76,7 @@ const GST = (props) => {
     console.log(ownerRef);
     e.preventDefault();
     console.log("onsubmit");
-    if (isAddMode) {
+    if (!id) {
       let gstRecord = {
         ownerRef: ownerRef,
         tradeName: tradeName,

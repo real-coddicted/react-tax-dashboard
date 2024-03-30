@@ -11,7 +11,7 @@ import Snackbar, { snackbarClasses } from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
-const Profile = ({ id }) => {
+const Profile = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
@@ -24,7 +24,7 @@ const Profile = ({ id }) => {
   const [value, setValue] = React.useState(dayjs("2022-04-17"));
   const [message, setMessage] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
-  const isAddMode = !id;
+  const isAddMode = !props.id;
 
   function setUser(user) {
     setFirstName(user["firstName"]);
@@ -40,7 +40,7 @@ const Profile = ({ id }) => {
   React.useEffect(() => {
     if (!isAddMode) {
       // get user and set form fields
-      getUserById(id).then((user) => {
+      getUserById(props.id).then((user) => {
         setUser(user);
       });
     }
@@ -61,13 +61,14 @@ const Profile = ({ id }) => {
         address2: address2,
       };
       createUser(user).then((user) => {
+        props.onAdd(user.id);
         setUser(user);
         setMessage("User created successfully");
         setOpenSnackbar(true);
       });
     } else {
       let user = {
-        id: id,
+        id: props.id,
         firstName: firstName,
         lastName: lastName,
         email: email,

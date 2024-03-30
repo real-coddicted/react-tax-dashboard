@@ -44,28 +44,29 @@ const PF = (props) => {
   const [modifiedDateTime, setModifiedDateTime] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
-  const isAddMode = !ownerRef;
   //----
   function setPFDetails(pfDetails) {
-    setId(pfDetails["id"]);
-    // setOwnerRef(gstDetails["ownerRef"]);
-    setCompanyName(pfDetails["companyName"]);
-    setIsCoveredUnderAudit(pfDetails["isCoveredUnderAudit"]);
-    setEsicRegistrationNumber(pfDetails["esicRegistrationNumber"]);
-    setPanNumber(pfDetails["panNumber"]);
-    setDateOfRegistration(pfDetails["dateOfRegistration"]);
-    setAuthorizedSignatory(pfDetails["authorizedSignatory"]);
-    setMobileNumber(pfDetails["mobileNumber"]);
-    setEmail(pfDetails["email"]);
-    setPassword(pfDetails["password"]);
-    setStatus(pfDetails["status"]);
-    setCreatedDateTime(pfDetails["createdDateTime"]);
-    setModifiedDateTime(pfDetails["modifiedDateTime"]);
+    if (pfDetails) {
+      setId(pfDetails["id"]);
+      // setOwnerRef(gstDetails["ownerRef"]);
+      setCompanyName(pfDetails["companyName"]);
+      setIsCoveredUnderAudit(pfDetails["isCoveredUnderAudit"]);
+      setEsicRegistrationNumber(pfDetails["esicRegistrationNumber"]);
+      setPanNumber(pfDetails["panNumber"]);
+      setDateOfRegistration(pfDetails["dateOfRegistration"]);
+      setAuthorizedSignatory(pfDetails["authorizedSignatory"]);
+      setMobileNumber(pfDetails["mobileNumber"]);
+      setEmail(pfDetails["email"]);
+      setPassword(pfDetails["password"]);
+      setStatus(pfDetails["status"]);
+      setCreatedDateTime(pfDetails["createdDateTime"]);
+      setModifiedDateTime(pfDetails["modifiedDateTime"]);
+    }
   }
 
   React.useEffect(() => {
-    console.log(isAddMode);
-    if (!isAddMode) {
+    console.log(ownerRef);
+    if (ownerRef) {
       // get user and set form fields
       getPFRecordByOwnerRefId(ownerRef).then((pfDetails) => {
         setPFDetails(pfDetails);
@@ -77,7 +78,7 @@ const PF = (props) => {
     console.log(ownerRef);
     e.preventDefault();
     console.log("onsubmit");
-    if (isAddMode) {
+    if (!id) {
       let pfRecord = {
         ownerRef: ownerRef,
         companyName: companyName,

@@ -184,11 +184,11 @@ const Team = () => {
                   variant="h6"
                   component="div"
                 >
-                  {!id ? "Add User" : `${firstName}'s Details`}
+                  {!id ? "Add User" : firstName && `${firstName}'s Details`}
                 </Typography>
               </Toolbar>
             </AppBar>
-            <Form id={id} firstName={firstName} />
+            <Form id={id} firstName={firstName} onAdd={setId} />
           </Dialog>
         </Box>
         <DataGrid rows={rows} columns={columns} getRowId={(row) => row.id} />

@@ -39,28 +39,29 @@ const IncomeTax = (props) => {
   const [modifiedDateTime, setModifiedDateTime] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
-  const isAddMode = !ownerRef;
   //----
   function setIncomeTaxDetails(incomeTaxDetails) {
-    setId(incomeTaxDetails["id"]);
-    setOwnerRef(incomeTaxDetails["ownerRef"]);
-    setPanNumber(incomeTaxDetails["panNumber"]);
-    setAadharNumber(incomeTaxDetails["aadharNumber"]);
-    setDateOfInit(incomeTaxDetails["dateOfInit"]);
-    setFatherName(incomeTaxDetails["fatherName"]);
-    setIsCoveredUnderAudit(incomeTaxDetails["isCoveredUnderAudit"]);
-    setAddress(incomeTaxDetails["address"]);
-    setMobileNumber(incomeTaxDetails["mobileNumber"]);
-    setEmail(incomeTaxDetails["email"]);
-    setPassword(incomeTaxDetails["password"]);
-    setStatus(incomeTaxDetails["status"]);
-    setCreatedDateTime(incomeTaxDetails["createdDateTime"]);
-    setModifiedDateTime(incomeTaxDetails["modifiedDateTime"]);
+    if (incomeTaxDetails) {
+      setId(incomeTaxDetails["id"]);
+      setOwnerRef(incomeTaxDetails["ownerRef"]);
+      setPanNumber(incomeTaxDetails["panNumber"]);
+      setAadharNumber(incomeTaxDetails["aadharNumber"]);
+      setDateOfInit(incomeTaxDetails["dateOfInit"]);
+      setFatherName(incomeTaxDetails["fatherName"]);
+      setIsCoveredUnderAudit(incomeTaxDetails["isCoveredUnderAudit"]);
+      setAddress(incomeTaxDetails["address"]);
+      setMobileNumber(incomeTaxDetails["mobileNumber"]);
+      setEmail(incomeTaxDetails["email"]);
+      setPassword(incomeTaxDetails["password"]);
+      setStatus(incomeTaxDetails["status"]);
+      setCreatedDateTime(incomeTaxDetails["createdDateTime"]);
+      setModifiedDateTime(incomeTaxDetails["modifiedDateTime"]);
+    }
   }
 
   React.useEffect(() => {
-    console.log(isAddMode);
-    if (!isAddMode) {
+    console.log("incomeTax: " + id);
+    if (ownerRef) {
       // get user and set form fields
       getIncomeTaxRecordByOwnerRefId(ownerRef).then((incomeTaxDetails) => {
         setIncomeTaxDetails(incomeTaxDetails);
@@ -71,7 +72,7 @@ const IncomeTax = (props) => {
   const onSubmit = (e) => {
     e.preventDefault();
     console.log("onsubmit");
-    if (isAddMode) {
+    if (!id) {
       let incomeTaxRecord = {
         ownerRef: ownerRef,
         panNumber: panNumber,
