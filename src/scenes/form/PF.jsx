@@ -47,6 +47,10 @@ const PF = (props) => {
   const isAddMode = !ownerRef;
   //----
   function setPFDetails(pfDetails) {
+    if(pfDetails == null) {
+      console.log("PF details not available");
+      return;
+    }
     setId(pfDetails["id"]);
     // setOwnerRef(gstDetails["ownerRef"]);
     setCompanyName(pfDetails["companyName"]);

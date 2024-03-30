@@ -37,6 +37,10 @@ const TDS = (props) => {
   const isAddMode = !ownerRef;
   //----
   function setTDSDetails(tdsDetails) {
+    if(tdsDetails == null) {
+      console.log("TDS details not available");
+      return;
+    }
     setId(tdsDetails["id"]);
     // setOwnerRef(gstDetails["ownerRef"]);
     setCompanyName(tdsDetails["companyName"]);

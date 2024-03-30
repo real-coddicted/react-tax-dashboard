@@ -44,9 +44,14 @@ const ESIC = (props) => {
   const [modifiedDateTime, setModifiedDateTime] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
-  const isAddMode = !ownerRef;
+  const [isAddMode, setIsAddMode] = React.useState(!ownerRef);
   //----
   function setESICDetails(esicDetails) {
+    if(esicDetails == null) {
+      console.log("ESIC details not available");
+      setIsAddMode(true);
+      return;
+    }
     setId(esicDetails["id"]);
     // setOwnerRef(gstDetails["ownerRef"]);
     setCompanyName(esicDetails["companyName"]);
@@ -65,6 +70,7 @@ const ESIC = (props) => {
 
   React.useEffect(() => {
     console.log(isAddMode);
+    console.log(ownerRef);
     if (!isAddMode) {
       // get user and set form fields
       getESICRecordByOwnerRefId(ownerRef).then((esicDetails) => {
@@ -75,6 +81,7 @@ const ESIC = (props) => {
 
   const onSubmit = (e) => {
     console.log(ownerRef);
+    console.log("isAddMode: "+isAddMode);
     e.preventDefault();
     console.log("onsubmit");
     if (isAddMode) {

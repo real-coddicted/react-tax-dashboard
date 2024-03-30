@@ -45,6 +45,10 @@ const GST = (props) => {
   const isAddMode = !ownerRef;
   //----
   function setGSTDetails(gstDetails) {
+    if(gstDetails == null) {
+      console.log("GST details not available");
+      return;
+    }
     setId(gstDetails["id"]);
     // setOwnerRef(gstDetails["ownerRef"]);
     setTradeName(gstDetails["tradeName"]);

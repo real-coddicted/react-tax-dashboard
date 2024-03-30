@@ -50,6 +50,10 @@ const MCA = (props) => {
   const isAddMode = !ownerRef;
   //----
   function setMCADetails(mcaDetails) {
+    if(mcaDetails == null) {
+      console.log("MCA details not available");
+      return;
+    }
     setId(mcaDetails["id"]);
     // setOwnerRef(gstDetails["ownerRef"]);
     setCompanyName(mcaDetails["companyName"]);

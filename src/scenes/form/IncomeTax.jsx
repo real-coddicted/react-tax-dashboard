@@ -42,6 +42,10 @@ const IncomeTax = (props) => {
   const isAddMode = !ownerRef;
   //----
   function setIncomeTaxDetails(incomeTaxDetails) {
+    if(incomeTaxDetails == null) {
+      console.log("income tax details not available");
+      return;
+    }
     setId(incomeTaxDetails["id"]);
     setOwnerRef(incomeTaxDetails["ownerRef"]);
     setPanNumber(incomeTaxDetails["panNumber"]);
