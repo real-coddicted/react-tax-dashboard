@@ -4,7 +4,7 @@ export async function getESICRecordByOwnerRefId(id) {
   const response = await axios.get(
     `http://localhost:8002/api/esic/getByOwnerRefId/${id}`
   );
-  return response.data;
+  return response.data[0];
 }
 
 export async function createESICRecord(esicDetails) {

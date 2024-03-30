@@ -4,7 +4,7 @@ export async function getMCARecordByOwnerRefId(id) {
   const response = await axios.get(
     `http://localhost:8002/api/mca/getByOwnerRefId/${id}`
   );
-  return response.data;
+  return response.data[0];
 }
 
 export async function createMCARecord(mcaDetails) {

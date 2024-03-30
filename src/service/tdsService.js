@@ -4,7 +4,7 @@ export async function getTDSRecordByOwnerRefId(id) {
   const response = await axios.get(
     `http://localhost:8002/api/tds/getByOwnerRefId/${id}`
   );
-  return response.data;
+  return response.data[0];
 }
 
 export async function createTDSRecord(tdsDetails) {

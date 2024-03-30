@@ -4,7 +4,7 @@ export async function getGSTRecordByOwnerRefId(id) {
   const response = await axios.get(
     `http://localhost:8002/api/gst/getByOwnerRefId/${id}`
   );
-  return response.data;
+  return response.data[0];
 }
 
 export async function createGSTRecord(gstDetails) {
