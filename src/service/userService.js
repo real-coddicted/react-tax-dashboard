@@ -16,3 +16,11 @@ export async function getUsers() {
   const response = await axios.get("http://localhost:8001/api/user/getAll");
   return response.data;
 }
+
+export async function updateUser(user) {
+  const response = await axios.put(
+    `http://localhost:8001/api/user/update/${user.id}`,
+    user
+  );
+  return response.data;
+}
