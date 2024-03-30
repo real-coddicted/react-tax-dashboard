@@ -44,28 +44,29 @@ const ESIC = (props) => {
   const [modifiedDateTime, setModifiedDateTime] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
-  const isAddMode = !ownerRef;
   //----
   function setESICDetails(esicDetails) {
-    setId(esicDetails["id"]);
-    // setOwnerRef(gstDetails["ownerRef"]);
-    setCompanyName(esicDetails["companyName"]);
-    setIsCoveredUnderAudit(esicDetails["isCoveredUnderAudit"]);
-    setEsicRegistrationNo(esicDetails["esicRegistrationNo"]);
-    setPanNumber(esicDetails["panNumber"]);
-    setDateOfRegistration(esicDetails["dateOfRegistration"]);
-    setAuthorizedSignatory(esicDetails["authorizedSignatory"]);
-    setMobileNumber(esicDetails["mobileNumber"]);
-    setEmail(esicDetails["email"]);
-    setPassword(esicDetails["password"]);
-    setStatus(esicDetails["status"]);
-    setCreatedDateTime(esicDetails["createdDateTime"]);
-    setModifiedDateTime(esicDetails["modifiedDateTime"]);
+    if (esicDetails) {
+      setId(esicDetails["id"]);
+      // setOwnerRef(gstDetails["ownerRef"]);
+      setCompanyName(esicDetails["companyName"]);
+      setIsCoveredUnderAudit(esicDetails["isCoveredUnderAudit"]);
+      setEsicRegistrationNo(esicDetails["esicRegistrationNo"]);
+      setPanNumber(esicDetails["panNumber"]);
+      setDateOfRegistration(esicDetails["dateOfRegistration"]);
+      setAuthorizedSignatory(esicDetails["authorizedSignatory"]);
+      setMobileNumber(esicDetails["mobileNumber"]);
+      setEmail(esicDetails["email"]);
+      setPassword(esicDetails["password"]);
+      setStatus(esicDetails["status"]);
+      setCreatedDateTime(esicDetails["createdDateTime"]);
+      setModifiedDateTime(esicDetails["modifiedDateTime"]);
+    }
   }
 
   React.useEffect(() => {
-    console.log(isAddMode);
-    if (!isAddMode) {
+    console.log(ownerRef);
+    if (ownerRef) {
       // get user and set form fields
       getESICRecordByOwnerRefId(ownerRef).then((esicDetails) => {
         setESICDetails(esicDetails);
@@ -77,7 +78,7 @@ const ESIC = (props) => {
     console.log(ownerRef);
     e.preventDefault();
     console.log("onsubmit");
-    if (isAddMode) {
+    if (!id) {
       let esicRecord = {
         ownerRef: ownerRef,
         companyName: companyName,

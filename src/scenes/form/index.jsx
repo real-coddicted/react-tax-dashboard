@@ -45,7 +45,7 @@ function a11yProps(index) {
   };
 }
 
-export default function Form({ id, firstName }) {
+export default function Form(props) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -72,25 +72,25 @@ export default function Form({ id, firstName }) {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <Profile id={id} />
+        <Profile id={props.id} onAdd={props.onAdd} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <IncomeTax id={id} />
+        <IncomeTax id={props.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <GST id={id} />
+        <GST id={props.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <MCA id={id} />
+        <MCA id={props.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        <PF id={id} />
+        <PF id={props.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
-        <ESIC id={id} />
+        <ESIC id={props.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={6}>
-        <TDS id={id} />
+        <TDS id={props.id} />
       </CustomTabPanel>
     </Box>
   );
