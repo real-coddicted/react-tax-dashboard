@@ -11,9 +11,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import * as React from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { googleLogout } from "@react-oauth/google";
+import { useNavigate } from "react-router-dom";
 
 const Topbar = () => {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -31,7 +32,8 @@ const Topbar = () => {
 
   const handleLogout = () => {
     setAnchorEl(null);
-    googleLogout();
+    localStorage.setItem("authenticated", false);
+    navigate("/login");
   };
 
   const menuId = "primary-search-account-menu";
