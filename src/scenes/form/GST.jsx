@@ -232,8 +232,8 @@ const GST = (props) => {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            <MenuItem value="RETURN_TYPE_MONTHLY">Monthly</MenuItem>
-            <MenuItem value="RETURN_TYPE_QUARTERLY">Quarterly</MenuItem>
+            <MenuItem value="MONTHLY">Monthly</MenuItem>
+            <MenuItem value="QUARTERLY">Quarterly</MenuItem>
           </Select>
         </FormControl>
         <LocalizationProvider dateAdapter={AdapterDayjs}>

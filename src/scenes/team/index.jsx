@@ -27,6 +27,8 @@ import Slide from "@mui/material/Slide";
 import Invoices from "../invoices";
 import Form from "../form";
 import { getUsers } from "../../service/userService";
+import { useEffect } from "react";
+import { Navigate } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -39,6 +41,15 @@ const Team = () => {
   const [open, setOpen] = React.useState(false);
   const [id, setId] = React.useState();
   const [firstName, setFirstName] = React.useState();
+  const [authenticated, setauthenticated] = React.useState(null);
+
+  React.useMemo(() => {
+    const loggedInUser = localStorage.getItem("authenticated");
+    console.log("loggedInUser: " + loggedInUser);
+    if (loggedInUser) {
+      setauthenticated(loggedInUser);
+    }
+  }, []);
 
   //on page load - fetch users
   React.useEffect(() => {
@@ -122,79 +133,89 @@ const Team = () => {
     },
   ];
 
-  return (
-    <Box m="20px">
-      <Header title="Users" subtitle="Manage Users" />
-      <Box
-        m="40px 0 0 0"
-        height="75vh"
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .name-column--cell": {
-            color: colors.greenAccent[300],
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: colors.primary[400],
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
-          },
-          "& .MuiCheckbox-root": {
-            color: `${colors.greenAccent[200]} !important`,
-          },
-        }}
-      >
-        <Box display="flex" justifyContent="left" mt="5px" marginBottom="10px">
-          <Button
-            type="button"
-            color="secondary"
-            variant="contained"
-            onClick={handleClickOpen}
+  if (!authenticated) {
+    console.log("redirecting to login page");
+    return <Navigate replace to="/login" />;
+  } else {
+    return (
+      <Box m="20px">
+        <Header title="Users" subtitle="Manage Users" />
+        <Box
+          m="40px 0 0 0"
+          height="75vh"
+          sx={{
+            "& .MuiDataGrid-root": {
+              border: "none",
+            },
+            "& .MuiDataGrid-cell": {
+              borderBottom: "none",
+            },
+            "& .name-column--cell": {
+              color: colors.greenAccent[300],
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              backgroundColor: colors.blueAccent[700],
+              borderBottom: "none",
+            },
+            "& .MuiDataGrid-virtualScroller": {
+              backgroundColor: colors.primary[400],
+            },
+            "& .MuiDataGrid-footerContainer": {
+              borderTop: "none",
+              backgroundColor: colors.blueAccent[700],
+            },
+            "& .MuiCheckbox-root": {
+              color: `${colors.greenAccent[200]} !important`,
+            },
+          }}
+        >
+          <Box
+            display="flex"
+            justifyContent="left"
+            mt="5px"
+            marginBottom="10px"
           >
-            Add User
-          </Button>
-          <Dialog
-            fullScreen
-            open={open}
-            onClose={handleClose}
-            TransitionComponent={Transition}
-          >
-            <AppBar sx={{ position: "relative" }}>
-              <Toolbar>
-                <IconButton
-                  edge="start"
-                  color="inherit"
-                  onClick={handleClose}
-                  aria-label="close"
-                >
-                  <CloseIcon />
-                </IconButton>
-                <Typography
-                  sx={{ ml: 2, flex: 1 }}
-                  variant="h6"
-                  component="div"
-                >
-                  {!id ? "Add User" : firstName && `${firstName}'s Details`}
-                </Typography>
-              </Toolbar>
-            </AppBar>
-            <Form id={id} firstName={firstName} onAdd={setId} />
-          </Dialog>
+            <Button
+              type="button"
+              color="secondary"
+              variant="contained"
+              onClick={handleClickOpen}
+            >
+              Add User
+            </Button>
+            <Dialog
+              fullScreen
+              open={open}
+              onClose={handleClose}
+              TransitionComponent={Transition}
+            >
+              <AppBar sx={{ position: "relative" }}>
+                <Toolbar>
+                  <IconButton
+                    edge="start"
+                    color="inherit"
+                    onClick={handleClose}
+                    aria-label="close"
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                  <Typography
+                    sx={{ ml: 2, flex: 1 }}
+                    variant="h6"
+                    component="div"
+                  >
+                    {!id ? "Add User" : firstName && `${firstName}'s Details`}
+                  </Typography>
+                </Toolbar>
+              </AppBar>
+              <Form id={id} firstName={firstName} onAdd={setId} />
+            </Dialog>
+          </Box>
+          <DataGrid rows={rows} columns={columns} getRowId={(row) => row.id} />
         </Box>
-        <DataGrid rows={rows} columns={columns} getRowId={(row) => row.id} />
       </Box>
-    </Box>
-  );
+    );
+  }
 };
 
 export default Team;
