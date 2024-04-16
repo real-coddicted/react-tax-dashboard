@@ -1,11 +1,11 @@
 import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
-import { DatePicker } from "@mui/x-date-pickers";
+// import { DatePicker } from "@mui/x-date-pickers";
 import React from "react";
-import dayjs from "dayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import dayjs from "dayjs";
+// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -33,7 +33,7 @@ const MCA = (props) => {
   const [companyType, setCompanyType] = React.useState();
   const [cin, setCin] = React.useState("");
   const [panNumber, setPanNumber] = React.useState("");
-  const [dateOfInit, setDateOfInit] = React.useState(dayjs("2022-04-17"));
+  // const [dateOfInit, setDateOfInit] = React.useState(dayjs("2022-04-17"));
   const [countOfDirector, setCountOfDirector] = React.useState();
 
   const [address, setAddress] = React.useState("");
@@ -56,7 +56,7 @@ const MCA = (props) => {
       setCompanyType(mcaDetails["companyType"]);
       setCin(mcaDetails["cin"]);
       setPanNumber(mcaDetails["panNumber"]);
-      setDateOfInit(mcaDetails["dateOfInit"]);
+      // setDateOfInit(mcaDetails["dateOfInit"]);
       setCountOfDirector(mcaDetails["countOfDirector"]);
       setAddress(mcaDetails["address"]);
       setMobileNumber(mcaDetails["mobileNumber"]);
@@ -94,7 +94,7 @@ const MCA = (props) => {
         companyType: companyType,
         cin: cin,
         panNumber: panNumber,
-        dateOfInit: dateOfInit,
+        // dateOfInit: dateOfInit,
         countOfDirector: countOfDirector,
         address: address,
         mobileNumber: mobileNumber,
@@ -116,7 +116,7 @@ const MCA = (props) => {
         companyType: companyType,
         cin: cin,
         panNumber: panNumber,
-        dateOfInit: dateOfInit,
+        // dateOfInit: dateOfInit,
         countOfDirector: countOfDirector,
         address: address,
         mobileNumber: mobileNumber,
@@ -242,14 +242,14 @@ const MCA = (props) => {
           onChange={(event) => setPanNumber(event.target.value)}
           sx={{ gridColumn: "span 2" }}
         />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label="DOI"
             value={dateOfInit}
             onChange={(newValue) => setDateOfInit(newValue)}
             sx={{ gridColumn: "span 2" }}
           />
-        </LocalizationProvider>
+        </LocalizationProvider> */}
         <TextField
           fullWidth
           variant="filled"
