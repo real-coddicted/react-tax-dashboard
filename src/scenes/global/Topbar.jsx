@@ -1,5 +1,5 @@
 import { Box, IconButton, useTheme } from "@mui/material";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { ColorModeContext, tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
@@ -12,10 +12,12 @@ import * as React from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "./AuthProvider";
 
 const Topbar = () => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const { isLoggedIn, user, login, logout } = useContext(AuthContext);
 
   const isMenuOpen = Boolean(anchorEl);
   const theme = useTheme();
@@ -32,7 +34,7 @@ const Topbar = () => {
 
   const handleLogout = () => {
     setAnchorEl(null);
-    localStorage.setItem("authenticated", false);
+    logout();
     navigate("/login");
   };
 

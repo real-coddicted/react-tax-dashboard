@@ -41,7 +41,14 @@ function App() {
                   </PrivateRoute>
                 }
               />
-              <Route path="/team" element={<Team />} />
+              <Route
+                path="/team"
+                element={
+                  <PrivateRoute>
+                    <Team />
+                  </PrivateRoute>
+                }
+              />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/form" element={<Form />} />
             </Routes>
