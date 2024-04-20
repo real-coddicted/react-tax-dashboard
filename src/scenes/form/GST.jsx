@@ -5,11 +5,11 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { DatePicker } from "@mui/x-date-pickers";
+// import { DatePicker } from "@mui/x-date-pickers";
 import React from "react";
-import dayjs from "dayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import dayjs from "dayjs";
+// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import {
   getGSTRecordByOwnerRefId,
@@ -29,9 +29,9 @@ const GST = (props) => {
   const [gstin, setGstin] = React.useState("");
   const [dealerType, setDealerType] = React.useState("");
   const [returnType, setReturnType] = React.useState("");
-  const [dateOfRegistration, setDateOfRegistration] = React.useState(
-    dayjs("2022-04-17")
-  );
+  // const [dateOfRegistration, setDateOfRegistration] = React.useState(
+  //   dayjs("2022-04-17")
+  // );
   const [currentStatus, setCurrentStatus] = React.useState();
   const [address, setAddress] = React.useState("");
   const [mobileNumber, setMobileNumber] = React.useState("");
@@ -51,7 +51,7 @@ const GST = (props) => {
       setGstin(gstDetails["gstin"]);
       setDealerType(gstDetails["dealerType"]);
       setReturnType(gstDetails["returnType"]);
-      setDateOfRegistration(gstDetails["dateOfRegistration"]);
+      // setDateOfRegistration(gstDetails["dateOfRegistration"]);
       setCurrentStatus(gstDetails["currentStatus"]);
       setAddress(gstDetails["address"]);
       setMobileNumber(gstDetails["mobileNumber"]);
@@ -83,7 +83,7 @@ const GST = (props) => {
         gstin: gstin,
         dealerType: dealerType,
         returnType: returnType,
-        dateOfRegistration: dateOfRegistration,
+        // dateOfRegistration: dateOfRegistration,
         currentStatus: currentStatus,
         address: address,
         mobileNumber: mobileNumber,
@@ -103,7 +103,7 @@ const GST = (props) => {
         gstin: gstin,
         dealerType: dealerType,
         returnType: returnType,
-        dateOfRegistration: dateOfRegistration,
+        // dateOfRegistration: dateOfRegistration,
         currentStatus: currentStatus,
         address: address,
         mobileNumber: mobileNumber,
@@ -232,18 +232,18 @@ const GST = (props) => {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            <MenuItem value="RETURN_TYPE_MONTHLY">Monthly</MenuItem>
-            <MenuItem value="RETURN_TYPE_QUARTERLY">Quarterly</MenuItem>
+            <MenuItem value="MONTHLY">Monthly</MenuItem>
+            <MenuItem value="QUARTERLY">Quarterly</MenuItem>
           </Select>
         </FormControl>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label="Date of Reg."
             value={dateOfRegistration}
             onChange={(newValue) => setDateOfRegistration(newValue)}
             sx={{ gridColumn: "span 2" }}
           />
-        </LocalizationProvider>
+        </LocalizationProvider> */}
         <TextField
           fullWidth
           variant="filled"

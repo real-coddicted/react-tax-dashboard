@@ -1,8 +1,8 @@
+import React from "react";
 import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 import { DatePicker } from "@mui/x-date-pickers";
-import React from "react";
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -30,7 +30,7 @@ const ESIC = (props) => {
   const [esicRegistrationNo, setEsicRegistrationNo] = React.useState();
   const [panNumber, setPanNumber] = React.useState("");
   const [dateOfRegistration, setDateOfRegistration] = React.useState(
-    dayjs("2022-04-17")
+    dayjs(Date.now())
   );
   const [authorizedSignatory, setAuthorizedSignatory] = React.useState();
 
@@ -53,7 +53,7 @@ const ESIC = (props) => {
       setIsCoveredUnderAudit(esicDetails["isCoveredUnderAudit"]);
       setEsicRegistrationNo(esicDetails["esicRegistrationNo"]);
       setPanNumber(esicDetails["panNumber"]);
-      setDateOfRegistration(esicDetails["dateOfRegistration"]);
+      setDateOfRegistration(dayjs(esicDetails["dateOfRegistration"]));
       setAuthorizedSignatory(esicDetails["authorizedSignatory"]);
       setMobileNumber(esicDetails["mobileNumber"]);
       setEmail(esicDetails["email"]);

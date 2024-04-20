@@ -1,11 +1,11 @@
 import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
-import { DatePicker } from "@mui/x-date-pickers";
+// import { DatePicker } from "@mui/x-date-pickers";
 import React from "react";
-import dayjs from "dayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import dayjs from "dayjs";
+// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import {
   getPFRecordByOwnerRefId,
   createPFRecord,
@@ -29,9 +29,9 @@ const PF = (props) => {
   const [isCoveredUnderAudit, setIsCoveredUnderAudit] = React.useState(false);
   const [esicRegistrationNumber, setEsicRegistrationNumber] = React.useState();
   const [panNumber, setPanNumber] = React.useState("");
-  const [dateOfRegistration, setDateOfRegistration] = React.useState(
-    dayjs("2022-04-17")
-  );
+  // const [dateOfRegistration, setDateOfRegistration] = React.useState(
+  //   dayjs("2022-04-17")
+  // );
   const [authorizedSignatory, setAuthorizedSignatory] = React.useState();
 
   const [mobileNumber, setMobileNumber] = React.useState("");
@@ -53,7 +53,7 @@ const PF = (props) => {
       setIsCoveredUnderAudit(pfDetails["isCoveredUnderAudit"]);
       setEsicRegistrationNumber(pfDetails["esicRegistrationNumber"]);
       setPanNumber(pfDetails["panNumber"]);
-      setDateOfRegistration(pfDetails["dateOfRegistration"]);
+      // setDateOfRegistration(pfDetails["dateOfRegistration"]);
       setAuthorizedSignatory(pfDetails["authorizedSignatory"]);
       setMobileNumber(pfDetails["mobileNumber"]);
       setEmail(pfDetails["email"]);
@@ -85,7 +85,7 @@ const PF = (props) => {
         coveredUnderAudit: isCoveredUnderAudit,
         esicRegistrationNumber: esicRegistrationNumber,
         panNumber: panNumber,
-        dateOfRegistration: dateOfRegistration,
+        // dateOfRegistration: dateOfRegistration,
         authorizedSignatory: authorizedSignatory,
         mobileNumber: mobileNumber,
         email: email,
@@ -105,7 +105,7 @@ const PF = (props) => {
         coveredUnderAudit: isCoveredUnderAudit,
         esicRegistrationNumber: esicRegistrationNumber,
         panNumber: panNumber,
-        dateOfRegistration: dateOfRegistration,
+        // dateOfRegistration: dateOfRegistration,
         authorizedSignatory: authorizedSignatory,
         mobileNumber: mobileNumber,
         email: email,
@@ -234,14 +234,14 @@ const PF = (props) => {
           onChange={(event) => setAuthorizedSignatory(event.target.value)}
           sx={{ gridColumn: "span 2" }}
         />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label="DOR"
             value={dateOfRegistration}
             onChange={(newValue) => setDateOfRegistration(newValue)}
             sx={{ gridColumn: "span 2" }}
           />
-        </LocalizationProvider>
+        </LocalizationProvider> */}
         <TextField
           required
           fullWidth

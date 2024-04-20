@@ -1,27 +1,17 @@
 import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
-import { DatePicker } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
 import React from "react";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { getUserById, createUser, updateUser } from "../../service/userService";
 import Snackbar, { snackbarClasses } from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
-const Profile = (props) => {
+const IndividualSpecificFields = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [mobileNumber, setMobileNumber] = React.useState("");
-  const [panId, setPanId] = React.useState("");
   const [aadharId, setAadharId] = React.useState("");
-  const [address1, setAddress1] = React.useState("");
-  const [address2, setAddress2] = React.useState("");
-  const [value, setValue] = React.useState();
   const [message, setMessage] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const isAddMode = !props.id;
@@ -29,12 +19,7 @@ const Profile = (props) => {
   function setUser(user) {
     setFirstName(user["firstName"]);
     setLastName(user["lastName"]);
-    setEmail(user["email"]);
-    setMobileNumber(user["mobileNumber"]);
-    setPanId(user["panId"]);
     setAadharId(user["aadharId"]);
-    setAddress1(user["address1"]);
-    setAddress2(user["address2"]);
   }
 
   React.useEffect(() => {
@@ -50,17 +35,12 @@ const Profile = (props) => {
     e.preventDefault();
     console.log("onsubmit");
     if (isAddMode) {
-      let user = {
+      let entity = {
         firstName: firstName,
         lastName: lastName,
-        email: email,
-        mobileNumber: mobileNumber,
-        panId: panId,
         aadharId: aadharId,
-        address1: address1,
-        address2: address2,
       };
-      createUser(user).then((user) => {
+      createUser(entity).then((user) => {
         props.onAdd(user.id);
         setUser(user);
         setMessage("User created successfully");
@@ -71,12 +51,7 @@ const Profile = (props) => {
         id: props.id,
         firstName: firstName,
         lastName: lastName,
-        email: email,
-        mobileNumber: mobileNumber,
-        panId: panId,
         aadharId: aadharId,
-        address1: address1,
-        address2: address2,
       };
       updateUser(user).then((user) => {
         setUser(user);
@@ -111,29 +86,6 @@ const Profile = (props) => {
     <Box m="20px">
       <Box
         display="grid"
-        gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-        sx={{ "& > div": { gridColumn: isNonMobile ? undefined : "span 4" } }}
-      >
-        <Header title="Profile" subtitle="Details" />
-        <Box
-          sx={{ gridColumn: "span 3" }}
-          height="35px"
-          display="flex"
-          justifyContent="end"
-          mt="10px"
-        >
-          <Button
-            type="submit"
-            onClick={onSubmit}
-            color="secondary"
-            variant="contained"
-          >
-            Save
-          </Button>
-        </Box>
-      </Box>
-      <Box
-        display="grid"
         gap="30px"
         gridTemplateColumns="repeat(4, minmax(0, 1fr))"
         sx={{
@@ -164,71 +116,11 @@ const Profile = (props) => {
           fullWidth
           variant="filled"
           type="text"
-          value={panId}
-          onChange={(event) => setPanId(event.target.value)}
-          label="Pan No"
-          name="Pan No."
-          sx={{ gridColumn: "span 2" }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
           value={aadharId}
           onChange={(event) => setAadharId(event.target.value)}
           label="Aadhar"
           name="aadhar"
           sx={{ gridColumn: "span 2" }}
-        />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            label="DOB/DOI"
-            value={value}
-            onChange={(newValue) => setValue(newValue)}
-            sx={{ gridColumn: "span 2" }}
-          />
-        </LocalizationProvider>
-        <TextField
-          required
-          fullWidth
-          variant="filled"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          type="text"
-          label="Email"
-          name="email"
-          sx={{ gridColumn: "span 4" }}
-        />
-        <TextField
-          required
-          fullWidth
-          variant="filled"
-          type="text"
-          value={mobileNumber}
-          onChange={(event) => setMobileNumber(event.target.value)}
-          label="Contact Number"
-          name="contact"
-          sx={{ gridColumn: "span 4" }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          value={address1}
-          onChange={(event) => setAddress1(event.target.value)}
-          label="Address 1"
-          name="address1"
-          sx={{ gridColumn: "span 4" }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          value={address2}
-          onChange={(event) => setAddress2(event.target.value)}
-          label="Address 2"
-          name="address2"
-          sx={{ gridColumn: "span 4" }}
         />
       </Box>
       <Snackbar
@@ -243,4 +135,4 @@ const Profile = (props) => {
   );
 };
 
-export default Profile;
+export default IndividualSpecificFields;

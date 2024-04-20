@@ -11,6 +11,7 @@ import PF from "./PF";
 import ESIC from "./ESIC";
 import TDS from "./TDS";
 import Profile from "./Profile";
+import AddUser from "./AddUser";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -54,7 +55,8 @@ export default function Form(props) {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <AddUser />
+      {/* <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           textColor="secondary"
           indicatorColor="secondary"
@@ -91,7 +93,7 @@ export default function Form(props) {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={6}>
         <TDS id={props.id} />
-      </CustomTabPanel>
+      </CustomTabPanel> */}
     </Box>
   );
 }

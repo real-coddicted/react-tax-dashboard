@@ -1,11 +1,11 @@
 import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
-import { DatePicker } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
+// import { DatePicker } from "@mui/x-date-pickers";
+// import dayjs from "dayjs";
 import React from "react";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import {
   getIncomeTaxRecordByOwnerRefId,
   createIncomeTaxRecord,
@@ -27,7 +27,7 @@ const IncomeTax = (props) => {
   const [ownerRef, setOwnerRef] = React.useState(props.id);
   const [panNumber, setPanNumber] = React.useState("");
   const [aadharNumber, setAadharNumber] = React.useState("");
-  const [dateOfInit, setDateOfInit] = React.useState(dayjs("2022-04-17"));
+  // const [dateOfInit, setDateOfInit] = React.useState(dayjs("2022-04-17"));
   const [fatherName, setFatherName] = React.useState("");
   const [address, setAddress] = React.useState("");
   const [isCoveredUnderAudit, setIsCoveredUnderAudit] = React.useState(false);
@@ -46,7 +46,7 @@ const IncomeTax = (props) => {
       setOwnerRef(incomeTaxDetails["ownerRef"]);
       setPanNumber(incomeTaxDetails["panNumber"]);
       setAadharNumber(incomeTaxDetails["aadharNumber"]);
-      setDateOfInit(incomeTaxDetails["dateOfInit"]);
+      // setDateOfInit(incomeTaxDetails["dateOfInit"]);
       setFatherName(incomeTaxDetails["fatherName"]);
       setIsCoveredUnderAudit(incomeTaxDetails["isCoveredUnderAudit"]);
       setAddress(incomeTaxDetails["address"]);
@@ -77,7 +77,7 @@ const IncomeTax = (props) => {
         ownerRef: ownerRef,
         panNumber: panNumber,
         aadharNumber: aadharNumber,
-        dateOfInit: dateOfInit,
+        // dateOfInit: dateOfInit,
         fatherName: fatherName,
         isCoveredUnderAudit: isCoveredUnderAudit,
         address: address,
@@ -97,7 +97,7 @@ const IncomeTax = (props) => {
         ownerRef: ownerRef,
         panNumber: panNumber,
         aadharNumber: aadharNumber,
-        dateOfInit: dateOfInit,
+        // dateOfInit: dateOfInit,
         fatherName: fatherName,
         isCoveredUnderAudit: isCoveredUnderAudit,
         address: address,
@@ -221,14 +221,14 @@ const IncomeTax = (props) => {
           onChange={(event) => setAadharNumber(event.target.value)}
           sx={{ gridColumn: "span 2" }}
         />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label="DOB/DOI"
             value={dateOfInit}
             onChange={(newValue) => setDateOfInit(newValue)}
             sx={{ gridColumn: "span 2" }}
           />
-        </LocalizationProvider>
+        </LocalizationProvider> */}
 
         <TextField
           required
