@@ -24,7 +24,7 @@ export default function SelectCustomerType() {
     console.log(JSON.stringify({ customerType: event.target.value }));
   };
   return (
-    <Box m="20px">
+    <Box m="40px">
       <Box
         display="grid"
         gridTemplateColumns="repeat(4, minmax(0, 1fr))"

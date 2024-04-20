@@ -79,7 +79,7 @@ export default function AddUser() {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: "90%" }} m="40px">
       <Stepper nonLinear activeStep={activeStep}>
         {steps.map((label, index) => (
           <Step key={label} completed={completed[index]}>
@@ -105,7 +105,7 @@ export default function AddUser() {
             {getElement()}
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
-                color="inherit"
+                color="secondary"
                 disabled={activeStep === 0}
                 onClick={handleBack}
                 sx={{ mr: 1 }}
@@ -113,7 +113,7 @@ export default function AddUser() {
                 Back
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
-              <Button onClick={handleNext} sx={{ mr: 1 }}>
+              <Button color="secondary" onClick={handleNext} sx={{ mr: 1 }}>
                 Next
               </Button>
               {activeStep !== steps.length &&
@@ -125,7 +125,7 @@ export default function AddUser() {
                     Step {activeStep + 1} already completed
                   </Typography>
                 ) : (
-                  <Button onClick={handleComplete}>
+                  <Button color="secondary" onClick={handleComplete}>
                     {completedSteps() === totalSteps() - 1
                       ? "Finish"
                       : "Complete Step"}
