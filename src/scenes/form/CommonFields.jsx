@@ -1,89 +1,14 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Header from "../../components/Header";
-import { DatePicker } from "@mui/x-date-pickers";
 import React from "react";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { getUserById, createUser, updateUser } from "../../service/userService";
-import Snackbar, { snackbarClasses } from "@mui/material/Snackbar";
+import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
-const CommonFields = (props) => {
+const CommonFields = ({ state, dispatch }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const [email, setEmail] = React.useState("");
-  const [mobileNumber, setMobileNumber] = React.useState("");
-  const [panId, setPanId] = React.useState("");
-  const [address, setAddress] = React.useState("");
-  const [city, setCity] = React.useState("");
-  const [state, setState] = React.useState("");
-  const [country, setCountry] = React.useState("");
-  const [pinCode, setPinCode] = React.useState("");
-  const [value, setValue] = React.useState();
   const [message, setMessage] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
-  const isAddMode = !props.id;
-
-  function setUser(entity) {
-    setEmail(entity["email"]);
-    setMobileNumber(entity["mobileNumber"]);
-    setPanId(entity["panId"]);
-    setAddress(entity["address"]);
-    setCity(entity["city"]);
-    setState(entity["state"]);
-    setCountry(entity["country"]);
-    setPinCode(entity["pinCode"]);
-  }
-
-  React.useEffect(() => {
-    if (!isAddMode) {
-      // get user and set form fields
-      getUserById(props.id).then((user) => {
-        setUser(user);
-      });
-    }
-  }, []);
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    console.log("onsubmit");
-    if (isAddMode) {
-      let entity = {
-        email: email,
-        mobileNumber: mobileNumber,
-        panId: panId,
-        address: address,
-        city: city,
-        state: state,
-        country: country,
-        pinCode: pinCode,
-      };
-      createUser(entity).then((user) => {
-        props.onAdd(user.id);
-        setUser(user);
-        setMessage("User created successfully");
-        setOpenSnackbar(true);
-      });
-    } else {
-      let user = {
-        id: props.id,
-        email: email,
-        mobileNumber: mobileNumber,
-        panId: panId,
-        address: address,
-        city: city,
-        state: state,
-        country: country,
-        pinCode: pinCode,
-      };
-      updateUser(user).then((user) => {
-        setUser(user);
-        setMessage("User updated successfully");
-        setOpenSnackbar(true);
-      });
-    }
-  };
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -106,6 +31,18 @@ const CommonFields = (props) => {
     </React.Fragment>
   );
 
+  const handleInputChange = (event) => {
+    const field = event.target.name;
+    const value = event.target.value;
+    dispatch({
+      type: "CHANGE_INPUT",
+      payload: {
+        value,
+        field,
+      },
+    });
+  };
+
   return (
     <Box m="20px">
       <Box
@@ -120,18 +57,22 @@ const CommonFields = (props) => {
           fullWidth
           variant="filled"
           type="text"
-          value={panId}
-          onChange={(event) => setPanId(event.target.value)}
+          value={state.panId}
+          onChange={(e) => {
+            handleInputChange(e);
+          }}
           label="Pan No"
-          name="Pan No."
+          name="panId"
           sx={{ gridColumn: "span 4" }}
         />
         <TextField
           required
           fullWidth
           variant="filled"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          value={state.email}
+          onChange={(e) => {
+            handleInputChange(e);
+          }}
           type="text"
           label="Email"
           name="email"
@@ -142,18 +83,22 @@ const CommonFields = (props) => {
           fullWidth
           variant="filled"
           type="text"
-          value={mobileNumber}
-          onChange={(event) => setMobileNumber(event.target.value)}
+          value={state.contactNumber}
+          onChange={(e) => {
+            handleInputChange(e);
+          }}
           label="Contact Number"
-          name="contact"
+          name="contactNumber"
           sx={{ gridColumn: "span 2" }}
         />
         <TextField
           fullWidth
           variant="filled"
           type="text"
-          value={address}
-          onChange={(event) => setAddress(event.target.value)}
+          value={state.address}
+          onChange={(e) => {
+            handleInputChange(e);
+          }}
           label="Address"
           name="address"
           sx={{ gridColumn: "span 4" }}
@@ -162,8 +107,10 @@ const CommonFields = (props) => {
           fullWidth
           variant="filled"
           type="text"
-          value={city}
-          onChange={(event) => setCity(event.target.value)}
+          value={state.city}
+          onChange={(e) => {
+            handleInputChange(e);
+          }}
           label="City"
           name="city"
           sx={{ gridColumn: "span 2" }}
@@ -172,8 +119,10 @@ const CommonFields = (props) => {
           required
           fullWidth
           variant="filled"
-          value={state}
-          onChange={(event) => setState(event.target.value)}
+          value={state.state}
+          onChange={(e) => {
+            handleInputChange(e);
+          }}
           type="text"
           label="State"
           name="state"
@@ -183,8 +132,10 @@ const CommonFields = (props) => {
           required
           fullWidth
           variant="filled"
-          value={country}
-          onChange={(event) => setCountry(event.target.value)}
+          value={state.country}
+          onChange={(e) => {
+            handleInputChange(e);
+          }}
           type="text"
           label="Country"
           name="country"
@@ -194,8 +145,10 @@ const CommonFields = (props) => {
           required
           fullWidth
           variant="filled"
-          value={pinCode}
-          onChange={(event) => setPinCode(event.target.value)}
+          value={state.pinCode}
+          onChange={(e) => {
+            handleInputChange(e);
+          }}
           type="text"
           label="Pin Code"
           name="pinCode"

@@ -7,22 +7,21 @@ import FormLabel from "@mui/material/FormLabel";
 import { Box } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-export default function SelectCustomerType() {
+export default function SelectCustomerType({ state, dispatch }) {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const [customerType, setCustomerType] = React.useState("INDIVIDUAL");
-  const [newCustomer, setNewCustomer] = React.useState({});
+
   const handleCustomerTypeChange = (event) => {
-    setCustomerType(event.target.value);
-    console.log("customerType:" + event.target.value + " : " + customerType);
-    setNewCustomer(
-      { customerType: event.target.value },
-      localStorage.setItem(
-        "newCustomer",
-        JSON.stringify({ customerType: event.target.value })
-      )
-    );
-    console.log(JSON.stringify({ customerType: event.target.value }));
+    const field = event.target.name;
+    const value = event.target.value;
+    dispatch({
+      type: "CHANGE_INPUT",
+      payload: {
+        value,
+        field,
+      },
+    });
   };
+
   return (
     <Box m="40px">
       <Box
@@ -34,9 +33,11 @@ export default function SelectCustomerType() {
           <FormLabel id="select-customer-type-label">Customer Type</FormLabel>
           <RadioGroup
             aria-labelledby="select-customer-type-group-label"
-            name="select-customer-type-group"
-            value={customerType}
-            onChange={handleCustomerTypeChange}
+            name="customerType"
+            value={state.customerType}
+            onChange={(e) => {
+              handleCustomerTypeChange(e);
+            }}
           >
             <FormControlLabel
               value="INDIVIDUAL"

@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import SelectCustomerType from "./SelectCustomerType";
 import EntityInformation from "./EntityInformation";
 import AdditionalInformation from "./AdditionalInformation";
+import { useReducer } from "react";
 
 const steps = [
   "Select Customer Type",
@@ -15,9 +16,46 @@ const steps = [
   "Additional Information",
 ];
 
+export function addUserReducer(state, action) {
+  const { type, payload } = action;
+  console.log(payload);
+  switch (type) {
+    case "CHANGE_INPUT":
+      return { ...state, [payload.field]: payload.value };
+    default:
+      return state;
+  }
+}
+
+export const initialState = {
+  customerType: "",
+  firstName: "",
+  lastName: "",
+  aadhar: "",
+  //---
+  companyName: "",
+  authorizedPerson: "",
+  registrationNumber: "",
+  //--
+  email: "",
+  contactNumber: "",
+  city: "",
+  address: "",
+  state: "",
+  country: "",
+  pinCode: "",
+  panId: "",
+  //--
+  numberOfMembers: "",
+  tan: "",
+  //--
+  numberOfDirectors: "",
+};
+
 export default function AddUser() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
+  const [state, dispatch] = useReducer(addUserReducer, initialState);
 
   const totalSteps = () => {
     return steps.length;
@@ -26,11 +64,11 @@ export default function AddUser() {
   const getElement = () => {
     switch (activeStep) {
       case 0:
-        return <SelectCustomerType />;
+        return <SelectCustomerType state={state} dispatch={dispatch} />;
       case 1:
-        return <EntityInformation />;
+        return <EntityInformation state={state} dispatch={dispatch} />;
       case 2:
-        return <AdditionalInformation />;
+        return <AdditionalInformation state={state} dispatch={dispatch} />;
       default:
         return <h2>default step</h2>;
     }
