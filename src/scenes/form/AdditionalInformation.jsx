@@ -2,9 +2,7 @@ import { Box } from "@mui/material";
 import React from "react";
 import Divider from "@mui/material/Divider";
 import InstitutionSpecificFields from "./InstitutionSpecificFields";
-import AssociationSpecificFields from "./AssociationSpecificFields";
 import LocalAuthoritySpecificFields from "./LocalAuthoritySpecificFields";
-import PartnershipSpecificFields from "./PartnershipSpecificFields";
 import ParticipantDetails from "./ParticipantDetails";
 
 const AdditionalInformation = (props) => {
@@ -30,8 +28,6 @@ const AdditionalInformation = (props) => {
       case "BOI":
         return (
           <Box m="20px">
-            <AssociationSpecificFields />
-            <Divider />
             <ParticipantDetails />
           </Box>
         );
@@ -42,8 +38,6 @@ const AdditionalInformation = (props) => {
       case "COMPANY":
         return (
           <Box m="20px">
-            <PartnershipSpecificFields />
-            <Divider />
             <ParticipantDetails />
           </Box>
         );

@@ -50,6 +50,7 @@ export const initialState = {
   tan: "",
   //--
   numberOfDirectors: "",
+  participantDetails: [],
 };
 
 export default function AddUser() {
