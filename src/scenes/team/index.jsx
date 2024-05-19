@@ -37,17 +37,32 @@ const Team = () => {
   //on page load - fetch users
   React.useEffect(() => {
     // get user and set form fields
-    getUsers().then((users) => {
-      setRows(users);
-    });
+    try {
+      console.log("1111");
+      const response = getUsers().then((res) => res);
+      console.log("22221" + response);
+      console.log("22222" + response.data);
+      if (response && response.data) setRows(response.data);
+      else setRows([]);
+    } catch (error) {
+      console.log("3333");
+      console.error("Error fetching users:", error);
+      setRows([]);
+    }
   }, []);
 
   //on modal close - fetch users
   React.useEffect(() => {
     // get user and set form fields
-    getUsers().then((users) => {
-      setRows(users);
-    });
+    try {
+      const response = getUsers().then((res) => res);
+      setRows(response.data);
+      if (response && response.data) setRows(response.data);
+      else setRows([]);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      setRows([]);
+    }
   }, [open]);
 
   const handleClickOpen = () => {

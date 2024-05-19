@@ -4,17 +4,22 @@ export async function getUserById(id) {
   const response = await axios.get(
     `http://localhost:8001/api/user/getById/${id}`
   );
-  return response.data;
+  return response;
 }
 
 export async function createUser(user) {
   const response = await axios.post("http://localhost:8001/api/user/add", user);
-  return response.data;
+  return response;
 }
 
-export async function getUsers() {
-  const response = await axios.get("http://localhost:8001/api/user/getAll");
-  return response.data;
+export function getUsers() {
+  const response = axios
+    .get("http://localhost:8001/api/user/getAll")
+    .catch((error) => {
+      console.log(error);
+      return undefined;
+    });
+  return response;
 }
 
 export async function updateUser(user) {
@@ -22,5 +27,5 @@ export async function updateUser(user) {
     `http://localhost:8001/api/user/update/${user.id}`,
     user
   );
-  return response.data;
+  return response;
 }

@@ -14,27 +14,16 @@ import {
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 
-const initialRows = [
-  {
-    id: 1,
-    name: "TEST1",
-  },
-  {
-    id: 2,
-    name: "TEST2",
-  },
-  {
-    id: 3,
-    name: "TEST3",
-  },
-];
-
 function EditToolbar(props) {
-  const { setRows, setRowModesModel } = props;
+  const { setRows, setRowModesModel, state } = props;
 
   const handleClick = () => {
-    const id = Math.floor(Math.random() * 100);
-    setRows((oldRows) => [...oldRows, { id, name: "", age: "", isNew: true }]);
+    const id = state.participantDetails.length + 1;
+    setRows((oldRows) => [...oldRows, { id, name: "", isNew: true }]);
+    state.participantDetails = [
+      ...state.participantDetails,
+      { id, name: "", isNew: true },
+    ];
     setRowModesModel((oldModel) => ({
       ...oldModel,
       [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
@@ -50,8 +39,8 @@ function EditToolbar(props) {
   );
 }
 
-export default function ParticipantDetails() {
-  const [rows, setRows] = React.useState(initialRows);
+export default function ParticipantDetails({ state, dispatch }) {
+  const [rows, setRows] = React.useState(state.participantDetails);
   const [rowModesModel, setRowModesModel] = React.useState({});
 
   const handleRowEditStop = (params, event) => {
@@ -70,6 +59,9 @@ export default function ParticipantDetails() {
 
   const handleDeleteClick = (id) => () => {
     setRows(rows.filter((row) => row.id !== id));
+    state.participantDetails = state.participantDetails.filter(
+      (row) => row.id !== id
+    );
   };
 
   const handleCancelClick = (id) => () => {
@@ -81,12 +73,22 @@ export default function ParticipantDetails() {
     const editedRow = rows.find((row) => row.id === id);
     if (editedRow.isNew) {
       setRows(rows.filter((row) => row.id !== id));
+      state.participantDetails = state.participantDetails.filter(
+        (row) => row.id !== id
+      );
     }
   };
 
-  const processRowUpdate = (newRow) => {
+  const processRowUpdate = (newRow, oldRow) => {
+    console.log("7778");
+    console.log(newRow);
+    console.log("-----");
+    console.log(oldRow);
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+    state.participantDetails = state.participantDetails.map((row) =>
+      row.id === newRow.id ? updatedRow : row
+    );
     return updatedRow;
   };
 
@@ -239,7 +241,7 @@ export default function ParticipantDetails() {
             toolbar: EditToolbar,
           }}
           slotProps={{
-            toolbar: { setRows, setRowModesModel },
+            toolbar: { setRows, setRowModesModel, state },
           }}
         />
       </Box>

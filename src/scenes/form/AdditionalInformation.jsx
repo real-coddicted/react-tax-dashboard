@@ -5,19 +5,9 @@ import InstitutionSpecificFields from "./InstitutionSpecificFields";
 import LocalAuthoritySpecificFields from "./LocalAuthoritySpecificFields";
 import ParticipantDetails from "./ParticipantDetails";
 
-const AdditionalInformation = (props) => {
-  const getCustomerType = () => {
-    const newCustomerString = localStorage.getItem("newCustomer");
-    const newCustomer = JSON.parse(newCustomerString);
-
-    if (newCustomer) {
-      return newCustomer["customerType"];
-    }
-    return "UNKNOWN";
-  };
-
+const AdditionalInformation = ({ state, dispatch }) => {
   const getElement = () => {
-    const customerType = getCustomerType();
+    const customerType = state.customerType;
     console.log("entity information customerType: " + customerType);
     switch (customerType) {
       case "INDIVIDUAL":
@@ -28,25 +18,27 @@ const AdditionalInformation = (props) => {
       case "BOI":
         return (
           <Box m="20px">
-            <ParticipantDetails />
+            <ParticipantDetails state={state} dispatch={dispatch} />
           </Box>
         );
       case "LOCAL_AUTHORITY":
-        return <LocalAuthoritySpecificFields />;
+        return (
+          <LocalAuthoritySpecificFields state={state} dispatch={dispatch} />
+        );
       case "PARTNERSHIP_FIRM":
       case "LLP":
       case "COMPANY":
         return (
           <Box m="20px">
-            <ParticipantDetails />
+            <ParticipantDetails state={state} dispatch={dispatch} />
           </Box>
         );
       default:
         return (
           <Box m="20px">
-            <InstitutionSpecificFields />
+            <InstitutionSpecificFields state={state} dispatch={dispatch} />
             <Divider />
-            <ParticipantDetails />
+            <ParticipantDetails state={state} dispatch={dispatch} />
           </Box>
         );
     }
