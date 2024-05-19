@@ -11,7 +11,6 @@ const EntityInformation = ({ state, dispatch }) => {
 
   const getElement = () => {
     const customerType = state.customerType;
-    console.log("entity information customerType: " + customerType);
     switch (customerType) {
       case "INDIVIDUAL":
         return <IndividualSpecificFields state={state} dispatch={dispatch} />;

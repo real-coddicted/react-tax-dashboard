@@ -8,7 +8,6 @@ import ParticipantDetails from "./ParticipantDetails";
 const AdditionalInformation = ({ state, dispatch }) => {
   const getElement = () => {
     const customerType = state.customerType;
-    console.log("entity information customerType: " + customerType);
     switch (customerType) {
       case "INDIVIDUAL":
         return <h3>No Additional Information is required.</h3>;

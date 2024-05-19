@@ -28,7 +28,6 @@ const Team = () => {
 
   React.useMemo(() => {
     const loggedInUser = localStorage.getItem("authenticated");
-    console.log("loggedInUser: " + loggedInUser);
     if (loggedInUser) {
       setauthenticated(loggedInUser);
     }
@@ -38,14 +37,10 @@ const Team = () => {
   React.useEffect(() => {
     // get user and set form fields
     try {
-      console.log("1111");
       const response = getUsers().then((res) => res);
-      console.log("22221" + response);
-      console.log("22222" + response.data);
       if (response && response.data) setRows(response.data);
       else setRows([]);
     } catch (error) {
-      console.log("3333");
       console.error("Error fetching users:", error);
       setRows([]);
     }
@@ -132,7 +127,6 @@ const Team = () => {
   ];
 
   if (!authenticated) {
-    console.log("redirecting to login page");
     return <Navigate replace to="/login" />;
   } else {
     return (

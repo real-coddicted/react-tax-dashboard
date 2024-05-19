@@ -65,7 +65,6 @@ const ESIC = (props) => {
   }
 
   React.useEffect(() => {
-    console.log(ownerRef);
     if (ownerRef) {
       // get user and set form fields
       getESICRecordByOwnerRefId(ownerRef).then((esicDetails) => {
@@ -75,9 +74,7 @@ const ESIC = (props) => {
   }, []);
 
   const onSubmit = (e) => {
-    console.log(ownerRef);
     e.preventDefault();
-    console.log("onsubmit");
     if (!id) {
       let esicRecord = {
         ownerRef: ownerRef,

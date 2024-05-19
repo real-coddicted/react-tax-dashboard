@@ -63,7 +63,6 @@ const GST = (props) => {
   }
 
   React.useEffect(() => {
-    console.log(id);
     if (ownerRef) {
       // get user and set form fields
       getGSTRecordByOwnerRefId(ownerRef).then((gstDetails) => {
@@ -73,9 +72,7 @@ const GST = (props) => {
   }, []);
 
   const onSubmit = (e) => {
-    console.log(ownerRef);
     e.preventDefault();
-    console.log("onsubmit");
     if (!id) {
       let gstRecord = {
         ownerRef: ownerRef,

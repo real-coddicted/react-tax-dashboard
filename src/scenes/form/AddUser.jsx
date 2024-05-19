@@ -18,13 +18,9 @@ const steps = [
 
 export function addUserReducer(state, action) {
   const { type, payload } = action;
-  console.log(payload);
   switch (type) {
     case "CHANGE_INPUT":
       return { ...state, [payload.field]: payload.value };
-    case "ADD_PARTICIPANT":
-      state.participantDetails = [...state.participantDetails, payload.value];
-      return state;
     default:
       return state;
   }

@@ -80,10 +80,6 @@ export default function ParticipantDetails({ state, dispatch }) {
   };
 
   const processRowUpdate = (newRow, oldRow) => {
-    console.log("7778");
-    console.log(newRow);
-    console.log("-----");
-    console.log(oldRow);
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     state.participantDetails = state.participantDetails.map((row) =>

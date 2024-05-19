@@ -17,10 +17,7 @@ const Login = () => {
   const { isLoggedIn, user, login, logout } = useContext(AuthContext);
 
   function handleCallbackResponse(response) {
-    console.log("localstorage: " + localStorage.getItem("authenticated"));
-    console.log("Encoded JWT ID token:" + response.credential);
     var userObject = jwtDecode(response.credential);
-    console.log(userObject);
     if (userObject && userObject["email_verified"]) {
       console.log("login form authenticated");
       login({ name: userObject });
