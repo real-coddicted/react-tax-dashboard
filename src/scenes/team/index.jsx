@@ -85,7 +85,15 @@ const Team = () => {
     { field: "id", headerName: "ID" },
     {
       field: "firstName",
-      headerName: "First Name",
+      headerName: "FirstName",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "name",
+      headerName: "Name",
+      valueGetter: (params) =>
+        `${params.value.firstName} ${params.value.lastName}`,
       flex: 1,
       cellClassName: "name-column--cell",
     },

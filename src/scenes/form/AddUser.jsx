@@ -25,9 +25,11 @@ export function addUserReducer(state, action) {
     case "SAVE":
       console.log(state);
       const response = createCustomer(state);
+
       if (response && response.data) {
         console.log(response.data);
       }
+      payload.setOpen(false);
       return state;
     default:
       return state;
@@ -61,7 +63,7 @@ export const initialState = {
   participantDetails: [],
 };
 
-export default function AddUser({ props }) {
+export default function AddUser(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [state, dispatch] = useReducer(addUserReducer, initialState);
 
@@ -79,8 +81,12 @@ export default function AddUser({ props }) {
   };
 
   const handleSave = () => {
+    const setOpen = props.setOpen;
     dispatch({
       type: "SAVE",
+      payload: {
+        setOpen,
+      },
     });
   };
 
