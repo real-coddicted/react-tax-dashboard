@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useReducer } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -8,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import SelectCustomerType from "./SelectCustomerType";
 import EntityInformation from "./EntityInformation";
 import AdditionalInformation from "./AdditionalInformation";
-import { useReducer } from "react";
+import { createCustomer } from "../../service/customerService";
 
 const steps = [
   "Select Customer Type",
@@ -21,13 +22,21 @@ export function addUserReducer(state, action) {
   switch (type) {
     case "CHANGE_INPUT":
       return { ...state, [payload.field]: payload.value };
+    case "SAVE":
+      console.log(state);
+      const response = createCustomer(state);
+      if (response && response.data) {
+        console.log(response.data);
+      }
+      return state;
     default:
       return state;
   }
 }
 
 export const initialState = {
-  customerType: "",
+  accountRef: 1,
+  category: "",
   firstName: "",
   lastName: "",
   aadhar: "",
@@ -52,7 +61,7 @@ export const initialState = {
   participantDetails: [],
 };
 
-export default function AddUser() {
+export default function AddUser({ props }) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [state, dispatch] = useReducer(addUserReducer, initialState);
 
@@ -67,6 +76,12 @@ export default function AddUser() {
       default:
         return <h2>default step</h2>;
     }
+  };
+
+  const handleSave = () => {
+    dispatch({
+      type: "SAVE",
+    });
   };
 
   const handleNext = () => {
@@ -118,9 +133,15 @@ export default function AddUser() {
                 Back
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
-              <Button onClick={handleNext} color="secondary">
-                {activeStep === steps.length - 1 ? "Save" : "Next"}
-              </Button>
+              {activeStep == steps.length - 1 ? (
+                <Button onClick={handleSave} color="secondary">
+                  Save
+                </Button>
+              ) : (
+                <Button onClick={handleNext} color="secondary">
+                  Next
+                </Button>
+              )}
             </Box>
           </React.Fragment>
         )}

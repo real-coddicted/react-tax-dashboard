@@ -10,7 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import Form from "../form";
-import { getUsers } from "../../service/userService";
+import { getCustomers } from "../../service/customerService";
 import { Navigate } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -37,9 +37,15 @@ const Team = () => {
   React.useEffect(() => {
     // get user and set form fields
     try {
-      const response = getUsers().then((res) => res);
-      if (response && response.data) setRows(response.data);
-      else setRows([]);
+      getCustomers()
+        .then((res) => {
+          if (res) setRows(res.data);
+          else setRows([]);
+        })
+        .catch((error) => {
+          console.error(error.request);
+          setRows([]);
+        });
     } catch (error) {
       console.error("Error fetching users:", error);
       setRows([]);
@@ -50,10 +56,15 @@ const Team = () => {
   React.useEffect(() => {
     // get user and set form fields
     try {
-      const response = getUsers().then((res) => res);
-      setRows(response.data);
-      if (response && response.data) setRows(response.data);
-      else setRows([]);
+      getCustomers()
+        .then((res) => {
+          if (res) setRows(res.data);
+          else setRows([]);
+        })
+        .catch((error) => {
+          console.error(error.request);
+          setRows([]);
+        });
     } catch (error) {
       console.error("Error fetching users:", error);
       setRows([]);
@@ -200,7 +211,12 @@ const Team = () => {
                   </Typography>
                 </Toolbar>
               </AppBar>
-              <Form id={id} firstName={firstName} onAdd={setId} />
+              <Form
+                id={id}
+                firstName={firstName}
+                onAdd={setId}
+                setOpen={setOpen}
+              />
             </Dialog>
           </Box>
           <DataGrid rows={rows} columns={columns} getRowId={(row) => row.id} />

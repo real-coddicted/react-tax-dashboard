@@ -55,7 +55,7 @@ export default function Form(props) {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <AddUser />
+      <AddUser setOpen={props.setOpen} />
       {/* <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           textColor="secondary"

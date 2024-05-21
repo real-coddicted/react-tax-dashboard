@@ -33,8 +33,8 @@ export default function SelectCustomerType({ state, dispatch }) {
           <FormLabel id="select-customer-type-label">Customer Type</FormLabel>
           <RadioGroup
             aria-labelledby="select-customer-type-group-label"
-            name="customerType"
-            value={state.customerType}
+            name="category"
+            value={state.category}
             onChange={(e) => {
               handleCustomerTypeChange(e);
             }}
