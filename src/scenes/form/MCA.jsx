@@ -103,10 +103,12 @@ const MCA = (props) => {
         coveredUnderAudit: isCoveredUnderAudit,
         status: status,
       };
-      createMCARecord(mcaRecord).then((mcaRecord) => {
-        setMCADetails(mcaRecord);
-        setMessage("MCA Record created successfully");
-        setOpenSnackbar(true);
+      createMCARecord(mcaRecord).then((res) => {
+        if (res && res.data) {
+          setMCADetails(res.data);
+          setMessage("MCA Record created successfully");
+          setOpenSnackbar(true);
+        }
       });
     } else {
       let mcaRecord = {
@@ -125,10 +127,12 @@ const MCA = (props) => {
         coveredUnderAudit: isCoveredUnderAudit,
         status: status,
       };
-      updateMCARecord(mcaRecord).then((mcaRecord) => {
-        setMCADetails(mcaRecord);
-        setMessage("MCA Record updated successfully");
-        setOpenSnackbar(true);
+      updateMCARecord(mcaRecord).then((res) => {
+        if (res && res.data) {
+          setMCADetails(res.data);
+          setMessage("MCA Record updated successfully");
+          setOpenSnackbar(true);
+        }
       });
     }
   };

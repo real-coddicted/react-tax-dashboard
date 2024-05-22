@@ -60,11 +60,11 @@ const IncomeTax = (props) => {
   }
 
   React.useEffect(() => {
-    console.log("incomeTax: " + id);
+    console.log("incomeTax: " + ownerRef);
     if (ownerRef) {
       // get user and set form fields
-      getIncomeTaxRecordByOwnerRefId(ownerRef).then((incomeTaxDetails) => {
-        setIncomeTaxDetails(incomeTaxDetails);
+      getIncomeTaxRecordByOwnerRefId(ownerRef).then((res) => {
+        if (res && res.data) setIncomeTaxDetails(res.data[0]);
       });
     }
   }, []);
@@ -86,10 +86,12 @@ const IncomeTax = (props) => {
         password: password,
         status: status,
       };
-      createIncomeTaxRecord(incomeTaxRecord).then((incomeTaxRecord) => {
-        setIncomeTaxDetails(incomeTaxRecord);
-        setMessage("Income Tax Record created successfully");
-        setOpenSnackbar(true);
+      createIncomeTaxRecord(incomeTaxRecord).then((res) => {
+        if (res && res.data) {
+          setIncomeTaxDetails(res.data);
+          setMessage("Income Tax Record created successfully");
+          setOpenSnackbar(true);
+        }
       });
     } else {
       let incomeTaxRecord = {
@@ -106,10 +108,12 @@ const IncomeTax = (props) => {
         password: password,
         status: status,
       };
-      updateIncomeTaxRecord(incomeTaxRecord).then((incomeTaxRecord) => {
-        setIncomeTaxDetails(incomeTaxRecord);
-        setMessage("Income Tax Record updated successfully");
-        setOpenSnackbar(true);
+      updateIncomeTaxRecord(incomeTaxRecord).then((res) => {
+        if (res && res.data) {
+          setIncomeTaxDetails(incomeTaxRecord);
+          setMessage("Income Tax Record updated successfully");
+          setOpenSnackbar(true);
+        }
       });
     }
   };

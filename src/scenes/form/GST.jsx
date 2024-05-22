@@ -65,8 +65,8 @@ const GST = (props) => {
   React.useEffect(() => {
     if (ownerRef) {
       // get user and set form fields
-      getGSTRecordByOwnerRefId(ownerRef).then((gstDetails) => {
-        setGSTDetails(gstDetails);
+      getGSTRecordByOwnerRefId(ownerRef).then((res) => {
+        if (res && res.data) setGSTDetails(res.data);
       });
     }
   }, []);
@@ -87,10 +87,12 @@ const GST = (props) => {
         email: email,
         status: status,
       };
-      createGSTRecord(gstRecord).then((gstRecord) => {
-        setGSTDetails(gstRecord);
-        setMessage("GST Record created successfully");
-        setOpenSnackbar(true);
+      createGSTRecord(gstRecord).then((res) => {
+        if (res && res.data) {
+          setGSTDetails(res.data);
+          setMessage("GST Record created successfully");
+          setOpenSnackbar(true);
+        }
       });
     } else {
       let gstRecord = {
@@ -107,10 +109,12 @@ const GST = (props) => {
         email: email,
         status: status,
       };
-      updateGSTRecord(gstRecord).then((gstRecord) => {
-        setGSTDetails(gstRecord);
-        setMessage("Income Tax Record updated successfully");
-        setOpenSnackbar(true);
+      updateGSTRecord(gstRecord).then((res) => {
+        if (res && res.data) {
+          setGSTDetails(res.data);
+          setMessage("Income Tax Record updated successfully");
+          setOpenSnackbar(true);
+        }
       });
     }
   };

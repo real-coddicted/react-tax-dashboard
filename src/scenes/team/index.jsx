@@ -10,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import Form from "../form";
+import Tax from "../form/Tax";
 import { getCustomers } from "../../service/customerService";
 import { Navigate } from "react-router-dom";
 
@@ -25,6 +26,7 @@ const Team = () => {
   const [id, setId] = React.useState();
   const [firstName, setFirstName] = React.useState();
   const [authenticated, setauthenticated] = React.useState(null);
+  const [openTaxDialog, setOpenTaxDialog] = React.useState(false);
 
   React.useMemo(() => {
     const loggedInUser = localStorage.getItem("authenticated");
@@ -81,6 +83,16 @@ const Team = () => {
     setOpen(false);
   };
 
+  const handleClickOpenTaxDialog = () => {
+    setId();
+    setFirstName();
+    setOpenTaxDialog(true);
+  };
+
+  const handleCloseTaxDialog = () => {
+    setOpenTaxDialog(false);
+  };
+
   const columns = [
     { field: "id", headerName: "ID" },
     {
@@ -89,14 +101,12 @@ const Team = () => {
       flex: 1,
       cellClassName: "name-column--cell",
     },
-    {
-      field: "name",
-      headerName: "Name",
-      valueGetter: (params) =>
-        `${params.value.firstName} ${params.value.lastName}`,
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
+    // {
+    //   headerName: "Name",
+    //   valueGetter: (params) => `${params.row.firstName} ${params.row.lastName}`,
+    //   flex: 1,
+    //   cellClassName: "name-column--cell",
+    // },
     {
       field: "lastName",
       headerName: "Last Name",
@@ -129,8 +139,16 @@ const Team = () => {
           //return alert(JSON.stringify(currentRow, null, 4));
         };
 
+        const onClickTax = (e) => {
+          const currentRow = params.row;
+          setId(currentRow.id);
+          setFirstName(currentRow.firstName);
+          setOpenTaxDialog(true);
+          //return alert(JSON.stringify(currentRow, null, 4));
+        };
+
         return (
-          <Box display="grid" gap="20px">
+          <Box display="flex" margin="5px">
             <Button
               variant="outlined"
               color="warning"
@@ -138,6 +156,14 @@ const Team = () => {
               onClick={onClick}
             >
               View / Edit
+            </Button>
+            <Button
+              variant="outlined"
+              color="warning"
+              size="small"
+              onClick={onClickTax}
+            >
+              Tax
             </Button>
           </Box>
         );
@@ -224,6 +250,38 @@ const Team = () => {
                 firstName={firstName}
                 onAdd={setId}
                 setOpen={setOpen}
+              />
+            </Dialog>
+            <Dialog
+              fullScreen
+              open={openTaxDialog}
+              onClose={handleCloseTaxDialog}
+              TransitionComponent={Transition}
+            >
+              <AppBar sx={{ position: "relative" }}>
+                <Toolbar>
+                  <IconButton
+                    edge="start"
+                    color="inherit"
+                    onClick={handleCloseTaxDialog}
+                    aria-label="close"
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                  <Typography
+                    sx={{ ml: 2, flex: 1 }}
+                    variant="h6"
+                    component="div"
+                  >
+                    {!id ? "Add User" : firstName && `${firstName}'s Details`}
+                  </Typography>
+                </Toolbar>
+              </AppBar>
+              <Tax
+                id={id}
+                firstName={firstName}
+                onAdd={setId}
+                setOpen={setOpenTaxDialog}
               />
             </Dialog>
           </Box>

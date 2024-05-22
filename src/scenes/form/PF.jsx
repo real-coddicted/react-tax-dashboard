@@ -92,10 +92,12 @@ const PF = (props) => {
         password: password,
         status: status,
       };
-      createPFRecord(pfRecord).then((pfRecord) => {
-        setPFDetails(pfRecord);
-        setMessage("PF Record created successfully");
-        setOpenSnackbar(true);
+      createPFRecord(pfRecord).then((res) => {
+        if (res && res.data) {
+          setPFDetails(res.data);
+          setMessage("PF Record created successfully");
+          setOpenSnackbar(true);
+        }
       });
     } else {
       let pfRecord = {
@@ -112,10 +114,12 @@ const PF = (props) => {
         password: password,
         status: status,
       };
-      updatePFRecord(pfRecord).then((pfRecord) => {
-        setPFDetails(pfRecord);
-        setMessage("PF Record updated successfully");
-        setOpenSnackbar(true);
+      updatePFRecord(pfRecord).then((res) => {
+        if (res && res.data) {
+          setPFDetails(pfRecord);
+          setMessage("PF Record updated successfully");
+          setOpenSnackbar(true);
+        }
       });
     }
   };
