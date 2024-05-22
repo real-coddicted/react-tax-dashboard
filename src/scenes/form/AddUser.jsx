@@ -9,7 +9,11 @@ import Typography from "@mui/material/Typography";
 import SelectCustomerType from "./SelectCustomerType";
 import EntityInformation from "./EntityInformation";
 import AdditionalInformation from "./AdditionalInformation";
-import { createCustomer } from "../../service/customerService";
+import {
+  createCustomer,
+  getCustomerById,
+  updateCustomer,
+} from "../../service/customerService";
 
 const steps = [
   "Select Customer Type",
@@ -20,12 +24,18 @@ const steps = [
 export function addUserReducer(state, action) {
   const { type, payload } = action;
   switch (type) {
+    case "INIT":
+      return { ...state, ...payload };
     case "CHANGE_INPUT":
       return { ...state, [payload.field]: payload.value };
     case "SAVE":
       console.log(state);
-      const response = createCustomer(state);
-
+      var response;
+      if (state.id) {
+        response = updateCustomer(state);
+      } else {
+        response = createCustomer(state);
+      }
       if (response && response.data) {
         console.log(response.data);
       }
@@ -66,6 +76,31 @@ export const initialState = {
 export default function AddUser(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [state, dispatch] = useReducer(addUserReducer, initialState);
+  const [id, setId] = React.useState(props.id);
+
+  //on page load - fetch customers
+  React.useEffect(() => {
+    console.log("-----" + id);
+    // get user and set form fields
+    if (id) {
+      try {
+        getCustomerById(id)
+          .then((res) => {
+            if (res) {
+              dispatch({
+                type: "INIT",
+                payload: res.data,
+              });
+            }
+          })
+          .catch((error) => {
+            console.error(error.request);
+          });
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    }
+  }, [id]);
 
   const getElement = () => {
     switch (activeStep) {
@@ -139,7 +174,7 @@ export default function AddUser(props) {
                 Back
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
-              {activeStep == steps.length - 1 ? (
+              {activeStep === steps.length - 1 ? (
                 <Button onClick={handleSave} color="secondary">
                   Save
                 </Button>

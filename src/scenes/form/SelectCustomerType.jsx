@@ -9,7 +9,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function SelectCustomerType({ state, dispatch }) {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-
   const handleCustomerTypeChange = (event) => {
     const field = event.target.name;
     const value = event.target.value;
@@ -21,7 +20,6 @@ export default function SelectCustomerType({ state, dispatch }) {
       },
     });
   };
-
   return (
     <Box m="40px">
       <Box

@@ -96,23 +96,26 @@ const Team = () => {
   const columns = [
     { field: "id", headerName: "ID" },
     {
-      field: "firstName",
-      headerName: "FirstName",
+      field: "category",
+      headerName: "Category",
       flex: 1,
       cellClassName: "name-column--cell",
     },
+    {
+      field: "fullName",
+      headerName: "Name",
+      valueGetter: (value, row) => {
+        if (row.category === "INDIVIDUAL")
+          return `${row.firstName || ""} ${row.lastName || ""}`;
+        else return `${row.companyName}`;
+      },
+    },
     // {
-    //   headerName: "Name",
-    //   valueGetter: (params) => `${params.row.firstName} ${params.row.lastName}`,
+    //   field: "lastName",
+    //   headerName: "Last Name",
     //   flex: 1,
     //   cellClassName: "name-column--cell",
     // },
-    {
-      field: "lastName",
-      headerName: "Last Name",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
     {
       field: "mobileNumber",
       headerName: "Phone Number",

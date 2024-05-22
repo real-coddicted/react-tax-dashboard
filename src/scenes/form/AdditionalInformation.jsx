@@ -7,8 +7,8 @@ import ParticipantDetails from "./ParticipantDetails";
 
 const AdditionalInformation = ({ state, dispatch }) => {
   const getElement = () => {
-    const customerType = state.customerType;
-    switch (customerType) {
+    const category = state.category;
+    switch (category) {
       case "INDIVIDUAL":
         return <h3>No Additional Information is required.</h3>;
       case "HUF":

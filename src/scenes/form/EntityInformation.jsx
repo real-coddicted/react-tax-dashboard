@@ -10,8 +10,8 @@ const EntityInformation = ({ state, dispatch }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const getElement = () => {
-    const customerType = state.customerType;
-    switch (customerType) {
+    const category = state.category;
+    switch (category) {
       case "INDIVIDUAL":
         return <IndividualSpecificFields state={state} dispatch={dispatch} />;
       default:
