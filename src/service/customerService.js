@@ -33,7 +33,7 @@ export function getCustomerById(id) {
 export function updateCustomer(customerDetails) {
   const response = axios
     .put(
-      `http://192.168.1.44:8002//api/customer/update/${customerDetails.id}`,
+      `http://192.168.1.44:8002/api/customer/update/${customerDetails.id}`,
       customerDetails
     )
     .catch((error) => {
