@@ -43,6 +43,18 @@ const CommonFields = ({ state, dispatch }) => {
     });
   };
 
+  const handleAddressChange = (event) => {
+    const field = event.target.name;
+    const value = event.target.value;
+    dispatch({
+      type: "CHANGE_ADDRESS",
+      payload: {
+        value,
+        field,
+      },
+    });
+  };
+
   return (
     <Box m="20px">
       <Box
@@ -95,21 +107,21 @@ const CommonFields = ({ state, dispatch }) => {
           fullWidth
           variant="filled"
           type="text"
-          value={state.address}
+          value={state.address.addressLine1}
           onChange={(e) => {
-            handleInputChange(e);
+            handleAddressChange(e);
           }}
           label="Address"
-          name="address"
+          name="addressLine1"
           sx={{ gridColumn: "span 4" }}
         />
         <TextField
           fullWidth
           variant="filled"
           type="text"
-          value={state.city}
+          value={state.address.city}
           onChange={(e) => {
-            handleInputChange(e);
+            handleAddressChange(e);
           }}
           label="City"
           name="city"
@@ -119,9 +131,9 @@ const CommonFields = ({ state, dispatch }) => {
           required
           fullWidth
           variant="filled"
-          value={state.state}
+          value={state.address.state}
           onChange={(e) => {
-            handleInputChange(e);
+            handleAddressChange(e);
           }}
           type="text"
           label="State"
@@ -132,9 +144,9 @@ const CommonFields = ({ state, dispatch }) => {
           required
           fullWidth
           variant="filled"
-          value={state.country}
+          value={state.address.country}
           onChange={(e) => {
-            handleInputChange(e);
+            handleAddressChange(e);
           }}
           type="text"
           label="Country"
@@ -145,9 +157,9 @@ const CommonFields = ({ state, dispatch }) => {
           required
           fullWidth
           variant="filled"
-          value={state.pinCode}
+          value={state.address.pinCode}
           onChange={(e) => {
-            handleInputChange(e);
+            handleAddressChange(e);
           }}
           type="text"
           label="Pin Code"

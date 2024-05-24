@@ -5,11 +5,11 @@ import { getUserById } from "../../service/userService";
 
 const LocalAuthoritySpecificFields = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const [tan, setTan] = React.useState("");
+  const [tanNumber, setTanNumber] = React.useState("");
   const isAddMode = !props.id;
 
   function setUser(user) {
-    setTan(user["tan"]);
+    setTanNumber(user["tanNumber"]);
   }
 
   React.useEffect(() => {
@@ -36,9 +36,9 @@ const LocalAuthoritySpecificFields = (props) => {
           variant="filled"
           type="text"
           label="TAN"
-          value={tan}
-          onChange={(event) => setTan(event.target.value)}
-          name="tan"
+          value={tanNumber}
+          onChange={(event) => setTanNumber(event.target.value)}
+          name="tanNumber"
           sx={{ gridColumn: "span 2" }}
         />
       </Box>

@@ -14,6 +14,9 @@ import {
   getCustomerById,
   updateCustomer,
 } from "../../service/customerService";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 const steps = [
   "Select Customer Type",
@@ -28,18 +31,34 @@ export function addUserReducer(state, action) {
       return { ...state, ...payload };
     case "CHANGE_INPUT":
       return { ...state, [payload.field]: payload.value };
-    case "SAVE":
-      console.log("dispatch save");
-      return { ...state, isSave: true };
-    case "SAVED":
-      payload.setOpen(false);
-      return state;
+    case "CHANGE_ADDRESS":
+      var oldAddress = state.address;
+      oldAddress = { ...oldAddress, [payload.field]: payload.value };
+      return { ...state, address: oldAddress };
+    case "SAVE_CUSTOMER":
+      console.log("dispatch SAVE_CUSTOMER");
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case "SAVED_CUSTOMER":
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case "ERROR_SAVING_CUSTOMER":
+      console.log("dispatch ERROR_SAVING_CUSTOMER");
+      return {
+        ...state,
+        isLoading: false,
+      };
     default:
       return state;
   }
 }
 
 export const initialState = {
+  id: "",
   accountRef: 1,
   category: "",
   firstName: "",
@@ -47,22 +66,23 @@ export const initialState = {
   aadhar: "",
   //---
   companyName: "",
-  authorizedPerson: "",
+  authorisedPerson: "",
   registrationNumber: "",
   //--
   email: "",
   contactNumber: "",
-  city: "",
-  address: "",
-  state: "",
-  country: "",
-  pinCode: "",
   panNumber: "",
   //--
   numberOfMembers: "",
-  tan: "",
+  tanNumber: "",
+  address: {
+    addressLine1: "",
+    city: "",
+    state: "",
+    country: "",
+    pinCode: "",
+  },
   //--
-  numberOfDirectors: "",
   participantDetails: [],
 };
 
@@ -70,29 +90,29 @@ export default function AddUser(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [state, dispatch] = useReducer(addUserReducer, initialState);
   const [id, setId] = React.useState(props.id);
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [message, setMessage] = React.useState("");
 
-  //on page load - fetch customers
-  React.useEffect(() => {
-    console.log("save useEffect: " + state.isSave);
-    // get user and set form fields
-    if (state.isSave === true) {
-      var response;
-      if (state.id) {
-        response = updateCustomer(state);
-      } else {
-        response = createCustomer(state);
-      }
-      if (response && response.data) {
-        console.log(response.data);
-        dispatch({
-          type: "SAVED",
-          payload: {
-            setOpen: props.setOpen,
-          },
-        });
-      }
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
     }
-  }, [state.isSave]);
+    setMessage("");
+    setOpenSnackbar(false);
+  };
+
+  const snackbarAction = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleSnackbarClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   //on page load - fetch customers
   React.useEffect(() => {
@@ -133,8 +153,43 @@ export default function AddUser(props) {
 
   const handleSave = () => {
     dispatch({
-      type: "SAVE",
+      type: "SAVE_CUSTOMER",
     });
+    var response;
+    try {
+      if (state.id) {
+        response = updateCustomer(state);
+      } else {
+        response = createCustomer(state);
+      }
+      response
+        .then((res) => {
+          if (res) {
+            props.setOpen(false);
+            dispatch({
+              type: "SAVED_CUSTOMER",
+              payload: res.data,
+            });
+          }
+        })
+        .catch((error) => {
+          console.error("error:12222" + error.message);
+          setMessage(error.message);
+          setOpenSnackbar(true);
+          dispatch({
+            type: "ERROR_SAVING_CUSTOMER",
+            payload: error.message,
+          });
+        });
+    } catch (error) {
+      console.error("error:333333" + error.message);
+      setMessage(error.message);
+      setOpenSnackbar(true);
+      dispatch({
+        type: "ERROR_SAVING_CUSTOMER",
+        payload: error,
+      });
+    }
   };
 
   const handleNext = () => {
@@ -196,6 +251,13 @@ export default function AddUser(props) {
                 </Button>
               )}
             </Box>
+            <Snackbar
+              open={openSnackbar}
+              onClose={handleSnackbarClose}
+              message={message}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              action={snackbarAction}
+            />
           </React.Fragment>
         )}
       </div>
