@@ -57,12 +57,12 @@ const CommonFields = ({ state, dispatch }) => {
           fullWidth
           variant="filled"
           type="text"
-          value={state.panId}
+          value={state.panNumber}
           onChange={(e) => {
             handleInputChange(e);
           }}
           label="Pan No"
-          name="panId"
+          name="panNumber"
           sx={{ gridColumn: "span 4" }}
         />
         <TextField

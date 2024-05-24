@@ -57,7 +57,7 @@ export const initialState = {
   state: "",
   country: "",
   pinCode: "",
-  panId: "",
+  panNumber: "",
   //--
   numberOfMembers: "",
   tan: "",
