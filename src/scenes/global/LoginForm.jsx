@@ -20,7 +20,7 @@ const Login = () => {
     var userObject = jwtDecode(response.credential);
     if (userObject && userObject["email_verified"]) {
       console.log("login form authenticated");
-      login({ name: userObject });
+      login(userObject);
       navigate("/dashboard");
     }
   }

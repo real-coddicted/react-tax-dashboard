@@ -151,17 +151,13 @@ const Customers = () => {
           setId(currentRow.id);
           setTitle(getTitle(currentRow));
           setOpen(true);
-          //return alert(JSON.stringify(currentRow, null, 4));
         };
 
         const onClickTax = (e) => {
           const currentRow = params.row;
-          console.log("66666666" + JSON.stringify(currentRow));
           setId(currentRow.id);
           setTitle(getTitle(currentRow));
           setOpenTaxDialog(true);
-
-          //return alert(JSON.stringify(currentRow, null, 4));
         };
 
         const onDelete = (e) => {

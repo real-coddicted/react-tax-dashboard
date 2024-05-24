@@ -27,7 +27,7 @@ export default function SelectCustomerType({ state, dispatch }) {
         gridTemplateColumns="repeat(4, minmax(0, 1fr))"
         sx={{ "& > div": { gridColumn: isNonMobile ? undefined : "span 4" } }}
       >
-        <FormControl>
+        <FormControl color="secondary">
           <FormLabel id="select-customer-type-label">Customer Type</FormLabel>
           <RadioGroup
             aria-labelledby="select-customer-type-group-label"
@@ -39,43 +39,47 @@ export default function SelectCustomerType({ state, dispatch }) {
           >
             <FormControlLabel
               value="INDIVIDUAL"
-              control={<Radio />}
+              control={<Radio color="secondary" />}
               label="Individual"
             />
-            <FormControlLabel value="HUF" control={<Radio />} label="HUF" />
+            <FormControlLabel
+              value="HUF"
+              control={<Radio color="secondary" />}
+              label="HUF"
+            />
             <FormControlLabel
               value="AOP"
-              control={<Radio />}
+              control={<Radio color="secondary" />}
               label="AOP (Association of Person)"
             />
             <FormControlLabel
               value="AOP_TRUST"
-              control={<Radio />}
+              control={<Radio color="secondary" />}
               label="AOP (Trust)"
             />
             <FormControlLabel
               value="BOI"
-              control={<Radio />}
+              control={<Radio color="secondary" />}
               label="BOI (Body of Individual)"
             />
             <FormControlLabel
               value="LOCAL_AUTHORITY"
-              control={<Radio />}
+              control={<Radio color="secondary" />}
               label="Local Authority"
             />
             <FormControlLabel
               value="PARTNERSHIP_FIRM"
-              control={<Radio />}
+              control={<Radio color="secondary" />}
               label="Partnership Firm"
             />
             <FormControlLabel
               value="LLP"
-              control={<Radio />}
+              control={<Radio color="secondary" />}
               label="LLP (Limited Liability Partnership)"
             />
             <FormControlLabel
               value="COMPANY"
-              control={<Radio />}
+              control={<Radio color="secondary" />}
               label="Company"
             />
           </RadioGroup>
