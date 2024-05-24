@@ -342,7 +342,12 @@ const Customers = () => {
               </DialogActions>
             </Dialog>
           </Box>
-          <DataGrid rows={rows} columns={columns} getRowId={(row) => row.id} />
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            getRowId={(row) => row.id}
+            autoPageSize
+          />
         </Box>
       </Box>
     );

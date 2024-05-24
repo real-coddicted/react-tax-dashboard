@@ -21,7 +21,11 @@ const Login = () => {
     if (userObject && userObject["email_verified"]) {
       console.log("login form authenticated");
       login(userObject);
-      navigate("/dashboard");
+      if (window.history?.length && window.history.length > 1) {
+        navigate(-1);
+      } else {
+        navigate("/dashboard", { replace: true });
+      }
     }
   }
 

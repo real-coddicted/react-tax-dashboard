@@ -5,17 +5,22 @@ import { AuthContext } from "./AuthProvider";
 
 const PrivateRoute = (props) => {
   const { children } = props;
-  const { isLoggedIn, user } = useContext(AuthContext);
+  const { isLoggedIn, user, login } = useContext(AuthContext);
   const location = useLocation();
 
   if (!isLoggedIn) {
-    return (
-      <Navigate
-        replace={true}
-        to="/login"
-        state={{ from: `${location.pathname}${location.search}` }}
-      />
-    );
+    const localStorageUser = localStorage.getItem("user");
+    if (!localStorageUser) {
+      return (
+        <Navigate
+          replace={true}
+          to="/login"
+          state={{ from: `${location.pathname}${location.search}` }}
+        />
+      );
+    } else {
+      login(JSON.parse(localStorageUser));
+    }
   }
 
   return <>{children}</>;
