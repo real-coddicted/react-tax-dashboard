@@ -31,7 +31,7 @@ const IncomeTax = (props) => {
   const [fatherName, setFatherName] = React.useState("");
   const [address, setAddress] = React.useState("");
   const [isCoveredUnderAudit, setIsCoveredUnderAudit] = React.useState(false);
-  const [mobileNumber, setMobileNumber] = React.useState("");
+  const [contactNumber, setcontactNumber] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [status, setStatus] = React.useState();
@@ -50,7 +50,7 @@ const IncomeTax = (props) => {
       setFatherName(incomeTaxDetails["fatherName"]);
       setIsCoveredUnderAudit(incomeTaxDetails["isCoveredUnderAudit"]);
       setAddress(incomeTaxDetails["address"]);
-      setMobileNumber(incomeTaxDetails["mobileNumber"]);
+      setcontactNumber(incomeTaxDetails["contactNumber"]);
       setEmail(incomeTaxDetails["email"]);
       setPassword(incomeTaxDetails["password"]);
       setStatus(incomeTaxDetails["status"]);
@@ -81,7 +81,7 @@ const IncomeTax = (props) => {
         fatherName: fatherName,
         isCoveredUnderAudit: isCoveredUnderAudit,
         address: address,
-        mobileNumber: mobileNumber,
+        contactNumber: contactNumber,
         email: email,
         password: password,
         status: status,
@@ -103,7 +103,7 @@ const IncomeTax = (props) => {
         fatherName: fatherName,
         isCoveredUnderAudit: isCoveredUnderAudit,
         address: address,
-        mobileNumber: mobileNumber,
+        contactNumber: contactNumber,
         email: email,
         password: password,
         status: status,
@@ -252,8 +252,8 @@ const IncomeTax = (props) => {
           type="text"
           label="Contact Number"
           name="contact"
-          value={mobileNumber}
-          onChange={(event) => setMobileNumber(event.target.value)}
+          value={contactNumber}
+          onChange={(event) => setcontactNumber(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
         <TextField

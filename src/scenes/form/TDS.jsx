@@ -25,7 +25,7 @@ const TDS = (props) => {
   const [tanNumber, setTanNumber] = React.useState("");
   const [panNumber, setPanNumber] = React.useState("");
   const [authorizedSignatory, setAuthorizedSignatory] = React.useState();
-  const [mobileNumber, setMobileNumber] = React.useState("");
+  const [contactNumber, setcontactNumber] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [isCoveredUnderAudit, setIsCoveredUnderAudit] = React.useState(false);
@@ -43,7 +43,7 @@ const TDS = (props) => {
       setTanNumber(tdsDetails["tanNumber"]);
       setPanNumber(tdsDetails["panNumber"]);
       setAuthorizedSignatory(tdsDetails["authorizedSignatory"]);
-      setMobileNumber(tdsDetails["mobileNumber"]);
+      setcontactNumber(tdsDetails["contactNumber"]);
       setEmail(tdsDetails["email"]);
       setPassword(tdsDetails["password"]);
       setIsCoveredUnderAudit(tdsDetails["isCoveredUnderAudit"]);
@@ -75,7 +75,7 @@ const TDS = (props) => {
         tanNumber: tanNumber,
         panNumber: panNumber,
         authorizedSignatory: authorizedSignatory,
-        mobileNumber: mobileNumber,
+        contactNumber: contactNumber,
         email: email,
         password: password,
         status: status,
@@ -94,7 +94,7 @@ const TDS = (props) => {
         tanNumber: tanNumber,
         panNumber: panNumber,
         authorizedSignatory: authorizedSignatory,
-        mobileNumber: mobileNumber,
+        contactNumber: contactNumber,
         email: email,
         password: password,
         status: status,
@@ -228,8 +228,8 @@ const TDS = (props) => {
           type="text"
           label="Contact Number"
           name="contact"
-          value={mobileNumber}
-          onChange={(event) => setMobileNumber(event.target.value)}
+          value={contactNumber}
+          onChange={(event) => setcontactNumber(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
         <TextField

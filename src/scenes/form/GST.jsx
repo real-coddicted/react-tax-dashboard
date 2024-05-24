@@ -34,7 +34,7 @@ const GST = (props) => {
   // );
   const [currentStatus, setCurrentStatus] = React.useState();
   const [address, setAddress] = React.useState("");
-  const [mobileNumber, setMobileNumber] = React.useState("");
+  const [contactNumber, setcontactNumber] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [status, setStatus] = React.useState();
 
@@ -54,7 +54,7 @@ const GST = (props) => {
       // setDateOfRegistration(gstDetails["dateOfRegistration"]);
       setCurrentStatus(gstDetails["currentStatus"]);
       setAddress(gstDetails["address"]);
-      setMobileNumber(gstDetails["mobileNumber"]);
+      setcontactNumber(gstDetails["contactNumber"]);
       setEmail(gstDetails["email"]);
       setStatus(gstDetails["status"]);
       setCreatedDateTime(gstDetails["createdDateTime"]);
@@ -83,7 +83,7 @@ const GST = (props) => {
         // dateOfRegistration: dateOfRegistration,
         currentStatus: currentStatus,
         address: address,
-        mobileNumber: mobileNumber,
+        contactNumber: contactNumber,
         email: email,
         status: status,
       };
@@ -105,7 +105,7 @@ const GST = (props) => {
         // dateOfRegistration: dateOfRegistration,
         currentStatus: currentStatus,
         address: address,
-        mobileNumber: mobileNumber,
+        contactNumber: contactNumber,
         email: email,
         status: status,
       };
@@ -273,8 +273,8 @@ const GST = (props) => {
           type="text"
           label="Contact Number"
           name="contact"
-          value={mobileNumber}
-          onChange={(event) => setMobileNumber(event.target.value)}
+          value={contactNumber}
+          onChange={(event) => setcontactNumber(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
         <TextField

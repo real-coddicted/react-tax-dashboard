@@ -117,7 +117,7 @@ const Team = () => {
     //   cellClassName: "name-column--cell",
     // },
     {
-      field: "mobileNumber",
+      field: "contactNumber",
       headerName: "Phone Number",
       flex: 1,
     },

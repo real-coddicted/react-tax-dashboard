@@ -37,7 +37,7 @@ const MCA = (props) => {
   const [countOfDirector, setCountOfDirector] = React.useState();
 
   const [address, setAddress] = React.useState("");
-  const [mobileNumber, setMobileNumber] = React.useState("");
+  const [contactNumber, setcontactNumber] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [isCoveredUnderAudit, setIsCoveredUnderAudit] = React.useState(false);
@@ -59,7 +59,7 @@ const MCA = (props) => {
       // setDateOfInit(mcaDetails["dateOfInit"]);
       setCountOfDirector(mcaDetails["countOfDirector"]);
       setAddress(mcaDetails["address"]);
-      setMobileNumber(mcaDetails["mobileNumber"]);
+      setcontactNumber(mcaDetails["contactNumber"]);
       setEmail(mcaDetails["email"]);
       setPassword(mcaDetails["password"]);
       setIsCoveredUnderAudit(mcaDetails["isCoveredUnderAudit"]);
@@ -97,7 +97,7 @@ const MCA = (props) => {
         // dateOfInit: dateOfInit,
         countOfDirector: countOfDirector,
         address: address,
-        mobileNumber: mobileNumber,
+        contactNumber: contactNumber,
         email: email,
         password: password,
         coveredUnderAudit: isCoveredUnderAudit,
@@ -121,7 +121,7 @@ const MCA = (props) => {
         // dateOfInit: dateOfInit,
         countOfDirector: countOfDirector,
         address: address,
-        mobileNumber: mobileNumber,
+        contactNumber: contactNumber,
         email: email,
         password: password,
         coveredUnderAudit: isCoveredUnderAudit,
@@ -282,8 +282,8 @@ const MCA = (props) => {
           type="text"
           label="Contact Number"
           name="contact"
-          value={mobileNumber}
-          onChange={(event) => setMobileNumber(event.target.value)}
+          value={contactNumber}
+          onChange={(event) => setcontactNumber(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
         <TextField
