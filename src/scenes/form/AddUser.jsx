@@ -29,16 +29,9 @@ export function addUserReducer(state, action) {
     case "CHANGE_INPUT":
       return { ...state, [payload.field]: payload.value };
     case "SAVE":
-      console.log(state);
-      var response;
-      if (state.id) {
-        response = updateCustomer(state);
-      } else {
-        response = createCustomer(state);
-      }
-      if (response && response.data) {
-        console.log(response.data);
-      }
+      console.log("dispatch save");
+      return { ...state, isSave: true };
+    case "SAVED":
       payload.setOpen(false);
       return state;
     default:
@@ -80,6 +73,29 @@ export default function AddUser(props) {
 
   //on page load - fetch customers
   React.useEffect(() => {
+    console.log("save useEffect: " + state.isSave);
+    // get user and set form fields
+    if (state.isSave === true) {
+      var response;
+      if (state.id) {
+        response = updateCustomer(state);
+      } else {
+        response = createCustomer(state);
+      }
+      if (response && response.data) {
+        console.log(response.data);
+        dispatch({
+          type: "SAVED",
+          payload: {
+            setOpen: props.setOpen,
+          },
+        });
+      }
+    }
+  }, [state.isSave]);
+
+  //on page load - fetch customers
+  React.useEffect(() => {
     console.log("-----" + id);
     // get user and set form fields
     if (id) {
@@ -116,12 +132,8 @@ export default function AddUser(props) {
   };
 
   const handleSave = () => {
-    const setOpen = props.setOpen;
     dispatch({
       type: "SAVE",
-      payload: {
-        setOpen,
-      },
     });
   };
 
