@@ -4,6 +4,10 @@ import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import * as React from "react";
 import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -18,15 +22,17 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Team = () => {
+const Customers = () => {
   const [rows, setRows] = React.useState([]);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [open, setOpen] = React.useState(false);
   const [id, setId] = React.useState();
-  const [firstName, setFirstName] = React.useState();
+  const [title, setTitle] = React.useState();
   const [authenticated, setauthenticated] = React.useState(null);
   const [openTaxDialog, setOpenTaxDialog] = React.useState(false);
+  const [openDeleteConfirmationDialog, setOpenDeleteConfirmationDialog] =
+    React.useState(false);
 
   React.useMemo(() => {
     const loggedInUser = localStorage.getItem("authenticated");
@@ -75,7 +81,7 @@ const Team = () => {
 
   const handleClickOpen = () => {
     setId();
-    setFirstName();
+    setTitle();
     setOpen(true);
   };
 
@@ -85,12 +91,24 @@ const Team = () => {
 
   const handleClickOpenTaxDialog = () => {
     setId();
-    setFirstName();
+    setTitle();
     setOpenTaxDialog(true);
   };
 
   const handleCloseTaxDialog = () => {
     setOpenTaxDialog(false);
+  };
+
+  const handleCloseDeleteConfirmationDialog = () => {
+    setOpenDeleteConfirmationDialog(false);
+  };
+
+  const getTitle = (row) => {
+    if (row.category === "INDIVIDUAL") {
+      return `${row.category}: ${row.firstName} ${row.lastName}`;
+    } else {
+      return `${row.category}: ${row.companyName}`;
+    }
   };
 
   const columns = [
@@ -101,7 +119,7 @@ const Team = () => {
       flex: 1,
     },
     {
-      field: "fullName",
+      field: "name",
       headerName: "Name",
       valueGetter: (value, row) => {
         if (row.category === "INDIVIDUAL")
@@ -110,12 +128,6 @@ const Team = () => {
       },
       flex: 1,
     },
-    // {
-    //   field: "lastName",
-    //   headerName: "Last Name",
-    //   flex: 1,
-    //   cellClassName: "name-column--cell",
-    // },
     {
       field: "contactNumber",
       headerName: "Phone Number",
@@ -137,17 +149,26 @@ const Team = () => {
         const onClick = (e) => {
           const currentRow = params.row;
           setId(currentRow.id);
-          setFirstName(currentRow.firstName);
+          setTitle(getTitle(currentRow));
           setOpen(true);
           //return alert(JSON.stringify(currentRow, null, 4));
         };
 
         const onClickTax = (e) => {
           const currentRow = params.row;
+          console.log("66666666" + JSON.stringify(currentRow));
           setId(currentRow.id);
-          setFirstName(currentRow.firstName);
+          setTitle(getTitle(currentRow));
           setOpenTaxDialog(true);
+
           //return alert(JSON.stringify(currentRow, null, 4));
+        };
+
+        const onDelete = (e) => {
+          const currentRow = params.row;
+          setId(currentRow.id);
+          setTitle(getTitle(currentRow));
+          setOpenDeleteConfirmationDialog(true);
         };
 
         return (
@@ -155,14 +176,14 @@ const Team = () => {
             <Box marginRight="10px">
               <Button
                 variant="outlined"
-                color="warning"
+                color="info"
                 size="small"
                 onClick={onClick}
               >
                 View / Edit
               </Button>
             </Box>
-            <Box>
+            <Box marginRight="10px">
               <Button
                 variant="outlined"
                 color="warning"
@@ -170,6 +191,16 @@ const Team = () => {
                 onClick={onClickTax}
               >
                 Tax
+              </Button>
+            </Box>
+            <Box>
+              <Button
+                variant="outlined"
+                color="error"
+                size="small"
+                onClick={onDelete}
+              >
+                Delete
               </Button>
             </Box>
           </Box>
@@ -183,7 +214,7 @@ const Team = () => {
   } else {
     return (
       <Box m="20px">
-        <Header title="Users" subtitle="Manage Users" />
+        <Header title="Customers" subtitle="Manage Customers" />
         <Box
           m="40px 0 0 0"
           height="75vh"
@@ -225,7 +256,7 @@ const Team = () => {
               variant="contained"
               onClick={handleClickOpen}
             >
-              Add User
+              Add
             </Button>
             <Dialog
               fullScreen
@@ -248,16 +279,11 @@ const Team = () => {
                     variant="h6"
                     component="div"
                   >
-                    {!id ? "Add User" : firstName && `${firstName}'s Details`}
+                    {!id ? "Add Customer" : title}
                   </Typography>
                 </Toolbar>
               </AppBar>
-              <Form
-                id={id}
-                firstName={firstName}
-                onAdd={setId}
-                setOpen={setOpen}
-              />
+              <Form id={id} name={title} onAdd={setId} setOpen={setOpen} />
             </Dialog>
             <Dialog
               fullScreen
@@ -280,16 +306,44 @@ const Team = () => {
                     variant="h6"
                     component="div"
                   >
-                    {!id ? "Add User" : firstName && `${firstName}'s Details`}
+                    {!id ? "Add Customer" : title}
                   </Typography>
                 </Toolbar>
               </AppBar>
               <Tax
                 id={id}
-                firstName={firstName}
+                name={title}
                 onAdd={setId}
                 setOpen={setOpenTaxDialog}
               />
+            </Dialog>
+            <Dialog
+              open={openDeleteConfirmationDialog}
+              TransitionComponent={Transition}
+              keepMounted
+              onClose={handleCloseDeleteConfirmationDialog}
+              aria-describedby="alert-dialog-slide-description"
+            >
+              <DialogTitle>{"Confirm Deletion"}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-slide-description">
+                  Do you really want to delete the following record?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={handleCloseDeleteConfirmationDialog}
+                  color="secondary"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleCloseDeleteConfirmationDialog}
+                  color="error"
+                >
+                  Confirm
+                </Button>
+              </DialogActions>
             </Dialog>
           </Box>
           <DataGrid rows={rows} columns={columns} getRowId={(row) => row.id} />
@@ -299,4 +353,4 @@ const Team = () => {
   }
 };
 
-export default Team;
+export default Customers;

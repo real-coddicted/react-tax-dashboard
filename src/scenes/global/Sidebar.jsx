@@ -35,7 +35,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -133,8 +133,8 @@ const Sidebar = () => {
               Data
             </Typography>
             <Item
-              title="Users"
-              to="/team"
+              title="Customers"
+              to="/customers"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

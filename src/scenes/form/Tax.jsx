@@ -10,7 +10,6 @@ import MCA from "./MCA";
 import PF from "./PF";
 import ESIC from "./ESIC";
 import TDS from "./TDS";
-import Profile from "./Profile";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -62,7 +61,6 @@ export default function Tax(props) {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          {/* <Tab label="Profile" {...a11yProps(0)} /> */}
           <Tab label="Income Tax" {...a11yProps(0)} />
           <Tab label="GST" {...a11yProps(1)} />
           <Tab label="MCA" {...a11yProps(2)} />
@@ -71,9 +69,6 @@ export default function Tax(props) {
           <Tab label="TDS" {...a11yProps(5)} />
         </Tabs>
       </Box>
-      {/* <CustomTabPanel value={value} index={0}>
-        <Profile id={props.id} onAdd={props.onAdd} />
-      </CustomTabPanel> */}
       <CustomTabPanel value={value} index={0}>
         <IncomeTax id={props.id} />
       </CustomTabPanel>
