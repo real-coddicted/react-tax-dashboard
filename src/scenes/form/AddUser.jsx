@@ -83,7 +83,7 @@ export const initialState = {
     pinCode: "",
   },
   //--
-  participantDetails: [],
+  persons: [],
 };
 
 export default function AddUser(props) {

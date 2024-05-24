@@ -18,11 +18,14 @@ function EditToolbar(props) {
   const { setRows, setRowModesModel, state } = props;
 
   const handleClick = () => {
-    const id = state.participantDetails.length + 1;
-    setRows((oldRows) => [...oldRows, { id, name: "", isNew: true }]);
-    state.participantDetails = [
-      ...state.participantDetails,
-      { id, name: "", isNew: true },
+    const id = state.persons.length + 1;
+    setRows((oldRows) => [
+      ...oldRows,
+      { id, name: "", address: {}, isNew: true },
+    ]);
+    state.persons = [
+      ...state.persons,
+      { id, name: "", address: {}, isNew: true },
     ];
     setRowModesModel((oldModel) => ({
       ...oldModel,
@@ -40,7 +43,7 @@ function EditToolbar(props) {
 }
 
 export default function ParticipantDetails({ state, dispatch }) {
-  const [rows, setRows] = React.useState(state.participantDetails);
+  const [rows, setRows] = React.useState(state.persons);
   const [rowModesModel, setRowModesModel] = React.useState({});
 
   const handleRowEditStop = (params, event) => {
@@ -59,9 +62,7 @@ export default function ParticipantDetails({ state, dispatch }) {
 
   const handleDeleteClick = (id) => () => {
     setRows(rows.filter((row) => row.id !== id));
-    state.participantDetails = state.participantDetails.filter(
-      (row) => row.id !== id
-    );
+    state.persons = state.persons.filter((row) => row.id !== id);
   };
 
   const handleCancelClick = (id) => () => {
@@ -73,16 +74,14 @@ export default function ParticipantDetails({ state, dispatch }) {
     const editedRow = rows.find((row) => row.id === id);
     if (editedRow.isNew) {
       setRows(rows.filter((row) => row.id !== id));
-      state.participantDetails = state.participantDetails.filter(
-        (row) => row.id !== id
-      );
+      state.persons = state.persons.filter((row) => row.id !== id);
     }
   };
 
   const processRowUpdate = (newRow, oldRow) => {
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    state.participantDetails = state.participantDetails.map((row) =>
+    state.persons = state.persons.map((row) =>
       row.id === newRow.id ? updatedRow : row
     );
     return updatedRow;
@@ -141,25 +140,25 @@ export default function ParticipantDetails({ state, dispatch }) {
     },
     { field: "name", headerName: "Name", width: 180, editable: true },
     {
-      field: "panId",
+      field: "panNumber",
       headerName: "PAN",
       width: 120,
       editable: true,
     },
     {
-      field: "aadharId",
+      field: "aadharNumber",
       headerName: "Aadhar",
       width: 120,
       editable: true,
     },
     {
-      field: "dinId",
+      field: "dinDpin",
       headerName: "DIN/DPIN",
       width: 120,
       editable: true,
     },
     {
-      field: "profitSharingPercentage",
+      field: "shareholdingPercent",
       headerName: "Shareholding/Partcipants profit sharing percentage",
       width: 120,
       editable: true,
@@ -181,30 +180,65 @@ export default function ParticipantDetails({ state, dispatch }) {
       headerName: "Address Line 1",
       width: 180,
       editable: true,
+      valueGetter: (value, row) =>
+        row.address !== null ? row.address.addressLine1 : "",
+      valueSetter: (value, row) => {
+        var oldAddress = row.address;
+        oldAddress = { ...oldAddress, addressLine1: value };
+        return { ...row, address: oldAddress };
+      },
     },
     {
       field: "city",
       headerName: "City",
       width: 120,
       editable: true,
+      valueGetter: (value, row) =>
+        row.address !== null ? row.address.city : "",
+      valueSetter: (value, row) => {
+        var oldAddress = row.address;
+        oldAddress = { ...oldAddress, city: value };
+        return { ...row, address: oldAddress };
+      },
     },
     {
       field: "state",
       headerName: "State",
       width: 120,
       editable: true,
+      valueGetter: (value, row) =>
+        row.address !== null ? row.address.state : "",
+      valueSetter: (value, row) => {
+        var oldAddress = row.address;
+        oldAddress = { ...oldAddress, state: value };
+        return { ...row, address: oldAddress };
+      },
     },
     {
       field: "country",
       headerName: "Country",
       width: 120,
       editable: true,
+      valueGetter: (value, row) =>
+        row.address !== null ? row.address.country : "",
+      valueSetter: (value, row) => {
+        var oldAddress = row.address;
+        oldAddress = { ...oldAddress, country: value };
+        return { ...row, address: oldAddress };
+      },
     },
     {
-      field: "pinCode",
+      field: "address.pinCode",
       headerName: "Pin Code",
       width: 120,
       editable: true,
+      valueGetter: (value, row) =>
+        row.address !== null ? row.address.pinCode : "",
+      valueSetter: (value, row) => {
+        var oldAddress = row.address;
+        oldAddress = { ...oldAddress, pinCode: value };
+        return { ...row, address: oldAddress };
+      },
     },
   ];
 
