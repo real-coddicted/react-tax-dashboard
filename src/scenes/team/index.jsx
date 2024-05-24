@@ -94,12 +94,11 @@ const Team = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "ID" },
+    { field: "id", headerName: "ID", flex: 1 },
     {
       field: "category",
       headerName: "Category",
       flex: 1,
-      cellClassName: "name-column--cell",
     },
     {
       field: "fullName",
@@ -109,6 +108,7 @@ const Team = () => {
           return `${row.firstName || ""} ${row.lastName || ""}`;
         else return `${row.companyName}`;
       },
+      flex: 1,
     },
     // {
     //   field: "lastName",
@@ -151,23 +151,27 @@ const Team = () => {
         };
 
         return (
-          <Box display="flex" margin="5px">
-            <Button
-              variant="outlined"
-              color="warning"
-              size="small"
-              onClick={onClick}
-            >
-              View / Edit
-            </Button>
-            <Button
-              variant="outlined"
-              color="warning"
-              size="small"
-              onClick={onClickTax}
-            >
-              Tax
-            </Button>
+          <Box display="flex">
+            <Box marginRight="10px">
+              <Button
+                variant="outlined"
+                color="warning"
+                size="small"
+                onClick={onClick}
+              >
+                View / Edit
+              </Button>
+            </Box>
+            <Box>
+              <Button
+                variant="outlined"
+                color="warning"
+                size="small"
+                onClick={onClickTax}
+              >
+                Tax
+              </Button>
+            </Box>
           </Box>
         );
       },
