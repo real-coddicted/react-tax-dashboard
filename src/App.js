@@ -3,7 +3,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
-import Team from "./scenes/team";
+import Customers from "./scenes/customers";
 import Contacts from "./scenes/contacts";
 import Form from "./scenes/form";
 import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -42,10 +42,10 @@ function App() {
                 }
               />
               <Route
-                path="/team"
+                path="/customers"
                 element={
                   <PrivateRoute>
-                    <Team />
+                    <Customers />
                   </PrivateRoute>
                 }
               />

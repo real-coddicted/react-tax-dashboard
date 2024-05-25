@@ -1,16 +1,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import IncomeTax from "./IncomeTax";
-import GST from "./GST";
-import MCA from "./MCA";
-import PF from "./PF";
-import ESIC from "./ESIC";
-import TDS from "./TDS";
-import Profile from "./Profile";
 import AddUser from "./AddUser";
 
 function CustomTabPanel(props) {
@@ -39,61 +30,10 @@ CustomTabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
 export default function Form(props) {
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
   return (
     <Box sx={{ width: "100%" }}>
-      <AddUser />
-      {/* <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          textColor="secondary"
-          indicatorColor="secondary"
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
-          <Tab label="Profile" {...a11yProps(0)} />
-          <Tab label="Income Tax" {...a11yProps(1)} />
-          <Tab label="GST" {...a11yProps(2)} />
-          <Tab label="MCA" {...a11yProps(3)} />
-          <Tab label="PF" {...a11yProps(4)} />
-          <Tab label="ESIC" {...a11yProps(5)} />
-          <Tab label="TDS" {...a11yProps(6)} />
-        </Tabs>
-      </Box>
-      <CustomTabPanel value={value} index={0}>
-        <Profile id={props.id} onAdd={props.onAdd} />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        <IncomeTax id={props.id} />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        <GST id={props.id} />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={3}>
-        <MCA id={props.id} />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={4}>
-        <PF id={props.id} />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={5}>
-        <ESIC id={props.id} />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={6}>
-        <TDS id={props.id} />
-      </CustomTabPanel> */}
+      <AddUser id={props.id} setOpen={props.setOpen} />
     </Box>
   );
 }

@@ -31,7 +31,7 @@ const IncomeTax = (props) => {
   const [fatherName, setFatherName] = React.useState("");
   const [address, setAddress] = React.useState("");
   const [isCoveredUnderAudit, setIsCoveredUnderAudit] = React.useState(false);
-  const [mobileNumber, setMobileNumber] = React.useState("");
+  const [contactNumber, setcontactNumber] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [status, setStatus] = React.useState();
@@ -50,7 +50,7 @@ const IncomeTax = (props) => {
       setFatherName(incomeTaxDetails["fatherName"]);
       setIsCoveredUnderAudit(incomeTaxDetails["isCoveredUnderAudit"]);
       setAddress(incomeTaxDetails["address"]);
-      setMobileNumber(incomeTaxDetails["mobileNumber"]);
+      setcontactNumber(incomeTaxDetails["contactNumber"]);
       setEmail(incomeTaxDetails["email"]);
       setPassword(incomeTaxDetails["password"]);
       setStatus(incomeTaxDetails["status"]);
@@ -60,11 +60,11 @@ const IncomeTax = (props) => {
   }
 
   React.useEffect(() => {
-    console.log("incomeTax: " + id);
+    console.log("incomeTax: " + ownerRef);
     if (ownerRef) {
       // get user and set form fields
-      getIncomeTaxRecordByOwnerRefId(ownerRef).then((incomeTaxDetails) => {
-        setIncomeTaxDetails(incomeTaxDetails);
+      getIncomeTaxRecordByOwnerRefId(ownerRef).then((res) => {
+        if (res && res.data) setIncomeTaxDetails(res.data[0]);
       });
     }
   }, []);
@@ -81,15 +81,17 @@ const IncomeTax = (props) => {
         fatherName: fatherName,
         isCoveredUnderAudit: isCoveredUnderAudit,
         address: address,
-        mobileNumber: mobileNumber,
+        contactNumber: contactNumber,
         email: email,
         password: password,
         status: status,
       };
-      createIncomeTaxRecord(incomeTaxRecord).then((incomeTaxRecord) => {
-        setIncomeTaxDetails(incomeTaxRecord);
-        setMessage("Income Tax Record created successfully");
-        setOpenSnackbar(true);
+      createIncomeTaxRecord(incomeTaxRecord).then((res) => {
+        if (res && res.data) {
+          setIncomeTaxDetails(res.data);
+          setMessage("Income Tax Record created successfully");
+          setOpenSnackbar(true);
+        }
       });
     } else {
       let incomeTaxRecord = {
@@ -101,15 +103,17 @@ const IncomeTax = (props) => {
         fatherName: fatherName,
         isCoveredUnderAudit: isCoveredUnderAudit,
         address: address,
-        mobileNumber: mobileNumber,
+        contactNumber: contactNumber,
         email: email,
         password: password,
         status: status,
       };
-      updateIncomeTaxRecord(incomeTaxRecord).then((incomeTaxRecord) => {
-        setIncomeTaxDetails(incomeTaxRecord);
-        setMessage("Income Tax Record updated successfully");
-        setOpenSnackbar(true);
+      updateIncomeTaxRecord(incomeTaxRecord).then((res) => {
+        if (res && res.data) {
+          setIncomeTaxDetails(incomeTaxRecord);
+          setMessage("Income Tax Record updated successfully");
+          setOpenSnackbar(true);
+        }
       });
     }
   };
@@ -248,8 +252,8 @@ const IncomeTax = (props) => {
           type="text"
           label="Contact Number"
           name="contact"
-          value={mobileNumber}
-          onChange={(event) => setMobileNumber(event.target.value)}
+          value={contactNumber}
+          onChange={(event) => setcontactNumber(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
         <TextField

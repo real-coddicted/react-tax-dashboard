@@ -12,7 +12,6 @@ import StatBox from "../../components/StatBox";
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  console.log(localStorage.getItem("authenticated"));
   // return <p>Dashboard</p>;
   return (
     <Box m="20px">

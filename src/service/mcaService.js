@@ -1,24 +1,31 @@
 import axios from "axios";
 
-export async function getMCARecordByOwnerRefId(id) {
-  const response = await axios.get(
-    `http://localhost:8002/api/mca/getByOwnerRefId/${id}`
-  );
-  return response.data[0];
+export function getMCARecordByOwnerRefId(id) {
+  const response = axios
+    .get(`http://192.168.1.44:8002/api/mca/getByOwnerRefId/${id}`)
+    .catch((error) => {
+      console.log(error);
+      return undefined;
+    });
+  return response;
 }
 
-export async function createMCARecord(mcaDetails) {
-  const response = await axios.post(
-    "http://localhost:8002/api/mca/add",
-    mcaDetails
-  );
-  return response.data;
+export function createMCARecord(mcaDetails) {
+  const response = axios
+    .post("http://192.168.1.44:8002/api/mca/add", mcaDetails)
+    .catch((error) => {
+      console.log(error);
+      return undefined;
+    });
+  return response;
 }
 
-export async function updateMCARecord(mcaDetails) {
-  const response = await axios.put(
-    `http://localhost:8002/api/mca/update/${mcaDetails.id}`,
-    mcaDetails
-  );
-  return response.data;
+export function updateMCARecord(mcaDetails) {
+  const response = axios
+    .put(`http://192.168.1.44:8002/api/mca/update/${mcaDetails.id}`, mcaDetails)
+    .catch((error) => {
+      console.log(error);
+      return undefined;
+    });
+  return response;
 }

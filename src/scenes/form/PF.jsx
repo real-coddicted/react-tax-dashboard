@@ -34,7 +34,7 @@ const PF = (props) => {
   // );
   const [authorizedSignatory, setAuthorizedSignatory] = React.useState();
 
-  const [mobileNumber, setMobileNumber] = React.useState("");
+  const [contactNumber, setcontactNumber] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -55,7 +55,7 @@ const PF = (props) => {
       setPanNumber(pfDetails["panNumber"]);
       // setDateOfRegistration(pfDetails["dateOfRegistration"]);
       setAuthorizedSignatory(pfDetails["authorizedSignatory"]);
-      setMobileNumber(pfDetails["mobileNumber"]);
+      setcontactNumber(pfDetails["contactNumber"]);
       setEmail(pfDetails["email"]);
       setPassword(pfDetails["password"]);
       setStatus(pfDetails["status"]);
@@ -87,15 +87,17 @@ const PF = (props) => {
         panNumber: panNumber,
         // dateOfRegistration: dateOfRegistration,
         authorizedSignatory: authorizedSignatory,
-        mobileNumber: mobileNumber,
+        contactNumber: contactNumber,
         email: email,
         password: password,
         status: status,
       };
-      createPFRecord(pfRecord).then((pfRecord) => {
-        setPFDetails(pfRecord);
-        setMessage("PF Record created successfully");
-        setOpenSnackbar(true);
+      createPFRecord(pfRecord).then((res) => {
+        if (res && res.data) {
+          setPFDetails(res.data);
+          setMessage("PF Record created successfully");
+          setOpenSnackbar(true);
+        }
       });
     } else {
       let pfRecord = {
@@ -107,15 +109,17 @@ const PF = (props) => {
         panNumber: panNumber,
         // dateOfRegistration: dateOfRegistration,
         authorizedSignatory: authorizedSignatory,
-        mobileNumber: mobileNumber,
+        contactNumber: contactNumber,
         email: email,
         password: password,
         status: status,
       };
-      updatePFRecord(pfRecord).then((pfRecord) => {
-        setPFDetails(pfRecord);
-        setMessage("PF Record updated successfully");
-        setOpenSnackbar(true);
+      updatePFRecord(pfRecord).then((res) => {
+        if (res && res.data) {
+          setPFDetails(pfRecord);
+          setMessage("PF Record updated successfully");
+          setOpenSnackbar(true);
+        }
       });
     }
   };
@@ -249,8 +253,8 @@ const PF = (props) => {
           type="text"
           label="Contact Number"
           name="contact"
-          value={mobileNumber}
-          onChange={(event) => setMobileNumber(event.target.value)}
+          value={contactNumber}
+          onChange={(event) => setcontactNumber(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
         <TextField

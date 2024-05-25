@@ -12,11 +12,13 @@ const AuthProvider = ({ children }) => {
 
   const login = (user) => {
     setIsLoggedIn(true);
+    localStorage.setItem("user", JSON.stringify(user));
     setUser(user);
   };
 
   const logout = () => {
     setIsLoggedIn(false);
+    localStorage.removeItem("user");
     setUser(null);
   };
 

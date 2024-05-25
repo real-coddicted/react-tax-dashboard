@@ -1,24 +1,34 @@
 import axios from "axios";
 
-export async function getESICRecordByOwnerRefId(id) {
-  const response = await axios.get(
-    `http://localhost:8002/api/esic/getByOwnerRefId/${id}`
-  );
-  return response.data[0];
+export function getESICRecordByOwnerRefId(id) {
+  const response = axios
+    .get(`http://192.168.1.44:8002/api/esic/getByOwnerRefId/${id}`)
+    .catch((error) => {
+      console.log(error);
+      return undefined;
+    });
+  return response;
 }
 
-export async function createESICRecord(esicDetails) {
-  const response = await axios.post(
-    "http://localhost:8002/api/esic/add",
-    esicDetails
-  );
-  return response.data;
+export function createESICRecord(esicDetails) {
+  const response = axios
+    .post("http://192.168.1.44:8002/api/esic/add", esicDetails)
+    .catch((error) => {
+      console.log(error);
+      return undefined;
+    });
+  return response;
 }
 
-export async function updateESICRecord(esicDetails) {
-  const response = await axios.put(
-    `http://localhost:8002/api/esic/update/${esicDetails.id}`,
-    esicDetails
-  );
-  return response.data;
+export function updateESICRecord(esicDetails) {
+  const response = axios
+    .put(
+      `http://192.168.1.44:8002/api/esic/update/${esicDetails.id}`,
+      esicDetails
+    )
+    .catch((error) => {
+      console.log(error);
+      return undefined;
+    });
+  return response;
 }

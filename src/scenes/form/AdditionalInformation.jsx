@@ -2,26 +2,13 @@ import { Box } from "@mui/material";
 import React from "react";
 import Divider from "@mui/material/Divider";
 import InstitutionSpecificFields from "./InstitutionSpecificFields";
-import AssociationSpecificFields from "./AssociationSpecificFields";
 import LocalAuthoritySpecificFields from "./LocalAuthoritySpecificFields";
-import PartnershipSpecificFields from "./PartnershipSpecificFields";
 import ParticipantDetails from "./ParticipantDetails";
 
-const AdditionalInformation = (props) => {
-  const getCustomerType = () => {
-    const newCustomerString = localStorage.getItem("newCustomer");
-    const newCustomer = JSON.parse(newCustomerString);
-
-    if (newCustomer) {
-      return newCustomer["customerType"];
-    }
-    return "UNKNOWN";
-  };
-
+const AdditionalInformation = ({ state, dispatch }) => {
   const getElement = () => {
-    const customerType = getCustomerType();
-    console.log("entity information customerType: " + customerType);
-    switch (customerType) {
+    const category = state.category;
+    switch (category) {
       case "INDIVIDUAL":
         return <h3>No Additional Information is required.</h3>;
       case "HUF":
@@ -30,29 +17,27 @@ const AdditionalInformation = (props) => {
       case "BOI":
         return (
           <Box m="20px">
-            <AssociationSpecificFields />
-            <Divider />
-            <ParticipantDetails />
+            <ParticipantDetails state={state} dispatch={dispatch} />
           </Box>
         );
       case "LOCAL_AUTHORITY":
-        return <LocalAuthoritySpecificFields />;
+        return (
+          <LocalAuthoritySpecificFields state={state} dispatch={dispatch} />
+        );
       case "PARTNERSHIP_FIRM":
       case "LLP":
       case "COMPANY":
         return (
           <Box m="20px">
-            <PartnershipSpecificFields />
-            <Divider />
-            <ParticipantDetails />
+            <ParticipantDetails state={state} dispatch={dispatch} />
           </Box>
         );
       default:
         return (
           <Box m="20px">
-            <InstitutionSpecificFields />
+            <InstitutionSpecificFields state={state} dispatch={dispatch} />
             <Divider />
-            <ParticipantDetails />
+            <ParticipantDetails state={state} dispatch={dispatch} />
           </Box>
         );
     }

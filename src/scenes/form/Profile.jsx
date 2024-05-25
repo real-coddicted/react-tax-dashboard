@@ -16,7 +16,7 @@ const Profile = (props) => {
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
-  const [mobileNumber, setMobileNumber] = React.useState("");
+  const [contactNumber, setcontactNumber] = React.useState("");
   const [panId, setPanId] = React.useState("");
   const [aadharId, setAadharId] = React.useState("");
   const [address1, setAddress1] = React.useState("");
@@ -30,7 +30,7 @@ const Profile = (props) => {
     setFirstName(user["firstName"]);
     setLastName(user["lastName"]);
     setEmail(user["email"]);
-    setMobileNumber(user["mobileNumber"]);
+    setcontactNumber(user["contactNumber"]);
     setPanId(user["panId"]);
     setAadharId(user["aadharId"]);
     setAddress1(user["address1"]);
@@ -54,7 +54,7 @@ const Profile = (props) => {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        mobileNumber: mobileNumber,
+        contactNumber: contactNumber,
         panId: panId,
         aadharId: aadharId,
         address1: address1,
@@ -72,7 +72,7 @@ const Profile = (props) => {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        mobileNumber: mobileNumber,
+        contactNumber: contactNumber,
         panId: panId,
         aadharId: aadharId,
         address1: address1,
@@ -204,8 +204,8 @@ const Profile = (props) => {
           fullWidth
           variant="filled"
           type="text"
-          value={mobileNumber}
-          onChange={(event) => setMobileNumber(event.target.value)}
+          value={contactNumber}
+          onChange={(event) => setcontactNumber(event.target.value)}
           label="Contact Number"
           name="contact"
           sx={{ gridColumn: "span 4" }}
