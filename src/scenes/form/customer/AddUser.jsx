@@ -13,7 +13,7 @@ import {
   createCustomer,
   getCustomerById,
   updateCustomer,
-} from "../../service/customerService";
+} from "../../../service/customerService";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";

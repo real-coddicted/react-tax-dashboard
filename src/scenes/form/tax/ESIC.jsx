@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Header from "../../components/Header";
+import Header from "../../../components/Header";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -10,7 +10,7 @@ import {
   getESICRecordByOwnerRefId,
   createESICRecord,
   updateESICRecord,
-} from "../../service/esicService";
+} from "../../../service/esicService";
 import Snackbar, { snackbarClasses } from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";

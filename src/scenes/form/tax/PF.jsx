@@ -1,21 +1,16 @@
 import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Header from "../../components/Header";
+import Header from "../../../components/Header";
 // import { DatePicker } from "@mui/x-date-pickers";
 import React from "react";
 // import dayjs from "dayjs";
 // import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 // import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-
 import {
-  getMCARecordByOwnerRefId,
-  createMCARecord,
-  updateMCARecord,
-} from "../../service/mcaService";
+  getPFRecordByOwnerRefId,
+  createPFRecord,
+  updatePFRecord,
+} from "../../../service/pfService";
 import Snackbar, { snackbarClasses } from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -23,24 +18,26 @@ import CloseIcon from "@mui/icons-material/Close";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
-const MCA = (props) => {
+const PF = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [id, setId] = React.useState("");
   const [ownerRef, setOwnerRef] = React.useState(props.id);
   const [companyName, setCompanyName] = React.useState("");
-  const [companyType, setCompanyType] = React.useState();
-  const [cin, setCin] = React.useState("");
+  const [isCoveredUnderAudit, setIsCoveredUnderAudit] = React.useState(false);
+  const [esicRegistrationNumber, setEsicRegistrationNumber] = React.useState();
   const [panNumber, setPanNumber] = React.useState("");
-  // const [dateOfInit, setDateOfInit] = React.useState(dayjs("2022-04-17"));
-  const [countOfDirector, setCountOfDirector] = React.useState();
+  // const [dateOfRegistration, setDateOfRegistration] = React.useState(
+  //   dayjs("2022-04-17")
+  // );
+  const [authorizedSignatory, setAuthorizedSignatory] = React.useState();
 
-  const [address, setAddress] = React.useState("");
   const [contactNumber, setcontactNumber] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [isCoveredUnderAudit, setIsCoveredUnderAudit] = React.useState(false);
+
   const [status, setStatus] = React.useState();
 
   const [createdDateTime, setCreatedDateTime] = React.useState("");
@@ -48,37 +45,31 @@ const MCA = (props) => {
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
   //----
-  function setMCADetails(mcaDetails) {
-    if (mcaDetails) {
-      setId(mcaDetails["id"]);
+  function setPFDetails(pfDetails) {
+    if (pfDetails) {
+      setId(pfDetails["id"]);
       // setOwnerRef(gstDetails["ownerRef"]);
-      setCompanyName(mcaDetails["companyName"]);
-      setCompanyType(mcaDetails["companyType"]);
-      setCin(mcaDetails["cin"]);
-      setPanNumber(mcaDetails["panNumber"]);
-      // setDateOfInit(mcaDetails["dateOfInit"]);
-      setCountOfDirector(mcaDetails["countOfDirector"]);
-      setAddress(mcaDetails["address"]);
-      setcontactNumber(mcaDetails["contactNumber"]);
-      setEmail(mcaDetails["email"]);
-      setPassword(mcaDetails["password"]);
-      setIsCoveredUnderAudit(mcaDetails["isCoveredUnderAudit"]);
-      setStatus(mcaDetails["status"]);
-      setCreatedDateTime(mcaDetails["createdDateTime"]);
-      setModifiedDateTime(mcaDetails["modifiedDateTime"]);
+      setCompanyName(pfDetails["companyName"]);
+      setIsCoveredUnderAudit(pfDetails["isCoveredUnderAudit"]);
+      setEsicRegistrationNumber(pfDetails["esicRegistrationNumber"]);
+      setPanNumber(pfDetails["panNumber"]);
+      // setDateOfRegistration(pfDetails["dateOfRegistration"]);
+      setAuthorizedSignatory(pfDetails["authorizedSignatory"]);
+      setcontactNumber(pfDetails["contactNumber"]);
+      setEmail(pfDetails["email"]);
+      setPassword(pfDetails["password"]);
+      setStatus(pfDetails["status"]);
+      setCreatedDateTime(pfDetails["createdDateTime"]);
+      setModifiedDateTime(pfDetails["modifiedDateTime"]);
     }
   }
 
-  const handleTypeOfEntityChange = (event) => {
-    setCompanyType(event.target.value);
-  };
-
   React.useEffect(() => {
-    console.log(id);
+    console.log(ownerRef);
     if (ownerRef) {
       // get user and set form fields
-      getMCARecordByOwnerRefId(ownerRef).then((mcaDetails) => {
-        setMCADetails(mcaDetails);
+      getPFRecordByOwnerRefId(ownerRef).then((pfDetails) => {
+        setPFDetails(pfDetails);
       });
     }
   }, []);
@@ -88,49 +79,45 @@ const MCA = (props) => {
     e.preventDefault();
     console.log("onsubmit");
     if (!id) {
-      let mcaRecord = {
+      let pfRecord = {
         ownerRef: ownerRef,
         companyName: companyName,
-        companyType: companyType,
-        cin: cin,
+        coveredUnderAudit: isCoveredUnderAudit,
+        esicRegistrationNumber: esicRegistrationNumber,
         panNumber: panNumber,
-        // dateOfInit: dateOfInit,
-        countOfDirector: countOfDirector,
-        address: address,
+        // dateOfRegistration: dateOfRegistration,
+        authorizedSignatory: authorizedSignatory,
         contactNumber: contactNumber,
         email: email,
         password: password,
-        coveredUnderAudit: isCoveredUnderAudit,
         status: status,
       };
-      createMCARecord(mcaRecord).then((res) => {
+      createPFRecord(pfRecord).then((res) => {
         if (res && res.data) {
-          setMCADetails(res.data);
-          setMessage("MCA Record created successfully");
+          setPFDetails(res.data);
+          setMessage("PF Record created successfully");
           setOpenSnackbar(true);
         }
       });
     } else {
-      let mcaRecord = {
+      let pfRecord = {
         id: id,
         ownerRef: ownerRef,
         companyName: companyName,
-        companyType: companyType,
-        cin: cin,
+        coveredUnderAudit: isCoveredUnderAudit,
+        esicRegistrationNumber: esicRegistrationNumber,
         panNumber: panNumber,
-        // dateOfInit: dateOfInit,
-        countOfDirector: countOfDirector,
-        address: address,
+        // dateOfRegistration: dateOfRegistration,
+        authorizedSignatory: authorizedSignatory,
         contactNumber: contactNumber,
         email: email,
         password: password,
-        coveredUnderAudit: isCoveredUnderAudit,
         status: status,
       };
-      updateMCARecord(mcaRecord).then((res) => {
+      updatePFRecord(pfRecord).then((res) => {
         if (res && res.data) {
-          setMCADetails(res.data);
-          setMessage("MCA Record updated successfully");
+          setPFDetails(pfRecord);
+          setMessage("PF Record updated successfully");
           setOpenSnackbar(true);
         }
       });
@@ -161,7 +148,6 @@ const MCA = (props) => {
   const handleCoveredUnderAuditChange = (event) => {
     setIsCoveredUnderAudit(event.target.value);
   };
-
   //----
 
   return (
@@ -171,7 +157,7 @@ const MCA = (props) => {
         gridTemplateColumns="repeat(4, minmax(0, 1fr))"
         sx={{ "& > div": { gridColumn: isNonMobile ? undefined : "span 4" } }}
       >
-        <Header title="MCA" subtitle="Details" />
+        <Header title="PF" subtitle="Details" />
         <Box
           sx={{ gridColumn: "span 3" }}
           height="35px"
@@ -201,80 +187,65 @@ const MCA = (props) => {
           fullWidth
           variant="filled"
           type="text"
-          label="Company/LLP Name"
-          name="companyName"
+          label="Firm Name"
+          name="firmName"
           value={companyName}
           onChange={(event) => setCompanyName(event.target.value)}
-          sx={{ gridColumn: "span 4" }}
+          sx={{ gridColumn: "span 2" }}
         />
-        <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
-          <InputLabel id="typeOfEntityLabel" textColor="secondary">
-            Type of Entity
-          </InputLabel>
-          <Select
-            labelId="typeOfEntitySelectLabel"
-            id="typeOfEntitySelect"
-            value={companyType}
-            onChange={handleTypeOfEntityChange}
+        <TextField
+          fullWidth
+          variant="filled"
+          type="text"
+          label="ESIC REGISTRATION  NO"
+          name="esicRegistrationNo"
+          value={esicRegistrationNumber}
+          onChange={(event) => setEsicRegistrationNumber(event.target.value)}
+          sx={{ gridColumn: "span 2" }}
+        />
+        <FormControl sx={{ gridColumn: "span 4" }}>
+          <FormLabel id="coveredUnderAuditRadioGroupLabel">
+            Covered Under Audit
+          </FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="coveredUnderAuditRadioGroupLabel"
+            name="coveredUnderAuditRadioGroup"
+            value={isCoveredUnderAudit}
+            onChange={handleCoveredUnderAuditChange}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value="LIMITED_LIABILITY_PARTNERSHIP">
-              Limited Liability Partnership
-            </MenuItem>
-            <MenuItem value="COMPANY">Company</MenuItem>
-          </Select>
+            <FormControlLabel value="true" control={<Radio />} label="Yes" />
+            <FormControlLabel value="false" control={<Radio />} label="No" />
+          </RadioGroup>
         </FormControl>
         <TextField
           fullWidth
           variant="filled"
           type="text"
-          label="CIN/LLPIN"
-          name="cin"
-          value={cin}
-          onChange={(event) => setCin(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="PAN"
+          label="Pan No"
           name="pan"
           value={panNumber}
           onChange={(event) => setPanNumber(event.target.value)}
           sx={{ gridColumn: "span 2" }}
         />
+        <TextField
+          fullWidth
+          variant="filled"
+          type="text"
+          label="AUTHO SIGN"
+          name="authoSign"
+          value={authorizedSignatory}
+          onChange={(event) => setAuthorizedSignatory(event.target.value)}
+          sx={{ gridColumn: "span 2" }}
+        />
         {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            label="DOI"
-            value={dateOfInit}
-            onChange={(newValue) => setDateOfInit(newValue)}
+            label="DOR"
+            value={dateOfRegistration}
+            onChange={(newValue) => setDateOfRegistration(newValue)}
             sx={{ gridColumn: "span 2" }}
           />
         </LocalizationProvider> */}
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="No. Of Directors"
-          name="numberOfdirectors"
-          value={countOfDirector}
-          onChange={(event) => setCountOfDirector(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
-        <TextField
-          required
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Email"
-          name="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          sx={{ gridColumn: "span 4" }}
-        />
         <TextField
           required
           fullWidth
@@ -292,8 +263,6 @@ const MCA = (props) => {
           type="text"
           label="Address 1"
           name="address1"
-          value={address}
-          onChange={(event) => setAddress(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
         <TextField
@@ -302,6 +271,17 @@ const MCA = (props) => {
           type="text"
           label="Address 2"
           name="address2"
+          sx={{ gridColumn: "span 4" }}
+        />
+        <TextField
+          required
+          fullWidth
+          variant="filled"
+          type="text"
+          label="Email"
+          name="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
         <TextField
@@ -314,21 +294,6 @@ const MCA = (props) => {
           onChange={(event) => setPassword(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
-        <FormControl sx={{ gridColumn: "span 4" }}>
-          <FormLabel id="coveredUnderAuditRadioGroupLabel">
-            Covered Under Audit
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="coveredUnderAuditRadioGroupLabel"
-            name="coveredUnderAuditRadioGroup"
-            value={isCoveredUnderAudit}
-            onChange={handleCoveredUnderAuditChange}
-          >
-            <FormControlLabel value="true" control={<Radio />} label="Yes" />
-            <FormControlLabel value="false" control={<Radio />} label="No" />
-          </RadioGroup>
-        </FormControl>
       </Box>
       <Snackbar
         open={openSnackbar}
@@ -342,4 +307,4 @@ const MCA = (props) => {
   );
 };
 
-export default MCA;
+export default PF;

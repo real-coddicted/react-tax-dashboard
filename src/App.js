@@ -5,7 +5,7 @@ import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 import Customers from "./scenes/customers";
 import Contacts from "./scenes/contacts";
-import Form from "./scenes/form";
+import Form from "./scenes/form/customer";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import LoginForm from "./scenes/global/LoginForm";

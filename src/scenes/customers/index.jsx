@@ -3,24 +3,28 @@ import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import * as React from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import Slide from "@mui/material/Slide";
-import Form from "../form";
-import Tax from "../form/Tax";
+// import Dialog from "@mui/material/Dialog";
+// import DialogActions from "@mui/material/DialogActions";
+// import DialogContentText from "@mui/material/DialogContentText";
+// import DialogTitle from "@mui/material/DialogTitle";
+// import DialogContent from "@mui/material/DialogContent";
+// import AppBar from "@mui/material/AppBar";
+// import Toolbar from "@mui/material/Toolbar";
+// import IconButton from "@mui/material/IconButton";
+// import CloseIcon from "@mui/icons-material/Close";
+// import Slide from "@mui/material/Slide";
+// import Form from "../form";
+// import Tax from "../form/Tax";
 import { getCustomers } from "../../service/customerService";
 import { Navigate } from "react-router-dom";
+import { CustomerGridToolBar } from "./CustomerGridToolBar";
+import { TaxDialog } from "./TaxDialog";
+import { AddCustomerDialog } from "./AddCustomerDialog";
+import { DeleteCustomerConfirmationDialog } from "./DeleteCustomerConfirmationDialog";
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+// const Transition = React.forwardRef(function Transition(props, ref) {
+//   return <Slide direction="up" ref={ref} {...props} />;
+// });
 
 const Customers = () => {
   const [rows, setRows] = React.useState([]);
@@ -31,6 +35,7 @@ const Customers = () => {
   const [title, setTitle] = React.useState();
   const [authenticated, setauthenticated] = React.useState(null);
   const [openTaxDialog, setOpenTaxDialog] = React.useState(false);
+  const [searchText, setSearchText] = React.useState("");
   const [openDeleteConfirmationDialog, setOpenDeleteConfirmationDialog] =
     React.useState(false);
 
@@ -246,15 +251,15 @@ const Customers = () => {
             mt="5px"
             marginBottom="10px"
           >
-            <Button
+            {/* <Button
               type="button"
               color="secondary"
               variant="contained"
               onClick={handleClickOpen}
             >
               Add
-            </Button>
-            <Dialog
+            </Button> */}
+            {/* <Dialog
               fullScreen
               open={open}
               onClose={handleClose}
@@ -280,8 +285,16 @@ const Customers = () => {
                 </Toolbar>
               </AppBar>
               <Form id={id} name={title} onAdd={setId} setOpen={setOpen} />
-            </Dialog>
-            <Dialog
+            </Dialog> */}
+            <AddCustomerDialog
+              id={id}
+              setId={setId}
+              title={title}
+              open={open}
+              setOpen={setOpen}
+              onClose={handleClose}
+            />
+            {/* <Dialog
               fullScreen
               open={openTaxDialog}
               onClose={handleCloseTaxDialog}
@@ -312,8 +325,15 @@ const Customers = () => {
                 onAdd={setId}
                 setOpen={setOpenTaxDialog}
               />
-            </Dialog>
-            <Dialog
+            </Dialog> */}
+            <TaxDialog
+              id={id}
+              title={title}
+              open={openTaxDialog}
+              setOpen={setOpenTaxDialog}
+              onClose={handleCloseTaxDialog}
+            />
+            {/* <Dialog
               open={openDeleteConfirmationDialog}
               TransitionComponent={Transition}
               keepMounted
@@ -340,13 +360,23 @@ const Customers = () => {
                   Confirm
                 </Button>
               </DialogActions>
-            </Dialog>
+            </Dialog> */}
+            <DeleteCustomerConfirmationDialog
+              open={openDeleteConfirmationDialog}
+              onClose={handleCloseDeleteConfirmationDialog}
+            />
           </Box>
           <DataGrid
             rows={rows}
             columns={columns}
             getRowId={(row) => row.id}
             autoPageSize
+            slots={{
+              toolbar: CustomerGridToolBar,
+            }}
+            slotProps={{
+              toolbar: { handleClickOpen: handleClickOpen },
+            }}
           />
         </Box>
       </Box>

@@ -1,16 +1,21 @@
 import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Header from "../../components/Header";
+import Header from "../../../components/Header";
 // import { DatePicker } from "@mui/x-date-pickers";
-// import dayjs from "dayjs";
 import React from "react";
+// import dayjs from "dayjs";
 // import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 // import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+
 import {
-  getIncomeTaxRecordByOwnerRefId,
-  createIncomeTaxRecord,
-  updateIncomeTaxRecord,
-} from "../../service/incomeTaxService";
+  getMCARecordByOwnerRefId,
+  createMCARecord,
+  updateMCARecord,
+} from "../../../service/mcaService";
 import Snackbar, { snackbarClasses } from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -18,103 +23,130 @@ import CloseIcon from "@mui/icons-material/Close";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
-const IncomeTax = (props) => {
+const MCA = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [id, setId] = React.useState("");
   const [ownerRef, setOwnerRef] = React.useState(props.id);
+  const [companyName, setCompanyName] = React.useState("");
+  const [companyType, setCompanyType] = React.useState();
+  const [cin, setCin] = React.useState("");
   const [panNumber, setPanNumber] = React.useState("");
-  const [aadharNumber, setAadharNumber] = React.useState("");
   // const [dateOfInit, setDateOfInit] = React.useState(dayjs("2022-04-17"));
-  const [fatherName, setFatherName] = React.useState("");
+  const [countOfDirector, setCountOfDirector] = React.useState();
+
   const [address, setAddress] = React.useState("");
-  const [isCoveredUnderAudit, setIsCoveredUnderAudit] = React.useState(false);
   const [contactNumber, setcontactNumber] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [isCoveredUnderAudit, setIsCoveredUnderAudit] = React.useState(false);
   const [status, setStatus] = React.useState();
+
   const [createdDateTime, setCreatedDateTime] = React.useState("");
   const [modifiedDateTime, setModifiedDateTime] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
   //----
-  function setIncomeTaxDetails(incomeTaxDetails) {
-    if (incomeTaxDetails) {
-      setId(incomeTaxDetails["id"]);
-      setOwnerRef(incomeTaxDetails["ownerRef"]);
-      setPanNumber(incomeTaxDetails["panNumber"]);
-      setAadharNumber(incomeTaxDetails["aadharNumber"]);
-      // setDateOfInit(incomeTaxDetails["dateOfInit"]);
-      setFatherName(incomeTaxDetails["fatherName"]);
-      setIsCoveredUnderAudit(incomeTaxDetails["isCoveredUnderAudit"]);
-      setAddress(incomeTaxDetails["address"]);
-      setcontactNumber(incomeTaxDetails["contactNumber"]);
-      setEmail(incomeTaxDetails["email"]);
-      setPassword(incomeTaxDetails["password"]);
-      setStatus(incomeTaxDetails["status"]);
-      setCreatedDateTime(incomeTaxDetails["createdDateTime"]);
-      setModifiedDateTime(incomeTaxDetails["modifiedDateTime"]);
+  function setMCADetails(mcaDetails) {
+    if (mcaDetails) {
+      setId(mcaDetails["id"]);
+      // setOwnerRef(gstDetails["ownerRef"]);
+      setCompanyName(mcaDetails["companyName"]);
+      setCompanyType(mcaDetails["companyType"]);
+      setCin(mcaDetails["cin"]);
+      setPanNumber(mcaDetails["panNumber"]);
+      // setDateOfInit(mcaDetails["dateOfInit"]);
+      setCountOfDirector(mcaDetails["countOfDirector"]);
+      setAddress(mcaDetails["address"]);
+      setcontactNumber(mcaDetails["contactNumber"]);
+      setEmail(mcaDetails["email"]);
+      setPassword(mcaDetails["password"]);
+      setIsCoveredUnderAudit(mcaDetails["isCoveredUnderAudit"]);
+      setStatus(mcaDetails["status"]);
+      setCreatedDateTime(mcaDetails["createdDateTime"]);
+      setModifiedDateTime(mcaDetails["modifiedDateTime"]);
     }
   }
 
+  const handleTypeOfEntityChange = (event) => {
+    setCompanyType(event.target.value);
+  };
+
   React.useEffect(() => {
-    console.log("incomeTax: " + ownerRef);
+    console.log(id);
     if (ownerRef) {
       // get user and set form fields
-      getIncomeTaxRecordByOwnerRefId(ownerRef).then((res) => {
-        if (res && res.data) setIncomeTaxDetails(res.data[0]);
+      getMCARecordByOwnerRefId(ownerRef).then((res) => {
+        if (res && res.data) setMCADetails(res.data[0]);
       });
     }
   }, []);
 
   const onSubmit = (e) => {
+    console.log(ownerRef);
     e.preventDefault();
     console.log("onsubmit");
     if (!id) {
-      let incomeTaxRecord = {
+      let mcaRecord = {
+        id: "",
         ownerRef: ownerRef,
+        companyName: companyName,
+        companyType: companyType,
+        cin: cin,
         panNumber: panNumber,
-        aadharNumber: aadharNumber,
         // dateOfInit: dateOfInit,
-        fatherName: fatherName,
-        isCoveredUnderAudit: isCoveredUnderAudit,
+        countOfDirector: countOfDirector,
         address: address,
         contactNumber: contactNumber,
         email: email,
         password: password,
+        coveredUnderAudit: isCoveredUnderAudit,
         status: status,
       };
-      createIncomeTaxRecord(incomeTaxRecord).then((res) => {
-        if (res && res.data) {
-          setIncomeTaxDetails(res.data);
-          setMessage("Income Tax Record created successfully");
+      createMCARecord(mcaRecord)
+        .then((res) => {
+          if (res && res.data) {
+            setMCADetails(res.data);
+            setMessage("MCA Record created successfully");
+            setOpenSnackbar(true);
+          }
+        })
+        .catch((error) => {
+          console.error(error.message);
+          setMessage(error.message);
           setOpenSnackbar(true);
-        }
-      });
+        });
     } else {
-      let incomeTaxRecord = {
+      let mcaRecord = {
         id: id,
         ownerRef: ownerRef,
+        companyName: companyName,
+        companyType: companyType,
+        cin: cin,
         panNumber: panNumber,
-        aadharNumber: aadharNumber,
         // dateOfInit: dateOfInit,
-        fatherName: fatherName,
-        isCoveredUnderAudit: isCoveredUnderAudit,
+        countOfDirector: countOfDirector,
         address: address,
         contactNumber: contactNumber,
         email: email,
         password: password,
+        coveredUnderAudit: isCoveredUnderAudit,
         status: status,
       };
-      updateIncomeTaxRecord(incomeTaxRecord).then((res) => {
-        if (res && res.data) {
-          setIncomeTaxDetails(incomeTaxRecord);
-          setMessage("Income Tax Record updated successfully");
+      updateMCARecord(mcaRecord)
+        .then((res) => {
+          if (res && res.data) {
+            setMCADetails(res.data);
+            setMessage("MCA Record updated successfully");
+            setOpenSnackbar(true);
+          }
+        })
+        .catch((error) => {
+          console.error(error.message);
+          setMessage(error.message);
           setOpenSnackbar(true);
-        }
-      });
+        });
     }
   };
 
@@ -144,6 +176,7 @@ const IncomeTax = (props) => {
   };
 
   //----
+
   return (
     <Box m="20px">
       <Box
@@ -151,7 +184,7 @@ const IncomeTax = (props) => {
         gridTemplateColumns="repeat(4, minmax(0, 1fr))"
         sx={{ "& > div": { gridColumn: isNonMobile ? undefined : "span 4" } }}
       >
-        <Header title="Income Tax" subtitle="Details" />
+        <Header title="MCA" subtitle="Details" />
         <Box
           sx={{ gridColumn: "span 3" }}
           height="35px"
@@ -181,59 +214,69 @@ const IncomeTax = (props) => {
           fullWidth
           variant="filled"
           type="text"
-          label="First Name"
-          name="firstName"
-          // value={firstName}
-          // onChange={(event) => setFirstName(event.target.value)}
+          label="Company/LLP Name"
+          name="companyName"
+          value={companyName}
+          onChange={(event) => setCompanyName(event.target.value)}
+          sx={{ gridColumn: "span 4" }}
+        />
+        <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+          <InputLabel id="typeOfEntityLabel" textColor="secondary">
+            Type of Entity
+          </InputLabel>
+          <Select
+            labelId="typeOfEntitySelectLabel"
+            id="typeOfEntitySelect"
+            value={companyType}
+            onChange={handleTypeOfEntityChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value="LIMITED_LIABILITY_PARTNERSHIP">
+              Limited Liability Partnership
+            </MenuItem>
+            <MenuItem value="COMPANY">Company</MenuItem>
+          </Select>
+        </FormControl>
+        <TextField
+          fullWidth
+          variant="filled"
+          type="text"
+          label="CIN/LLPIN"
+          name="cin"
+          value={cin}
+          onChange={(event) => setCin(event.target.value)}
           sx={{ gridColumn: "span 2" }}
         />
         <TextField
           fullWidth
           variant="filled"
           type="text"
-          label="Last Name"
-          name="lastName"
-          sx={{ gridColumn: "span 2" }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Category"
-          name="category"
-          // value={category}
-          // onChange={(event) => setCategory(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Pan No"
-          name="Pan No."
+          label="PAN"
+          name="pan"
           value={panNumber}
           onChange={(event) => setPanNumber(event.target.value)}
           sx={{ gridColumn: "span 2" }}
         />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Aadhar"
-          name="aadhar"
-          value={aadharNumber}
-          onChange={(event) => setAadharNumber(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
         {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            label="DOB/DOI"
+            label="DOI"
             value={dateOfInit}
             onChange={(newValue) => setDateOfInit(newValue)}
             sx={{ gridColumn: "span 2" }}
           />
         </LocalizationProvider> */}
-
+        <TextField
+          fullWidth
+          variant="filled"
+          type="text"
+          label="No. Of Directors"
+          name="numberOfdirectors"
+          value={countOfDirector}
+          onChange={(event) => setCountOfDirector(event.target.value)}
+          sx={{ gridColumn: "span 2" }}
+        />
         <TextField
           required
           fullWidth
@@ -312,4 +355,4 @@ const IncomeTax = (props) => {
   );
 };
 
-export default IncomeTax;
+export default MCA;
