@@ -11,7 +11,7 @@ import {
   createPFRecord,
   updatePFRecord,
 } from "../../../service/pfService";
-import Snackbar, { snackbarClasses } from "@mui/material/Snackbar";
+import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -26,7 +26,7 @@ const PF = (props) => {
   const [id, setId] = React.useState("");
   const [ownerRef, setOwnerRef] = React.useState(props.id);
   const [companyName, setCompanyName] = React.useState("");
-  const [isCoveredUnderAudit, setIsCoveredUnderAudit] = React.useState(false);
+  const [coveredUnderAudit, setCoveredUnderAudit] = React.useState(false);
   const [esicRegistrationNumber, setEsicRegistrationNumber] = React.useState();
   const [panNumber, setPanNumber] = React.useState("");
   // const [dateOfRegistration, setDateOfRegistration] = React.useState(
@@ -50,7 +50,7 @@ const PF = (props) => {
       setId(pfDetails["id"]);
       // setOwnerRef(gstDetails["ownerRef"]);
       setCompanyName(pfDetails["companyName"]);
-      setIsCoveredUnderAudit(pfDetails["isCoveredUnderAudit"]);
+      setCoveredUnderAudit(pfDetails["coveredUnderAudit"]);
       setEsicRegistrationNumber(pfDetails["esicRegistrationNumber"]);
       setPanNumber(pfDetails["panNumber"]);
       // setDateOfRegistration(pfDetails["dateOfRegistration"]);
@@ -68,8 +68,8 @@ const PF = (props) => {
     console.log(ownerRef);
     if (ownerRef) {
       // get user and set form fields
-      getPFRecordByOwnerRefId(ownerRef).then((pfDetails) => {
-        setPFDetails(pfDetails);
+      getPFRecordByOwnerRefId(ownerRef).then((res) => {
+        if (res && res.data) setPFDetails(res.data[0]);
       });
     }
   }, []);
@@ -80,9 +80,10 @@ const PF = (props) => {
     console.log("onsubmit");
     if (!id) {
       let pfRecord = {
+        id: "",
         ownerRef: ownerRef,
         companyName: companyName,
-        coveredUnderAudit: isCoveredUnderAudit,
+        coveredUnderAudit: coveredUnderAudit,
         esicRegistrationNumber: esicRegistrationNumber,
         panNumber: panNumber,
         // dateOfRegistration: dateOfRegistration,
@@ -92,19 +93,25 @@ const PF = (props) => {
         password: password,
         status: status,
       };
-      createPFRecord(pfRecord).then((res) => {
-        if (res && res.data) {
-          setPFDetails(res.data);
-          setMessage("PF Record created successfully");
+      createPFRecord(pfRecord)
+        .then((res) => {
+          if (res && res.data) {
+            setPFDetails(res.data);
+            setMessage("PF Record created successfully");
+            setOpenSnackbar(true);
+          }
+        })
+        .catch((error) => {
+          console.error(error.message);
+          setMessage(error.message);
           setOpenSnackbar(true);
-        }
-      });
+        });
     } else {
       let pfRecord = {
         id: id,
         ownerRef: ownerRef,
         companyName: companyName,
-        coveredUnderAudit: isCoveredUnderAudit,
+        coveredUnderAudit: coveredUnderAudit,
         esicRegistrationNumber: esicRegistrationNumber,
         panNumber: panNumber,
         // dateOfRegistration: dateOfRegistration,
@@ -114,13 +121,19 @@ const PF = (props) => {
         password: password,
         status: status,
       };
-      updatePFRecord(pfRecord).then((res) => {
-        if (res && res.data) {
-          setPFDetails(pfRecord);
-          setMessage("PF Record updated successfully");
+      updatePFRecord(pfRecord)
+        .then((res) => {
+          if (res && res.data) {
+            setPFDetails(pfRecord);
+            setMessage("PF Record updated successfully");
+            setOpenSnackbar(true);
+          }
+        })
+        .catch((error) => {
+          console.error(error.message);
+          setMessage(error.message);
           setOpenSnackbar(true);
-        }
-      });
+        });
     }
   };
 
@@ -146,7 +159,7 @@ const PF = (props) => {
   );
 
   const handleCoveredUnderAuditChange = (event) => {
-    setIsCoveredUnderAudit(event.target.value);
+    setCoveredUnderAudit(event.target.value);
   };
   //----
 
@@ -210,8 +223,8 @@ const PF = (props) => {
           <RadioGroup
             row
             aria-labelledby="coveredUnderAuditRadioGroupLabel"
-            name="coveredUnderAuditRadioGroup"
-            value={isCoveredUnderAudit}
+            name="coveredUnderAudit"
+            value={coveredUnderAudit}
             onChange={handleCoveredUnderAuditChange}
           >
             <FormControlLabel value="true" control={<Radio />} label="Yes" />

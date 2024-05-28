@@ -26,7 +26,7 @@ const ESIC = (props) => {
   const [id, setId] = React.useState("");
   const [ownerRef, setOwnerRef] = React.useState(props.id);
   const [companyName, setCompanyName] = React.useState("");
-  const [isCoveredUnderAudit, setIsCoveredUnderAudit] = React.useState(false);
+  const [coveredUnderAudit, setCoveredUnderAudit] = React.useState(false);
   const [esicRegistrationNo, setEsicRegistrationNo] = React.useState();
   const [panNumber, setPanNumber] = React.useState("");
   const [dateOfRegistration, setDateOfRegistration] = React.useState(
@@ -50,7 +50,7 @@ const ESIC = (props) => {
       setId(esicDetails["id"]);
       // setOwnerRef(gstDetails["ownerRef"]);
       setCompanyName(esicDetails["companyName"]);
-      setIsCoveredUnderAudit(esicDetails["isCoveredUnderAudit"]);
+      setCoveredUnderAudit(esicDetails["coveredUnderAudit"]);
       setEsicRegistrationNo(esicDetails["esicRegistrationNo"]);
       setPanNumber(esicDetails["panNumber"]);
       setDateOfRegistration(dayjs(esicDetails["dateOfRegistration"]));
@@ -77,9 +77,10 @@ const ESIC = (props) => {
     e.preventDefault();
     if (!id) {
       let esicRecord = {
+        id: "",
         ownerRef: ownerRef,
         companyName: companyName,
-        coveredUnderAudit: isCoveredUnderAudit,
+        coveredUnderAudit: coveredUnderAudit,
         esicRegistrationNo: esicRegistrationNo,
         panNumber: panNumber,
         dateOfRegistration: dateOfRegistration,
@@ -89,17 +90,23 @@ const ESIC = (props) => {
         password: password,
         status: status,
       };
-      createESICRecord(esicRecord).then((esicRecord) => {
-        setESICDetails(esicRecord);
-        setMessage("ESIC Record created successfully");
-        setOpenSnackbar(true);
-      });
+      createESICRecord(esicRecord)
+        .then((esicRecord) => {
+          setESICDetails(esicRecord);
+          setMessage("ESIC Record created successfully");
+          setOpenSnackbar(true);
+        })
+        .catch((error) => {
+          console.error(error.message);
+          setMessage(error.message);
+          setOpenSnackbar(true);
+        });
     } else {
       let esicRecord = {
         id: id,
         ownerRef: ownerRef,
         companyName: companyName,
-        coveredUnderAudit: isCoveredUnderAudit,
+        coveredUnderAudit: coveredUnderAudit,
         esicRegistrationNo: esicRegistrationNo,
         panNumber: panNumber,
         dateOfRegistration: dateOfRegistration,
@@ -109,11 +116,17 @@ const ESIC = (props) => {
         password: password,
         status: status,
       };
-      updateESICRecord(esicRecord).then((esicRecord) => {
-        setESICDetails(esicRecord);
-        setMessage("ESIC Record updated successfully");
-        setOpenSnackbar(true);
-      });
+      updateESICRecord(esicRecord)
+        .then((esicRecord) => {
+          setESICDetails(esicRecord);
+          setMessage("ESIC Record updated successfully");
+          setOpenSnackbar(true);
+        })
+        .catch((error) => {
+          console.error(error.message);
+          setMessage(error.message);
+          setOpenSnackbar(true);
+        });
     }
   };
 
@@ -139,7 +152,7 @@ const ESIC = (props) => {
   );
 
   const handleCoveredUnderAuditChange = (event) => {
-    setIsCoveredUnderAudit(event.target.value);
+    setCoveredUnderAudit(event.target.value);
   };
 
   //----
@@ -203,12 +216,12 @@ const ESIC = (props) => {
           <RadioGroup
             row
             aria-labelledby="coveredUnderAuditRadioGroupLabel"
-            name="coveredUnderAuditRadioGroup"
-            value={isCoveredUnderAudit}
+            name="coveredUnderAudit"
+            value={coveredUnderAudit}
             onChange={handleCoveredUnderAuditChange}
           >
-            <FormControlLabel value="true" control={<Radio />} label="Yes" />
-            <FormControlLabel value="false" control={<Radio />} label="No" />
+            <FormControlLabel value={true} control={<Radio />} label="Yes" />
+            <FormControlLabel value={false} control={<Radio />} label="No" />
           </RadioGroup>
         </FormControl>
         <TextField

@@ -28,7 +28,7 @@ const TDS = (props) => {
   const [contactNumber, setcontactNumber] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [isCoveredUnderAudit, setIsCoveredUnderAudit] = React.useState(false);
+  const [coveredUnderAudit, setCoveredUnderAudit] = React.useState(false);
   const [status, setStatus] = React.useState();
   const [createdDateTime, setCreatedDateTime] = React.useState("");
   const [modifiedDateTime, setModifiedDateTime] = React.useState("");
@@ -46,7 +46,7 @@ const TDS = (props) => {
       setcontactNumber(tdsDetails["contactNumber"]);
       setEmail(tdsDetails["email"]);
       setPassword(tdsDetails["password"]);
-      setIsCoveredUnderAudit(tdsDetails["isCoveredUnderAudit"]);
+      setCoveredUnderAudit(tdsDetails["coveredUnderAudit"]);
       setStatus(tdsDetails["status"]);
       setCreatedDateTime(tdsDetails["createdDateTime"]);
       setModifiedDateTime(tdsDetails["modifiedDateTime"]);
@@ -57,8 +57,8 @@ const TDS = (props) => {
     console.log(ownerRef);
     if (ownerRef) {
       // get user and set form fields
-      getTDSRecordByOwnerRefId(ownerRef).then((tdsDetails) => {
-        setTDSDetails(tdsDetails);
+      getTDSRecordByOwnerRefId(ownerRef).then((res) => {
+        if (res && res.data) setTDSDetails(res.data[0]);
       });
     }
   }, []);
@@ -69,9 +69,10 @@ const TDS = (props) => {
     console.log("onsubmit");
     if (!id) {
       let tdsRecord = {
+        id: "",
         ownerRef: ownerRef,
         companyName: companyName,
-        coveredUnderAudit: isCoveredUnderAudit,
+        coveredUnderAudit: coveredUnderAudit,
         tanNumber: tanNumber,
         panNumber: panNumber,
         authorizedSignatory: authorizedSignatory,
@@ -80,17 +81,25 @@ const TDS = (props) => {
         password: password,
         status: status,
       };
-      createTDSRecord(tdsRecord).then((tdsRecord) => {
-        setTDSDetails(tdsRecord);
-        setMessage("TDS Record created successfully");
-        setOpenSnackbar(true);
-      });
+      createTDSRecord(tdsRecord)
+        .then((res) => {
+          if (res && res.data) {
+            setTDSDetails(res.data);
+            setMessage("TDS Record created successfully");
+            setOpenSnackbar(true);
+          }
+        })
+        .catch((error) => {
+          console.error(error.message);
+          setMessage(error.message);
+          setOpenSnackbar(true);
+        });
     } else {
       let tdsRecord = {
         id: id,
         ownerRef: ownerRef,
         companyName: companyName,
-        coveredUnderAudit: isCoveredUnderAudit,
+        coveredUnderAudit: coveredUnderAudit,
         tanNumber: tanNumber,
         panNumber: panNumber,
         authorizedSignatory: authorizedSignatory,
@@ -99,11 +108,19 @@ const TDS = (props) => {
         password: password,
         status: status,
       };
-      updateTDSRecord(tdsRecord).then((tdsRecord) => {
-        setTDSDetails(tdsRecord);
-        setMessage("TDS Record updated successfully");
-        setOpenSnackbar(true);
-      });
+      updateTDSRecord(tdsRecord)
+        .then((res) => {
+          if (res && res.data) {
+            setTDSDetails(res.data);
+            setMessage("TDS Record updated successfully");
+            setOpenSnackbar(true);
+          }
+        })
+        .catch((error) => {
+          console.error(error.message);
+          setMessage(error.message);
+          setOpenSnackbar(true);
+        });
     }
   };
 
@@ -129,7 +146,7 @@ const TDS = (props) => {
   );
 
   const handleCoveredUnderAuditChange = (event) => {
-    setIsCoveredUnderAudit(event.target.value);
+    setCoveredUnderAudit(event.target.value);
   };
 
   //----
@@ -193,8 +210,8 @@ const TDS = (props) => {
           <RadioGroup
             row
             aria-labelledby="coveredUnderAuditRadioGroupLabel"
-            name="coveredUnderAuditRadioGroup"
-            value={isCoveredUnderAudit}
+            name="coveredUnderAudit"
+            value={coveredUnderAudit}
             onChange={handleCoveredUnderAuditChange}
           >
             <FormControlLabel value="true" control={<Radio />} label="Yes" />

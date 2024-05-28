@@ -30,7 +30,7 @@ const MCA = (props) => {
   const [id, setId] = React.useState("");
   const [ownerRef, setOwnerRef] = React.useState(props.id);
   const [companyName, setCompanyName] = React.useState("");
-  const [companyType, setCompanyType] = React.useState();
+  const [companyType, setCompanyType] = React.useState("");
   const [cin, setCin] = React.useState("");
   const [panNumber, setPanNumber] = React.useState("");
   // const [dateOfInit, setDateOfInit] = React.useState(dayjs("2022-04-17"));
@@ -40,7 +40,7 @@ const MCA = (props) => {
   const [contactNumber, setcontactNumber] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [isCoveredUnderAudit, setIsCoveredUnderAudit] = React.useState(false);
+  const [coveredUnderAudit, setCoveredUnderAudit] = React.useState(false);
   const [status, setStatus] = React.useState();
 
   const [createdDateTime, setCreatedDateTime] = React.useState("");
@@ -62,7 +62,7 @@ const MCA = (props) => {
       setcontactNumber(mcaDetails["contactNumber"]);
       setEmail(mcaDetails["email"]);
       setPassword(mcaDetails["password"]);
-      setIsCoveredUnderAudit(mcaDetails["isCoveredUnderAudit"]);
+      setCoveredUnderAudit(mcaDetails["coveredUnderAudit"]);
       setStatus(mcaDetails["status"]);
       setCreatedDateTime(mcaDetails["createdDateTime"]);
       setModifiedDateTime(mcaDetails["modifiedDateTime"]);
@@ -101,7 +101,7 @@ const MCA = (props) => {
         contactNumber: contactNumber,
         email: email,
         password: password,
-        coveredUnderAudit: isCoveredUnderAudit,
+        coveredUnderAudit: coveredUnderAudit,
         status: status,
       };
       createMCARecord(mcaRecord)
@@ -131,7 +131,7 @@ const MCA = (props) => {
         contactNumber: contactNumber,
         email: email,
         password: password,
-        coveredUnderAudit: isCoveredUnderAudit,
+        coveredUnderAudit: coveredUnderAudit,
         status: status,
       };
       updateMCARecord(mcaRecord)
@@ -172,7 +172,7 @@ const MCA = (props) => {
   );
 
   const handleCoveredUnderAuditChange = (event) => {
-    setIsCoveredUnderAudit(event.target.value);
+    setCoveredUnderAudit(event.target.value);
   };
 
   //----
@@ -226,7 +226,7 @@ const MCA = (props) => {
           </InputLabel>
           <Select
             labelId="typeOfEntitySelectLabel"
-            id="typeOfEntitySelect"
+            id="companyType"
             value={companyType}
             onChange={handleTypeOfEntityChange}
           >
@@ -334,8 +334,8 @@ const MCA = (props) => {
           <RadioGroup
             row
             aria-labelledby="coveredUnderAuditRadioGroupLabel"
-            name="coveredUnderAuditRadioGroup"
-            value={isCoveredUnderAudit}
+            name="coveredUnderAudit"
+            value={coveredUnderAudit}
             onChange={handleCoveredUnderAuditChange}
           >
             <FormControlLabel value="true" control={<Radio />} label="Yes" />
