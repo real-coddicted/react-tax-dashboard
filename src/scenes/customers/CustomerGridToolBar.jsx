@@ -25,8 +25,14 @@ export const CustomerGridToolBar = (props) => {
         borderRadius="3px"
         backgroundColor={colors.primary[400]}
       >
-        <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
-        <IconButton type="button" sx={{ p: 1 }}>
+        <InputBase
+          sx={{ ml: 2, flex: 1 }}
+          placeholder="Search"
+          onInput={(e) => {
+            props.setSearchText(e.target.value);
+          }}
+        />
+        <IconButton type="button" sx={{ p: 1 }} onClick={props.handleSearch}>
           <SearchIcon />
         </IconButton>
       </Box>
