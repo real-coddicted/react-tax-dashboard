@@ -1,9 +1,10 @@
-import { Box, TextField } from "@mui/material";
+import { Box, TextField, InputAdornment } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import React from "react";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 const CommonFields = ({ state, dispatch }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -76,6 +77,17 @@ const CommonFields = ({ state, dispatch }) => {
           label="Pan No"
           name="panNumber"
           sx={{ gridColumn: "span 4" }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => navigator.clipboard.writeText(state.panNumber)}
+                >
+                  <ContentCopyIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
         <TextField
           required

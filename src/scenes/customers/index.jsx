@@ -127,7 +127,7 @@ const Customers = () => {
     },
     {
       field: "action",
-      headerName: "Action",
+      headerName: "Actions",
       flex: 1,
       sortable: false,
       disableClickEventBubbling: true,
@@ -199,8 +199,8 @@ const Customers = () => {
       <Box m="20px">
         <Header title="Customers" subtitle="Manage Customers" />
         <Box
-          m="40px 0 0 0"
-          height="75vh"
+          m="20px 0 0 0"
+          height="78vh"
           sx={{
             "& .MuiDataGrid-root": {
               border: "none",
@@ -227,32 +227,26 @@ const Customers = () => {
             },
           }}
         >
-          <Box
-            display="flex"
-            justifyContent="left"
-            mt="5px"
-            marginBottom="10px"
-          >
-            <AddCustomerDialog
-              id={id}
-              setId={setId}
-              title={title}
-              open={open}
-              setOpen={setOpen}
-              onClose={handleClose}
-            />
-            <TaxDialog
-              id={id}
-              title={title}
-              open={openTaxDialog}
-              setOpen={setOpenTaxDialog}
-              onClose={handleCloseTaxDialog}
-            />
-            <DeleteCustomerConfirmationDialog
-              open={openDeleteConfirmationDialog}
-              onClose={handleCloseDeleteConfirmationDialog}
-            />
-          </Box>
+          <AddCustomerDialog
+            id={id}
+            setId={setId}
+            title={title}
+            open={open}
+            setOpen={setOpen}
+            onClose={handleClose}
+          />
+          <TaxDialog
+            id={id}
+            title={title}
+            open={openTaxDialog}
+            setOpen={setOpenTaxDialog}
+            onClose={handleCloseTaxDialog}
+          />
+          <DeleteCustomerConfirmationDialog
+            open={openDeleteConfirmationDialog}
+            onClose={handleCloseDeleteConfirmationDialog}
+          />
+
           <DataGrid
             rows={rows}
             columns={columns}
