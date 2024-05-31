@@ -20,6 +20,10 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import FilledInput from "@mui/material/FilledInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const ESIC = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -44,6 +48,26 @@ const ESIC = (props) => {
   const [modifiedDateTime, setModifiedDateTime] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
+
+  const [values, setValues] = React.useState({
+    password: "",
+    showPassword: false,
+  });
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   //----
   function setESICDetails(esicDetails) {
     if (esicDetails) {
@@ -289,6 +313,30 @@ const ESIC = (props) => {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           sx={{ gridColumn: "span 4" }}
+        />
+
+        <TextField
+          variant="filled"
+          sx={{ gridColumn: "span 4" }}
+          label="Password"
+          fullWidth
+          type={values.showPassword ? "text" : "password"}
+          value={values.password}
+          onChange={handleChange("password")}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
         <TextField
           fullWidth
