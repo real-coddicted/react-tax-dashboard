@@ -10,6 +10,7 @@ import MCA from "./MCA";
 import PF from "./PF";
 import ESIC from "./ESIC";
 import TDS from "./TDS";
+import FileUpload from "./FileUpload";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -67,6 +68,7 @@ export default function Tax(props) {
           <Tab label="PF" {...a11yProps(3)} />
           <Tab label="ESIC" {...a11yProps(4)} />
           <Tab label="TDS" {...a11yProps(5)} />
+          <Tab label="Documents" {...a11yProps(6)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -86,6 +88,9 @@ export default function Tax(props) {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
         <TDS id={props.id} />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={6}>
+        <FileUpload id={props.id} />
       </CustomTabPanel>
     </Box>
   );
