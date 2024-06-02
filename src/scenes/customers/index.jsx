@@ -9,6 +9,8 @@ import { CustomerGridToolBar } from "./CustomerGridToolBar";
 import { TaxDialog } from "./TaxDialog";
 import { AddCustomerDialog } from "./AddCustomerDialog";
 import { DeleteCustomerConfirmationDialog } from "./DeleteCustomerConfirmationDialog";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Customers = () => {
   const [rows, setRows] = React.useState([]);
@@ -23,6 +25,16 @@ const Customers = () => {
   const [openDeleteConfirmationDialog, setOpenDeleteConfirmationDialog] =
     React.useState(false);
 
+  const [openBackDrop, setOpenBackDrop] = React.useState(false);
+  const handleBackDropClose = () => {
+    console.log("handleBackDropClose");
+    setOpenBackDrop(false);
+  };
+  const handleBackDropOpen = () => {
+    console.log("handleBackDropOpen");
+    setOpenBackDrop(true);
+  };
+
   React.useMemo(() => {
     const loggedInUser = localStorage.getItem("authenticated");
     if (loggedInUser) {
@@ -34,37 +46,45 @@ const Customers = () => {
   React.useEffect(() => {
     // get user and set form fields
     try {
+      handleBackDropOpen();
       getCustomers()
         .then((res) => {
           if (res) setRows(res.data);
           else setRows([]);
+          handleBackDropClose();
         })
         .catch((error) => {
           console.error(error.request);
           setRows([]);
+          handleBackDropClose();
         });
     } catch (error) {
       console.error("Error fetching users:", error);
       setRows([]);
+      handleBackDropClose();
     }
   }, []);
 
   //on modal close - fetch users
   React.useEffect(() => {
     // get user and set form fields
+    handleBackDropOpen();
     try {
       getCustomers()
         .then((res) => {
           if (res) setRows(res.data);
           else setRows([]);
+          handleBackDropClose();
         })
         .catch((error) => {
           console.error(error.request);
           setRows([]);
+          handleBackDropClose();
         });
     } catch (error) {
       console.error("Error fetching users:", error);
       setRows([]);
+      handleBackDropClose();
     }
   }, [open]);
 
@@ -264,6 +284,13 @@ const Customers = () => {
             }}
           />
         </Box>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackDrop}
+          onClick={handleBackDropClose}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </Box>
     );
   }
