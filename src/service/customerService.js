@@ -13,7 +13,7 @@ export function createCustomer(customerDetails) {
 }
 
 export function getCustomers() {
-  const response = axios.get("http://192.168.1.44:8003/api/customer/getAll");
+  const response = axios.get("http://192.168.1.44:8002/api/customer/getAll");
   return response;
 }
 
