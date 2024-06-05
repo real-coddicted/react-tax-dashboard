@@ -10,7 +10,9 @@ const PrivateRoute = (props) => {
 
   if (!isLoggedIn) {
     const localStorageUser = localStorage.getItem("user");
-    if (!localStorageUser) {
+    if (localStorageUser) {
+      login(JSON.parse(localStorageUser));
+    } else {
       return (
         <Navigate
           replace={true}
@@ -18,8 +20,6 @@ const PrivateRoute = (props) => {
           state={{ from: `${location.pathname}${location.search}` }}
         />
       );
-    } else {
-      login(JSON.parse(localStorageUser));
     }
   }
 

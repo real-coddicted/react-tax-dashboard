@@ -13,10 +13,12 @@ import {
   createCustomer,
   getCustomerById,
   updateCustomer,
-} from "../../service/customerService";
+} from "../../../service/customerService";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const steps = [
   "Select Customer Type",
@@ -93,6 +95,16 @@ export default function AddUser(props) {
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
 
+  const [openBackDrop, setOpenBackDrop] = React.useState(false);
+  const handleBackDropClose = () => {
+    console.log("handleBackDropClose");
+    setOpenBackDrop(false);
+  };
+  const handleBackDropOpen = () => {
+    console.log("handleBackDropOpen");
+    setOpenBackDrop(true);
+  };
+
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -119,6 +131,7 @@ export default function AddUser(props) {
     console.log("-----" + id);
     // get user and set form fields
     if (id) {
+      handleBackDropOpen();
       try {
         getCustomerById(id)
           .then((res) => {
@@ -127,13 +140,16 @@ export default function AddUser(props) {
                 type: "INIT",
                 payload: res.data,
               });
+              handleBackDropClose();
             }
           })
           .catch((error) => {
             console.error(error.request);
+            handleBackDropClose();
           });
       } catch (error) {
         console.error("Error fetching users:", error);
+        handleBackDropClose();
       }
     }
   }, [id]);
@@ -280,6 +296,13 @@ export default function AddUser(props) {
               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
               action={snackbarAction}
             />
+            <Backdrop
+              sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={openBackDrop}
+              onClick={handleBackDropClose}
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
           </React.Fragment>
         )}
       </div>

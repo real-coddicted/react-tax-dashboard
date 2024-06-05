@@ -1,15 +1,15 @@
 import { Box, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import React from "react";
-import { getUserById } from "../../service/userService";
+import { getUserById } from "../../../service/userService";
 
-const LocalAuthoritySpecificFields = (props) => {
+const AssociationSpecificFields = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const [tanNumber, setTanNumber] = React.useState("");
+  const [numberOfMembers, setNumberOfMembers] = React.useState("");
   const isAddMode = !props.id;
 
   function setUser(user) {
-    setTanNumber(user["tanNumber"]);
+    setNumberOfMembers(user["numberOfMembers"]);
   }
 
   React.useEffect(() => {
@@ -35,10 +35,10 @@ const LocalAuthoritySpecificFields = (props) => {
           fullWidth
           variant="filled"
           type="text"
-          label="TAN"
-          value={tanNumber}
-          onChange={(event) => setTanNumber(event.target.value)}
-          name="tanNumber"
+          label="Number of members"
+          value={numberOfMembers}
+          onChange={(event) => setNumberOfMembers(event.target.value)}
+          name="numberOfMembers"
           sx={{ gridColumn: "span 2" }}
         />
       </Box>
@@ -46,4 +46,4 @@ const LocalAuthoritySpecificFields = (props) => {
   );
 };
 
-export default LocalAuthoritySpecificFields;
+export default AssociationSpecificFields;

@@ -1,6 +1,6 @@
 import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Header from "../../components/Header";
+import Header from "../../../components/Header";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -15,7 +15,7 @@ import {
   getGSTRecordByOwnerRefId,
   createGSTRecord,
   updateGSTRecord,
-} from "../../service/gstService";
+} from "../../../service/gstService";
 import Snackbar, { snackbarClasses } from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -63,10 +63,11 @@ const GST = (props) => {
   }
 
   React.useEffect(() => {
+    console.log("GST: " + ownerRef);
     if (ownerRef) {
       // get user and set form fields
       getGSTRecordByOwnerRefId(ownerRef).then((res) => {
-        if (res && res.data) setGSTDetails(res.data);
+        if (res && res.data) setGSTDetails(res.data[0]);
       });
     }
   }, []);
@@ -75,25 +76,32 @@ const GST = (props) => {
     e.preventDefault();
     if (!id) {
       let gstRecord = {
+        id: "",
         ownerRef: ownerRef,
         tradeName: tradeName,
         gstin: gstin,
         dealerType: dealerType,
         returnType: returnType,
-        // dateOfRegistration: dateOfRegistration,
+        dateOfRegistration: "",
         currentStatus: currentStatus,
         address: address,
         contactNumber: contactNumber,
         email: email,
         status: status,
       };
-      createGSTRecord(gstRecord).then((res) => {
-        if (res && res.data) {
-          setGSTDetails(res.data);
-          setMessage("GST Record created successfully");
+      createGSTRecord(gstRecord)
+        .then((res) => {
+          if (res && res.data) {
+            setGSTDetails(res.data);
+            setMessage("GST Record created successfully");
+            setOpenSnackbar(true);
+          }
+        })
+        .catch((error) => {
+          console.error(error.message);
+          setMessage(error.message);
           setOpenSnackbar(true);
-        }
-      });
+        });
     } else {
       let gstRecord = {
         id: id,
@@ -109,13 +117,19 @@ const GST = (props) => {
         email: email,
         status: status,
       };
-      updateGSTRecord(gstRecord).then((res) => {
-        if (res && res.data) {
-          setGSTDetails(res.data);
-          setMessage("Income Tax Record updated successfully");
+      updateGSTRecord(gstRecord)
+        .then((res) => {
+          if (res && res.data) {
+            setGSTDetails(res.data);
+            setMessage("Income Tax Record updated successfully");
+            setOpenSnackbar(true);
+          }
+        })
+        .catch((error) => {
+          console.error(error.message);
+          setMessage(error.message);
           setOpenSnackbar(true);
-        }
-      });
+        });
     }
   };
 
@@ -210,7 +224,7 @@ const GST = (props) => {
           <Select
             labelId="dealerTypeSelectLabel"
             id="dealerTypeSelect"
-            value={dealerType}
+            value={dealerType ?? ""}
             onChange={handleDealerTypeChange}
           >
             <MenuItem value="">
@@ -227,7 +241,7 @@ const GST = (props) => {
           <Select
             labelId="returnTypeSelectLabel"
             id="returnTypeSelect"
-            value={returnType}
+            value={returnType ?? ""}
             onChange={handleReturnTypeChange}
           >
             <MenuItem value="">

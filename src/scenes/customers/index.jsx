@@ -1,26 +1,16 @@
-import { Box, Typography, useTheme, Button } from "@mui/material";
+import { Box, useTheme, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import * as React from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import Slide from "@mui/material/Slide";
-import Form from "../form";
-import Tax from "../form/Tax";
 import { getCustomers } from "../../service/customerService";
 import { Navigate } from "react-router-dom";
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import { CustomerGridToolBar } from "./CustomerGridToolBar";
+import { TaxDialog } from "./TaxDialog";
+import { AddCustomerDialog } from "./AddCustomerDialog";
+import { DeleteCustomerConfirmationDialog } from "./DeleteCustomerConfirmationDialog";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Customers = () => {
   const [rows, setRows] = React.useState([]);
@@ -31,8 +21,19 @@ const Customers = () => {
   const [title, setTitle] = React.useState();
   const [authenticated, setauthenticated] = React.useState(null);
   const [openTaxDialog, setOpenTaxDialog] = React.useState(false);
+  const [searchText, setSearchText] = React.useState("");
   const [openDeleteConfirmationDialog, setOpenDeleteConfirmationDialog] =
     React.useState(false);
+
+  const [openBackDrop, setOpenBackDrop] = React.useState(false);
+  const handleBackDropClose = () => {
+    console.log("handleBackDropClose");
+    setOpenBackDrop(false);
+  };
+  const handleBackDropOpen = () => {
+    console.log("handleBackDropOpen");
+    setOpenBackDrop(true);
+  };
 
   React.useMemo(() => {
     const loggedInUser = localStorage.getItem("authenticated");
@@ -45,37 +46,45 @@ const Customers = () => {
   React.useEffect(() => {
     // get user and set form fields
     try {
+      handleBackDropOpen();
       getCustomers()
         .then((res) => {
           if (res) setRows(res.data);
           else setRows([]);
+          handleBackDropClose();
         })
         .catch((error) => {
           console.error(error.request);
           setRows([]);
+          handleBackDropClose();
         });
     } catch (error) {
       console.error("Error fetching users:", error);
       setRows([]);
+      handleBackDropClose();
     }
   }, []);
 
   //on modal close - fetch users
   React.useEffect(() => {
     // get user and set form fields
+    handleBackDropOpen();
     try {
       getCustomers()
         .then((res) => {
           if (res) setRows(res.data);
           else setRows([]);
+          handleBackDropClose();
         })
         .catch((error) => {
           console.error(error.request);
           setRows([]);
+          handleBackDropClose();
         });
     } catch (error) {
       console.error("Error fetching users:", error);
       setRows([]);
+      handleBackDropClose();
     }
   }, [open]);
 
@@ -85,14 +94,12 @@ const Customers = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleSearch = () => {
+    console.log(searchText);
   };
 
-  const handleClickOpenTaxDialog = () => {
-    setId();
-    setTitle();
-    setOpenTaxDialog(true);
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const handleCloseTaxDialog = () => {
@@ -112,7 +119,7 @@ const Customers = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "ID", flex: 1 },
+    // { field: "id", headerName: "ID", flex: 1 },
     {
       field: "category",
       headerName: "Category",
@@ -140,7 +147,7 @@ const Customers = () => {
     },
     {
       field: "action",
-      headerName: "Action",
+      headerName: "Actions",
       flex: 1,
       sortable: false,
       disableClickEventBubbling: true,
@@ -212,8 +219,8 @@ const Customers = () => {
       <Box m="20px">
         <Header title="Customers" subtitle="Manage Customers" />
         <Box
-          m="40px 0 0 0"
-          height="75vh"
+          m="20px 0 0 0"
+          height="78vh"
           sx={{
             "& .MuiDataGrid-root": {
               border: "none",
@@ -240,115 +247,50 @@ const Customers = () => {
             },
           }}
         >
-          <Box
-            display="flex"
-            justifyContent="left"
-            mt="5px"
-            marginBottom="10px"
-          >
-            <Button
-              type="button"
-              color="secondary"
-              variant="contained"
-              onClick={handleClickOpen}
-            >
-              Add
-            </Button>
-            <Dialog
-              fullScreen
-              open={open}
-              onClose={handleClose}
-              TransitionComponent={Transition}
-            >
-              <AppBar sx={{ position: "relative" }}>
-                <Toolbar>
-                  <IconButton
-                    edge="start"
-                    color="inherit"
-                    onClick={handleClose}
-                    aria-label="close"
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                  <Typography
-                    sx={{ ml: 2, flex: 1 }}
-                    variant="h6"
-                    component="div"
-                  >
-                    {!id ? "Add Customer" : title}
-                  </Typography>
-                </Toolbar>
-              </AppBar>
-              <Form id={id} name={title} onAdd={setId} setOpen={setOpen} />
-            </Dialog>
-            <Dialog
-              fullScreen
-              open={openTaxDialog}
-              onClose={handleCloseTaxDialog}
-              TransitionComponent={Transition}
-            >
-              <AppBar sx={{ position: "relative" }}>
-                <Toolbar>
-                  <IconButton
-                    edge="start"
-                    color="inherit"
-                    onClick={handleCloseTaxDialog}
-                    aria-label="close"
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                  <Typography
-                    sx={{ ml: 2, flex: 1 }}
-                    variant="h6"
-                    component="div"
-                  >
-                    {!id ? "Add Customer" : title}
-                  </Typography>
-                </Toolbar>
-              </AppBar>
-              <Tax
-                id={id}
-                name={title}
-                onAdd={setId}
-                setOpen={setOpenTaxDialog}
-              />
-            </Dialog>
-            <Dialog
-              open={openDeleteConfirmationDialog}
-              TransitionComponent={Transition}
-              keepMounted
-              onClose={handleCloseDeleteConfirmationDialog}
-              aria-describedby="alert-dialog-slide-description"
-            >
-              <DialogTitle>{"Confirm Deletion"}</DialogTitle>
-              <DialogContent>
-                <DialogContentText id="alert-dialog-slide-description">
-                  Do you really want to delete the following record?
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button
-                  onClick={handleCloseDeleteConfirmationDialog}
-                  color="secondary"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={handleCloseDeleteConfirmationDialog}
-                  color="error"
-                >
-                  Confirm
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </Box>
+          <AddCustomerDialog
+            id={id}
+            setId={setId}
+            title={title}
+            open={open}
+            setOpen={setOpen}
+            onClose={handleClose}
+          />
+          <TaxDialog
+            id={id}
+            title={title}
+            open={openTaxDialog}
+            setOpen={setOpenTaxDialog}
+            onClose={handleCloseTaxDialog}
+          />
+          <DeleteCustomerConfirmationDialog
+            open={openDeleteConfirmationDialog}
+            onClose={handleCloseDeleteConfirmationDialog}
+          />
+
           <DataGrid
             rows={rows}
             columns={columns}
             getRowId={(row) => row.id}
             autoPageSize
+            slots={{
+              toolbar: CustomerGridToolBar,
+            }}
+            slotProps={{
+              toolbar: {
+                handleClickOpen: handleClickOpen,
+                setSearchText: setSearchText,
+                handleSearch: handleSearch,
+              },
+            }}
           />
         </Box>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={openBackDrop}
+          onClick={handleBackDropClose}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </Box>
     );
   }

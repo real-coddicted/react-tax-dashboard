@@ -1,6 +1,6 @@
 import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Header from "../../components/Header";
+import Header from "../../../components/Header";
 // import { DatePicker } from "@mui/x-date-pickers";
 // import dayjs from "dayjs";
 import React from "react";
@@ -10,7 +10,7 @@ import {
   getIncomeTaxRecordByOwnerRefId,
   createIncomeTaxRecord,
   updateIncomeTaxRecord,
-} from "../../service/incomeTaxService";
+} from "../../../service/incomeTaxService";
 import Snackbar, { snackbarClasses } from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -35,8 +35,6 @@ const IncomeTax = (props) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [status, setStatus] = React.useState();
-  const [createdDateTime, setCreatedDateTime] = React.useState("");
-  const [modifiedDateTime, setModifiedDateTime] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
   //----
@@ -46,7 +44,6 @@ const IncomeTax = (props) => {
       setOwnerRef(incomeTaxDetails["ownerRef"]);
       setPanNumber(incomeTaxDetails["panNumber"]);
       setAadharNumber(incomeTaxDetails["aadharNumber"]);
-      // setDateOfInit(incomeTaxDetails["dateOfInit"]);
       setFatherName(incomeTaxDetails["fatherName"]);
       setIsCoveredUnderAudit(incomeTaxDetails["isCoveredUnderAudit"]);
       setAddress(incomeTaxDetails["address"]);
@@ -54,8 +51,6 @@ const IncomeTax = (props) => {
       setEmail(incomeTaxDetails["email"]);
       setPassword(incomeTaxDetails["password"]);
       setStatus(incomeTaxDetails["status"]);
-      setCreatedDateTime(incomeTaxDetails["createdDateTime"]);
-      setModifiedDateTime(incomeTaxDetails["modifiedDateTime"]);
     }
   }
 
@@ -86,13 +81,19 @@ const IncomeTax = (props) => {
         password: password,
         status: status,
       };
-      createIncomeTaxRecord(incomeTaxRecord).then((res) => {
-        if (res && res.data) {
-          setIncomeTaxDetails(res.data);
-          setMessage("Income Tax Record created successfully");
+      createIncomeTaxRecord(incomeTaxRecord)
+        .then((res) => {
+          if (res && res.data) {
+            setIncomeTaxDetails(res.data);
+            setMessage("Income Tax Record created successfully");
+            setOpenSnackbar(true);
+          }
+        })
+        .catch((error) => {
+          console.log(error.message);
+          setMessage(error.message);
           setOpenSnackbar(true);
-        }
-      });
+        });
     } else {
       let incomeTaxRecord = {
         id: id,
@@ -108,13 +109,19 @@ const IncomeTax = (props) => {
         password: password,
         status: status,
       };
-      updateIncomeTaxRecord(incomeTaxRecord).then((res) => {
-        if (res && res.data) {
-          setIncomeTaxDetails(incomeTaxRecord);
-          setMessage("Income Tax Record updated successfully");
+      updateIncomeTaxRecord(incomeTaxRecord)
+        .then((res) => {
+          if (res && res.data) {
+            setIncomeTaxDetails(incomeTaxRecord);
+            setMessage("Income Tax Record updated successfully");
+            setOpenSnackbar(true);
+          }
+        })
+        .catch((error) => {
+          console.log(error.message);
+          setMessage(error.message);
           setOpenSnackbar(true);
-        }
-      });
+        });
     }
   };
 

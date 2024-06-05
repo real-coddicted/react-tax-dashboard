@@ -69,12 +69,12 @@ const InstitutionSpecificFields = ({ state, dispatch }) => {
           fullWidth
           variant="filled"
           type="text"
-          value={state.authorizedPerson}
+          value={state.authorisedPerson}
           onChange={(e) => {
             handleInputChange(e);
           }}
           label="Authorized Person"
-          name="authorizedPerson"
+          name="authorisedPerson"
           sx={{ gridColumn: "span 2" }}
         />
         <TextField
