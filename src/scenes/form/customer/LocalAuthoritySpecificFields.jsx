@@ -1,25 +1,21 @@
 import { Box, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import React from "react";
-import { getUserById } from "../../../service/userService";
 
-const LocalAuthoritySpecificFields = (props) => {
+const LocalAuthoritySpecificFields = ({ state, dispatch }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const [tanNumber, setTanNumber] = React.useState("");
-  const isAddMode = !props.id;
 
-  function setUser(user) {
-    setTanNumber(user["tanNumber"]);
-  }
-
-  React.useEffect(() => {
-    if (!isAddMode) {
-      // get user and set form fields
-      getUserById(props.id).then((user) => {
-        setUser(user);
-      });
-    }
-  }, []);
+  const handleInputChange = (event) => {
+    const field = event.target.name;
+    const value = event.target.value;
+    dispatch({
+      type: "CHANGE_INPUT",
+      payload: {
+        value,
+        field,
+      },
+    });
+  };
 
   return (
     <Box m="20px">
@@ -36,8 +32,10 @@ const LocalAuthoritySpecificFields = (props) => {
           variant="filled"
           type="text"
           label="TAN"
-          value={tanNumber}
-          onChange={(event) => setTanNumber(event.target.value)}
+          value={state.tanNumber}
+          onChange={(e) => {
+            handleInputChange(e);
+          }}
           name="tanNumber"
           sx={{ gridColumn: "span 2" }}
         />
