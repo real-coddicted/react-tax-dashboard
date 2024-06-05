@@ -5,10 +5,6 @@ export function createCustomer(customerDetails) {
     "http://192.168.1.44:8002/api/customer/add",
     customerDetails
   );
-  // .catch((error) => {
-  //   console.log("error:44444 " + error);
-  //   return error;
-  // });
   return response;
 }
 
