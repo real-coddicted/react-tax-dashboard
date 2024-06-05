@@ -27,7 +27,7 @@ const PF = (props) => {
   const [ownerRef, setOwnerRef] = React.useState(props.id);
   const [companyName, setCompanyName] = React.useState("");
   const [coveredUnderAudit, setCoveredUnderAudit] = React.useState(false);
-  const [esicRegistrationNumber, setEsicRegistrationNumber] = React.useState();
+  const [pfRegistrationNumber, setPFRegistrationNumber] = React.useState();
   const [panNumber, setPanNumber] = React.useState("");
   // const [dateOfRegistration, setDateOfRegistration] = React.useState(
   //   dayjs("2022-04-17")
@@ -51,7 +51,7 @@ const PF = (props) => {
       // setOwnerRef(gstDetails["ownerRef"]);
       setCompanyName(pfDetails["companyName"]);
       setCoveredUnderAudit(pfDetails["coveredUnderAudit"]);
-      setEsicRegistrationNumber(pfDetails["esicRegistrationNumber"]);
+      setPFRegistrationNumber(pfDetails["pfRegistrationNumber"]);
       setPanNumber(pfDetails["panNumber"]);
       // setDateOfRegistration(pfDetails["dateOfRegistration"]);
       setAuthorizedSignatory(pfDetails["authorizedSignatory"]);
@@ -84,7 +84,7 @@ const PF = (props) => {
         ownerRef: ownerRef,
         companyName: companyName,
         coveredUnderAudit: coveredUnderAudit,
-        esicRegistrationNumber: esicRegistrationNumber,
+        esicRegistrationNumber: pfRegistrationNumber,
         panNumber: panNumber,
         // dateOfRegistration: dateOfRegistration,
         authorizedSignatory: authorizedSignatory,
@@ -112,7 +112,7 @@ const PF = (props) => {
         ownerRef: ownerRef,
         companyName: companyName,
         coveredUnderAudit: coveredUnderAudit,
-        esicRegistrationNumber: esicRegistrationNumber,
+        esicRegistrationNumber: pfRegistrationNumber,
         panNumber: panNumber,
         // dateOfRegistration: dateOfRegistration,
         authorizedSignatory: authorizedSignatory,
@@ -210,10 +210,10 @@ const PF = (props) => {
           fullWidth
           variant="filled"
           type="text"
-          label="ESIC REGISTRATION  NO"
-          name="esicRegistrationNo"
-          value={esicRegistrationNumber}
-          onChange={(event) => setEsicRegistrationNumber(event.target.value)}
+          label="PF REGISTRATION NO"
+          name="pfRegistrationNo"
+          value={pfRegistrationNumber}
+          onChange={(event) => setPFRegistrationNumber(event.target.value)}
           sx={{ gridColumn: "span 2" }}
         />
         <FormControl sx={{ gridColumn: "span 4" }}>
