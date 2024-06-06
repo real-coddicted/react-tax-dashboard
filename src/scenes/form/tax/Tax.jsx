@@ -12,6 +12,44 @@ import ESIC from "./ESIC";
 import TDS from "./TDS";
 import FileUpload from "./FileUpload";
 
+const services = {
+  incomeTax: {
+    label: "Income Tax",
+    enable: true,
+    index: 0,
+  },
+  gst: {
+    label: "GST",
+    enable: true,
+    index: 1,
+  },
+  mca: {
+    label: "MCA",
+    enable: true,
+    index: 2,
+  },
+  pf: {
+    label: "PF",
+    enable: true,
+    index: 3,
+  },
+  esic: {
+    label: "ESIC",
+    enable: true,
+    index: 4,
+  },
+  tds: {
+    label: "TDS",
+    enable: true,
+    index: 5,
+  },
+  documents: {
+    label: "Documents",
+    enable: true,
+    index: 6,
+  },
+};
+
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -23,11 +61,7 @@ function CustomTabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -60,15 +94,21 @@ export default function Tax(props) {
           indicatorColor="secondary"
           value={value}
           onChange={handleChange}
-          aria-label="basic tabs example"
+          aria-label="services tabs"
         >
-          <Tab label="Income Tax" {...a11yProps(0)} />
+          {/* <Tab label="Income Tax" {...a11yProps(0)} />
           <Tab label="GST" {...a11yProps(1)} />
           <Tab label="MCA" {...a11yProps(2)} />
           <Tab label="PF" {...a11yProps(3)} />
           <Tab label="ESIC" {...a11yProps(4)} />
           <Tab label="TDS" {...a11yProps(5)} />
-          <Tab label="Documents" {...a11yProps(6)} />
+          <Tab label="Documents" {...a11yProps(6)} /> */}
+          {Object.entries(services).forEach(([key, value]) => {
+            console.log(
+              value.label + "**" + value.enable + "***" + value.index
+            );
+            return <Tab label={value.label} {...a11yProps(value.index)} />;
+          })}
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
