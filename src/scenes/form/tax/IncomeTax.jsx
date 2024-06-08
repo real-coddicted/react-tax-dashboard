@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Divider, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../../components/Header";
 // import { DatePicker } from "@mui/x-date-pickers";
@@ -20,6 +20,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import ReadOnlyFields from "./ReadOnlyFields";
 
 const IncomeTax = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -184,7 +185,7 @@ const IncomeTax = (props) => {
           "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
         }}
       >
-        <TextField
+        {/* <TextField
           fullWidth
           variant="filled"
           type="text"
@@ -240,8 +241,7 @@ const IncomeTax = (props) => {
             sx={{ gridColumn: "span 2" }}
           />
         </LocalizationProvider> */}
-
-        <TextField
+        {/* <TextField
           required
           fullWidth
           variant="filled"
@@ -280,7 +280,9 @@ const IncomeTax = (props) => {
           label="Address 2"
           name="address2"
           sx={{ gridColumn: "span 4" }}
-        />
+        /> */}
+        <ReadOnlyFields service="incomeTax" state={props.state} />
+        <Divider />
         <TextField
           fullWidth
           variant="filled"
