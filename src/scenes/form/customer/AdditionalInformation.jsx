@@ -2,7 +2,6 @@ import { Box } from "@mui/material";
 import React from "react";
 import Divider from "@mui/material/Divider";
 import InstitutionSpecificFields from "./InstitutionSpecificFields";
-import LocalAuthoritySpecificFields from "./LocalAuthoritySpecificFields";
 import ParticipantDetails from "./ParticipantDetails";
 
 const AdditionalInformation = ({ state, dispatch }) => {
@@ -15,15 +14,7 @@ const AdditionalInformation = ({ state, dispatch }) => {
       case "AOP":
       case "AOP_TRUST":
       case "BOI":
-        return (
-          <Box m="20px">
-            <ParticipantDetails state={state} dispatch={dispatch} />
-          </Box>
-        );
       case "LOCAL_AUTHORITY":
-        return (
-          <LocalAuthoritySpecificFields state={state} dispatch={dispatch} />
-        );
       case "PARTNERSHIP_FIRM":
       case "LLP":
       case "COMPANY":

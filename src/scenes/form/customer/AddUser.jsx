@@ -19,6 +19,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import Alert from "@mui/material/Alert";
 
 const steps = [
   "Select Customer Type",
@@ -66,10 +67,9 @@ export const initialState = {
   firstName: "",
   lastName: "",
   aadhar: "",
-  tradeName: "",
+  firmName: "",
   //---
   companyName: "",
-  authorisedPerson: "",
   registrationNumber: "",
   //--
   email: "",
@@ -95,6 +95,7 @@ export default function AddUser(props) {
   const [id, setId] = React.useState(props.id);
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [message, setMessage] = React.useState("");
+  const [severity, setSeverity] = React.useState();
 
   const [openBackDrop, setOpenBackDrop] = React.useState(false);
   const handleBackDropClose = () => {
@@ -165,7 +166,36 @@ export default function AddUser(props) {
     }
   };
 
+  const validatePersonArray = () => {
+    if (state.persons && state.persons.length > 0) {
+      let count = 0;
+      state.persons.forEach((person, index) => {
+        if (person.isAuthorisedPerson) {
+          count++;
+        }
+      });
+      if (count > 1) {
+        setSeverity("error");
+        setMessage("Only person can be set as a Authorised Person");
+        setOpenSnackbar(true);
+        return false;
+      }
+
+      if (count === 0) {
+        setSeverity("error");
+        setMessage("One person needs to be set as a Authorised Person");
+        setOpenSnackbar(true);
+        return false;
+      }
+    }
+    return true;
+  };
+
   const handleSave = () => {
+    const isValidated = validatePersonArray();
+    if (!isValidated) {
+      return;
+    }
     dispatch({
       type: "SAVE_CUSTOMER",
     });
@@ -188,6 +218,7 @@ export default function AddUser(props) {
         })
         .catch((error) => {
           console.error("error:12222" + error.message);
+          setSeverity("error");
           setMessage(error.message);
           setOpenSnackbar(true);
           dispatch({
@@ -197,6 +228,7 @@ export default function AddUser(props) {
         });
     } catch (error) {
       console.error("error:333333" + error.message);
+      setSeverity("error");
       setMessage(error.message);
       setOpenSnackbar(true);
       dispatch({
@@ -293,7 +325,16 @@ export default function AddUser(props) {
               message={message}
               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
               action={snackbarAction}
-            />
+            >
+              <Alert
+                onClose={handleSnackbarClose}
+                severity={severity}
+                variant="filled"
+                sx={{ width: "100%" }}
+              >
+                {message}
+              </Alert>
+            </Snackbar>
             <Backdrop
               sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
               open={openBackDrop}

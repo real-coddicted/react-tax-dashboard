@@ -27,11 +27,9 @@ const Customers = () => {
 
   const [openBackDrop, setOpenBackDrop] = React.useState(false);
   const handleBackDropClose = () => {
-    console.log("handleBackDropClose");
     setOpenBackDrop(false);
   };
   const handleBackDropOpen = () => {
-    console.log("handleBackDropOpen");
     setOpenBackDrop(true);
   };
 
