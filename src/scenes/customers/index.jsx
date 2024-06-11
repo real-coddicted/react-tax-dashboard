@@ -126,6 +126,11 @@ const Customers = () => {
       flex: 1,
     },
     {
+      field: "panNumber",
+      headerName: "Pan No.",
+      flex: 1,
+    },
+    {
       field: "name",
       headerName: "Name",
       valueGetter: (value, row) => {
