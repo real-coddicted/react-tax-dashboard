@@ -93,12 +93,12 @@ const IndividualSpecificFields = ({ mode, state, dispatch }) => {
           fullWidth
           variant="filled"
           type="text"
-          value={state.tradeName}
+          value={state.firmName}
           onChange={(e) => {
             handleInputChange(e);
           }}
-          label="Trade/Firm Name"
-          name="tradeName"
+          label="Firm Name"
+          name="firmName"
           sx={{ gridColumn: "span 2" }}
         />
       </Box>
