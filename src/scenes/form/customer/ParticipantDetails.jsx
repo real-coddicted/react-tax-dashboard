@@ -46,12 +46,6 @@ export default function ParticipantDetails({ state, dispatch }) {
   const [rows, setRows] = React.useState(state.persons);
   const [rowModesModel, setRowModesModel] = React.useState({});
 
-  //on page load - fetch users
-  React.useEffect(() => {
-    // get user and set form fields
-    console.log(rows);
-  }, [rows]);
-
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
@@ -147,7 +141,7 @@ export default function ParticipantDetails({ state, dispatch }) {
     {
       field: "isAuthorisedPerson",
       headerName: "is Authorized Person?",
-      width: 100,
+      width: 80,
       sortable: false,
       editable: true,
       type: "boolean",
@@ -290,6 +284,20 @@ export default function ParticipantDetails({ state, dispatch }) {
         }}
       >
         <DataGrid
+          sx={{
+            "& .MuiDataGrid-columnHeaderTitle": {
+              whiteSpace: "normal",
+              lineHeight: "normal",
+            },
+            "& .MuiDataGrid-columnHeader": {
+              // Forced to use important since overriding inline styles
+              height: "unset !important",
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              // Forced to use important since overriding inline styles
+              maxHeight: "180px !important",
+            },
+          }}
           rows={rows}
           columns={columns}
           editMode="row"
