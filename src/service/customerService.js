@@ -5,10 +5,6 @@ export function createCustomer(customerDetails) {
     `${process.env.REACT_APP_API_URL}/api/customer/add`,
     customerDetails
   );
-  // .catch((error) => {
-  //   console.log("error:44444 " + error);
-  //   return error;
-  // });
   return response;
 }
 
