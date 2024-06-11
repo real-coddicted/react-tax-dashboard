@@ -2,19 +2,15 @@ import axios from "axios";
 
 export function createCustomer(customerDetails) {
   const response = axios.post(
-    "http://192.168.1.44:8002/api/customer/add",
+    `${process.env.REACT_APP_API_URL}/api/customer/add`,
     customerDetails
   );
-  // .catch((error) => {
-  //   console.log("error:44444 " + error);
-  //   return error;
-  // });
   return response;
 }
 
 export function getCustomers() {
   const response = axios
-    .get("http://192.168.1.44:8002/api/customer/getAll")
+    .get(`${process.env.REACT_APP_API_URL}/api/customer/getAll`)
     .catch((error) => {
       console.log(error);
       return undefined;
@@ -24,7 +20,7 @@ export function getCustomers() {
 
 export function getCustomerById(id) {
   const response = axios
-    .get(`http://192.168.1.44:8002/api/customer/getById/${id}`)
+    .get(`${process.env.REACT_APP_API_URL}/api/customer/getById/${id}`)
     .catch((error) => {
       console.log(error);
       return undefined;
@@ -35,7 +31,7 @@ export function getCustomerById(id) {
 export function updateCustomer(customerDetails) {
   const response = axios
     .put(
-      `http://192.168.1.44:8002/api/customer/update/${customerDetails.id}`,
+      `${process.env.REACT_APP_API_URL}/api/customer/update/${customerDetails.id}`,
       customerDetails
     )
     .catch((error) => {
