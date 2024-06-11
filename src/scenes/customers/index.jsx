@@ -14,6 +14,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import Alert from "@mui/material/Alert";
 
 const Customers = () => {
   const [rows, setRows] = React.useState([]);
@@ -30,6 +31,7 @@ const Customers = () => {
 
   const [openBackDrop, setOpenBackDrop] = React.useState(false);
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [severity, setSeverity] = React.useState();
   const [message, setMessage] = React.useState("");
 
   const handleBackDropClose = () => {
@@ -82,6 +84,7 @@ const Customers = () => {
           console.error(error.request);
           setRows([]);
           handleBackDropClose();
+          setSeverity("error");
           setMessage(error.message);
           setOpenSnackbar(true);
         });
@@ -89,6 +92,7 @@ const Customers = () => {
       console.error("Error fetching users:", error);
       setRows([]);
       handleBackDropClose();
+      setSeverity("error");
       setMessage(error.message);
       setOpenSnackbar(true);
     }
@@ -327,12 +331,21 @@ const Customers = () => {
         </Backdrop>
         <Snackbar
           open={openSnackbar}
-          autoHideDuration={5000}
+          autoHideDuration={10000}
           onClose={handleSnackbarClose}
           message={message}
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           action={snackbarAction}
-        />
+        >
+          <Alert
+            onClose={handleSnackbarClose}
+            severity={severity}
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            {message}
+          </Alert>
+        </Snackbar>
       </Box>
     );
   }
