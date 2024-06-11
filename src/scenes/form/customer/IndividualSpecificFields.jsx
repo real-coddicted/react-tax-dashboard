@@ -89,6 +89,18 @@ const IndividualSpecificFields = ({ mode, state, dispatch }) => {
           name="aadhar"
           sx={{ gridColumn: "span 2" }}
         />
+        <TextField
+          fullWidth
+          variant="filled"
+          type="text"
+          value={state.tradeName}
+          onChange={(e) => {
+            handleInputChange(e);
+          }}
+          label="Trade/Firm Name"
+          name="tradeName"
+          sx={{ gridColumn: "span 2" }}
+        />
       </Box>
       <Snackbar
         open={openSnackbar}

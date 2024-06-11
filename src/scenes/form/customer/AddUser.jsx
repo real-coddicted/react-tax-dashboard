@@ -66,6 +66,7 @@ export const initialState = {
   firstName: "",
   lastName: "",
   aadhar: "",
+  tradeName: "",
   //---
   companyName: "",
   authorisedPerson: "",
@@ -97,11 +98,9 @@ export default function AddUser(props) {
 
   const [openBackDrop, setOpenBackDrop] = React.useState(false);
   const handleBackDropClose = () => {
-    console.log("handleBackDropClose");
     setOpenBackDrop(false);
   };
   const handleBackDropOpen = () => {
-    console.log("handleBackDropOpen");
     setOpenBackDrop(true);
   };
 
@@ -128,7 +127,6 @@ export default function AddUser(props) {
 
   //on page load - fetch customers
   React.useEffect(() => {
-    console.log("-----" + id);
     // get user and set form fields
     if (id) {
       handleBackDropOpen();
