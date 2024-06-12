@@ -177,7 +177,6 @@ const TDS = (props) => {
         </Box>
       </Box>
       <ReadOnlyFields service="tds" data={props.data} />
-      <Divider />
       <Box
         display="grid"
         gap="30px"
@@ -260,8 +259,16 @@ const TDS = (props) => {
             value={coveredUnderAudit}
             onChange={handleCoveredUnderAuditChange}
           >
-            <FormControlLabel value="true" control={<Radio />} label="Yes" />
-            <FormControlLabel value="false" control={<Radio />} label="No" />
+            <FormControlLabel
+              value="true"
+              control={<Radio color="secondary" />}
+              label="Yes"
+            />
+            <FormControlLabel
+              value="false"
+              control={<Radio color="secondary" />}
+              label="No"
+            />
           </RadioGroup>
         </FormControl>
         <TextField
