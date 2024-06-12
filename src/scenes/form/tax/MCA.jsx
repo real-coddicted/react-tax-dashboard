@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Divider, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../../components/Header";
 // import { DatePicker } from "@mui/x-date-pickers";
@@ -16,7 +16,7 @@ import {
   createMCARecord,
   updateMCARecord,
 } from "../../../service/mcaService";
-import Snackbar, { snackbarClasses } from "@mui/material/Snackbar";
+import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -24,6 +24,7 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
+import ReadOnlyFields from "./ReadOnlyFields";
 
 const MCA = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -202,6 +203,8 @@ const MCA = (props) => {
           </Button>
         </Box>
       </Box>
+      <ReadOnlyFields service="mca" data={props.data} />
+      <Divider />
       <Box
         display="grid"
         gap="30px"
@@ -210,7 +213,7 @@ const MCA = (props) => {
           "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
         }}
       >
-        <TextField
+        {/* <TextField
           fullWidth
           variant="filled"
           type="text"
@@ -220,35 +223,6 @@ const MCA = (props) => {
           onChange={(event) => setCompanyName(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
-        <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
-          <InputLabel id="typeOfEntityLabel" textColor="secondary">
-            Type of Entity
-          </InputLabel>
-          <Select
-            labelId="typeOfEntitySelectLabel"
-            id="companyType"
-            value={companyType}
-            onChange={handleTypeOfEntityChange}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value="LIMITED_LIABILITY_PARTNERSHIP">
-              Limited Liability Partnership
-            </MenuItem>
-            <MenuItem value="COMPANY">Company</MenuItem>
-          </Select>
-        </FormControl>
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="CIN/LLPIN"
-          name="cin"
-          value={cin}
-          onChange={(event) => setCin(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
         <TextField
           fullWidth
           variant="filled"
@@ -257,24 +231,6 @@ const MCA = (props) => {
           name="pan"
           value={panNumber}
           onChange={(event) => setPanNumber(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
-        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            label="DOI"
-            value={dateOfInit}
-            onChange={(newValue) => setDateOfInit(newValue)}
-            sx={{ gridColumn: "span 2" }}
-          />
-        </LocalizationProvider> */}
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="No. Of Directors"
-          name="numberOfdirectors"
-          value={countOfDirector}
-          onChange={(event) => setCountOfDirector(event.target.value)}
           sx={{ gridColumn: "span 2" }}
         />
         <TextField
@@ -316,13 +272,53 @@ const MCA = (props) => {
           label="Address 2"
           name="address2"
           sx={{ gridColumn: "span 4" }}
+        /> */}
+
+        <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+          <InputLabel id="typeOfEntityLabel" textColor="secondary">
+            Type of Entity
+          </InputLabel>
+          <Select
+            labelId="typeOfEntitySelectLabel"
+            id="companyType"
+            value={companyType}
+            onChange={handleTypeOfEntityChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value="LIMITED_LIABILITY_PARTNERSHIP">
+              Limited Liability Partnership
+            </MenuItem>
+            <MenuItem value="COMPANY">Company</MenuItem>
+          </Select>
+        </FormControl>
+        <TextField
+          fullWidth
+          variant="filled"
+          type="text"
+          label="CIN/LLPIN"
+          name="cin"
+          value={cin}
+          onChange={(event) => setCin(event.target.value)}
+          sx={{ gridColumn: "span 2" }}
         />
+
+        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            label="DOI"
+            value={dateOfInit}
+            onChange={(newValue) => setDateOfInit(newValue)}
+            sx={{ gridColumn: "span 2" }}
+          />
+        </LocalizationProvider> */}
+
         <TextField
           fullWidth
           variant="filled"
           type="text"
           label="Login Password"
-          name="login_password"
+          name="loginPassword"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           sx={{ gridColumn: "span 4" }}

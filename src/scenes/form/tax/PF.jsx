@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Divider, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../../components/Header";
 // import { DatePicker } from "@mui/x-date-pickers";
@@ -20,6 +20,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import ReadOnlyFields from "./ReadOnlyFields";
 
 const PF = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -188,6 +189,8 @@ const PF = (props) => {
           </Button>
         </Box>
       </Box>
+      <ReadOnlyFields service="pf" data={props.data} />
+      <Divider />
       <Box
         display="grid"
         gap="30px"
@@ -196,7 +199,7 @@ const PF = (props) => {
           "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
         }}
       >
-        <TextField
+        {/* <TextField
           fullWidth
           variant="filled"
           type="text"
@@ -205,7 +208,7 @@ const PF = (props) => {
           value={companyName}
           onChange={(event) => setCompanyName(event.target.value)}
           sx={{ gridColumn: "span 2" }}
-        />
+        /> */}
         <TextField
           fullWidth
           variant="filled"
@@ -231,7 +234,7 @@ const PF = (props) => {
             <FormControlLabel value="false" control={<Radio />} label="No" />
           </RadioGroup>
         </FormControl>
-        <TextField
+        {/* <TextField
           fullWidth
           variant="filled"
           type="text"
@@ -250,16 +253,9 @@ const PF = (props) => {
           value={authorizedSignatory}
           onChange={(event) => setAuthorizedSignatory(event.target.value)}
           sx={{ gridColumn: "span 2" }}
-        />
-        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            label="DOR"
-            value={dateOfRegistration}
-            onChange={(newValue) => setDateOfRegistration(newValue)}
-            sx={{ gridColumn: "span 2" }}
-          />
-        </LocalizationProvider> */}
-        <TextField
+        /> */}
+
+        {/* <TextField
           required
           fullWidth
           variant="filled"
@@ -296,17 +292,25 @@ const PF = (props) => {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           sx={{ gridColumn: "span 4" }}
-        />
+        /> */}
         <TextField
           fullWidth
           variant="filled"
           type="text"
           label="Login Password"
-          name="login_password"
+          name="loginPassword"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
+        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            label="DOR"
+            value={dateOfRegistration}
+            onChange={(newValue) => setDateOfRegistration(newValue)}
+            sx={{ gridColumn: "span 2" }}
+          />
+        </LocalizationProvider> */}
       </Box>
       <Snackbar
         open={openSnackbar}

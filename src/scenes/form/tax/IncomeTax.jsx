@@ -11,7 +11,7 @@ import {
   createIncomeTaxRecord,
   updateIncomeTaxRecord,
 } from "../../../service/incomeTaxService";
-import Snackbar, { snackbarClasses } from "@mui/material/Snackbar";
+import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -177,6 +177,8 @@ const IncomeTax = (props) => {
           </Button>
         </Box>
       </Box>
+      <ReadOnlyFields service="incomeTax" data={props.data} />
+      <Divider />
       <Box
         display="grid"
         gap="30px"
@@ -281,8 +283,7 @@ const IncomeTax = (props) => {
           name="address2"
           sx={{ gridColumn: "span 4" }}
         /> */}
-        <ReadOnlyFields service="incomeTax" state={props.state} />
-        <Divider />
+
         <TextField
           fullWidth
           variant="filled"

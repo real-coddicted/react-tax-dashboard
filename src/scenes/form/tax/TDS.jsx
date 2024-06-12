@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Divider, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../../components/Header";
 import React from "react";
@@ -16,6 +16,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import ReadOnlyFields from "./ReadOnlyFields";
 
 const TDS = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -175,6 +176,8 @@ const TDS = (props) => {
           </Button>
         </Box>
       </Box>
+      <ReadOnlyFields service="tds" data={props.data} />
+      <Divider />
       <Box
         display="grid"
         gap="30px"
@@ -183,7 +186,7 @@ const TDS = (props) => {
           "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
         }}
       >
-        <TextField
+        {/* <TextField
           fullWidth
           variant="filled"
           type="text"
@@ -193,31 +196,7 @@ const TDS = (props) => {
           onChange={(event) => setCompanyName(event.target.value)}
           sx={{ gridColumn: "span 2" }}
         />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="TAN NO"
-          name="tanNo"
-          value={tanNumber}
-          onChange={(event) => setTanNumber(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
-        <FormControl sx={{ gridColumn: "span 4" }}>
-          <FormLabel id="coveredUnderAuditRadioGroupLabel">
-            Covered Under Audit
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="coveredUnderAuditRadioGroupLabel"
-            name="coveredUnderAudit"
-            value={coveredUnderAudit}
-            onChange={handleCoveredUnderAuditChange}
-          >
-            <FormControlLabel value="true" control={<Radio />} label="Yes" />
-            <FormControlLabel value="false" control={<Radio />} label="No" />
-          </RadioGroup>
-        </FormControl>
+        
         <TextField
           fullWidth
           variant="filled"
@@ -259,7 +238,32 @@ const TDS = (props) => {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           sx={{ gridColumn: "span 4" }}
+        /> */}
+        <TextField
+          fullWidth
+          variant="filled"
+          type="text"
+          label="TAN NO"
+          name="tanNo"
+          value={tanNumber}
+          onChange={(event) => setTanNumber(event.target.value)}
+          sx={{ gridColumn: "span 2" }}
         />
+        <FormControl sx={{ gridColumn: "span 4" }}>
+          <FormLabel id="coveredUnderAuditRadioGroupLabel">
+            Covered Under Audit
+          </FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="coveredUnderAuditRadioGroupLabel"
+            name="coveredUnderAudit"
+            value={coveredUnderAudit}
+            onChange={handleCoveredUnderAuditChange}
+          >
+            <FormControlLabel value="true" control={<Radio />} label="Yes" />
+            <FormControlLabel value="false" control={<Radio />} label="No" />
+          </RadioGroup>
+        </FormControl>
         <TextField
           fullWidth
           variant="filled"

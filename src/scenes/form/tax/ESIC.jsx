@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Divider, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../../components/Header";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -24,6 +24,7 @@ import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import ReadOnlyFields from "./ReadOnlyFields";
 
 const ESIC = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -205,6 +206,8 @@ const ESIC = (props) => {
           </Button>
         </Box>
       </Box>
+      <ReadOnlyFields service="esic" data={props.data} />
+      <Divider />
       <Box
         display="grid"
         gap="30px"
@@ -213,7 +216,7 @@ const ESIC = (props) => {
           "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
         }}
       >
-        <TextField
+        {/* <TextField
           fullWidth
           variant="filled"
           type="text"
@@ -222,33 +225,9 @@ const ESIC = (props) => {
           value={companyName}
           onChange={(event) => setCompanyName(event.target.value)}
           sx={{ gridColumn: "span 2" }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="ESIC REGISTRATION  NO"
-          name="esicRegistrationNo"
-          value={esicRegistrationNo}
-          onChange={(event) => setEsicRegistrationNo(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
-        <FormControl sx={{ gridColumn: "span 4" }}>
-          <FormLabel id="coveredUnderAuditRadioGroupLabel">
-            Covered Under Audit
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="coveredUnderAuditRadioGroupLabel"
-            name="coveredUnderAudit"
-            value={coveredUnderAudit}
-            onChange={handleCoveredUnderAuditChange}
-          >
-            <FormControlLabel value={true} control={<Radio />} label="Yes" />
-            <FormControlLabel value={false} control={<Radio />} label="No" />
-          </RadioGroup>
-        </FormControl>
-        <TextField
+        /> */}
+
+        {/* <TextField
           fullWidth
           variant="filled"
           type="text"
@@ -257,26 +236,9 @@ const ESIC = (props) => {
           value={panNumber}
           onChange={(event) => setPanNumber(event.target.value)}
           sx={{ gridColumn: "span 2" }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="AUTHO SIGN"
-          name="authoSign"
-          value={authorizedSignatory}
-          onChange={(event) => setAuthorizedSignatory(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            label="DOI"
-            value={dateOfRegistration}
-            onChange={(newValue) => setDateOfRegistration(newValue)}
-            sx={{ gridColumn: "span 2" }}
-          />
-        </LocalizationProvider>
-        <TextField
+        /> */}
+
+        {/* <TextField
           required
           fullWidth
           variant="filled"
@@ -313,7 +275,7 @@ const ESIC = (props) => {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           sx={{ gridColumn: "span 4" }}
-        />
+        /> */}
 
         <TextField
           variant="filled"
@@ -343,11 +305,54 @@ const ESIC = (props) => {
           variant="filled"
           type="text"
           label="Login Password"
-          name="login_password"
+          name="loginPassword"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           sx={{ gridColumn: "span 4" }}
         />
+        <TextField
+          fullWidth
+          variant="filled"
+          type="text"
+          label="AUTHO SIGN"
+          name="authoSign"
+          value={authorizedSignatory}
+          onChange={(event) => setAuthorizedSignatory(event.target.value)}
+          sx={{ gridColumn: "span 2" }}
+        />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            label="DOI"
+            value={dateOfRegistration}
+            onChange={(newValue) => setDateOfRegistration(newValue)}
+            sx={{ gridColumn: "span 2" }}
+          />
+        </LocalizationProvider>
+        <TextField
+          fullWidth
+          variant="filled"
+          type="text"
+          label="ESIC REGISTRATION  NO"
+          name="esicRegistrationNo"
+          value={esicRegistrationNo}
+          onChange={(event) => setEsicRegistrationNo(event.target.value)}
+          sx={{ gridColumn: "span 2" }}
+        />
+        <FormControl sx={{ gridColumn: "span 4" }}>
+          <FormLabel id="coveredUnderAuditRadioGroupLabel">
+            Covered Under Audit
+          </FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="coveredUnderAuditRadioGroupLabel"
+            name="coveredUnderAudit"
+            value={coveredUnderAudit}
+            onChange={handleCoveredUnderAuditChange}
+          >
+            <FormControlLabel value={true} control={<Radio />} label="Yes" />
+            <FormControlLabel value={false} control={<Radio />} label="No" />
+          </RadioGroup>
+        </FormControl>
       </Box>
       <Snackbar
         open={openSnackbar}

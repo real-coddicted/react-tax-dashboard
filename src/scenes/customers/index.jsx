@@ -22,6 +22,7 @@ const Customers = () => {
   const colors = tokens(theme.palette.mode);
   const [open, setOpen] = React.useState(false);
   const [id, setId] = React.useState();
+  const [data, setData] = React.useState();
   const [title, setTitle] = React.useState();
   const [authenticated, setauthenticated] = React.useState(null);
   const [openTaxDialog, setOpenTaxDialog] = React.useState(false);
@@ -201,6 +202,7 @@ const Customers = () => {
         const onClickTax = (e) => {
           const currentRow = params.row;
           setId(currentRow.id);
+          setData(currentRow);
           setTitle(getTitle(currentRow));
           setOpenTaxDialog(true);
         };
@@ -295,6 +297,7 @@ const Customers = () => {
           />
           <TaxDialog
             id={id}
+            data={data}
             title={title}
             open={openTaxDialog}
             setOpen={setOpenTaxDialog}
