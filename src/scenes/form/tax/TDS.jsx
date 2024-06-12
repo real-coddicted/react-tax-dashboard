@@ -1,4 +1,4 @@
-import { Box, Button, Divider, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../../components/Header";
 import React from "react";
@@ -7,7 +7,7 @@ import {
   createTDSRecord,
   updateTDSRecord,
 } from "../../../service/tdsService";
-import Snackbar, { snackbarClasses } from "@mui/material/Snackbar";
+import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -185,59 +185,6 @@ const TDS = (props) => {
           "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
         }}
       >
-        {/* <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Firm Name"
-          name="firmName"
-          value={companyName}
-          onChange={(event) => setCompanyName(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
-        
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Pan No"
-          name="pan"
-          value={panNumber}
-          onChange={(event) => setPanNumber(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="AUTHO SIGN"
-          name="authoSign"
-          value={authorizedSignatory}
-          onChange={(event) => setAuthorizedSignatory(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
-        <TextField
-          required
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Contact Number"
-          name="contact"
-          value={contactNumber}
-          onChange={(event) => setcontactNumber(event.target.value)}
-          sx={{ gridColumn: "span 4" }}
-        />
-        <TextField
-          required
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Email"
-          name="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          sx={{ gridColumn: "span 4" }}
-        /> */}
         <TextField
           fullWidth
           variant="filled"
