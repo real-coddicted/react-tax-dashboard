@@ -1,5 +1,6 @@
+import { useReducer } from "react";
 import React from "react";
-import { Box, Button, Divider, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../../components/Header";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -20,44 +21,83 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ReadOnlyFields from "./ReadOnlyFields";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import Alert from "@mui/material/Alert";
+
+const initialState = {
+  id: "",
+};
+
+function taxReducer(state, action) {
+  const { type, payload } = action;
+  switch (type) {
+    case "INIT":
+      return { ...state, ...payload };
+    case "CHANGE_INPUT":
+      return { ...state, [payload.field]: payload.value };
+    case "SAVING_TAX_DETAILS":
+      console.log("dispatch SAVING_TAX_DETAILS");
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case "SAVED_TAX_DETAILS":
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case "ERROR_SAVING_TAX_DETAILS":
+      console.log("dispatch ERROR_SAVING_TAX_DETAILS");
+      return {
+        ...state,
+        isLoading: false,
+      };
+    default:
+      return state;
+  }
+}
 
 const ESIC = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const [id, setId] = React.useState("");
+  const [state, dispatch] = useReducer(taxReducer, initialState);
   const [ownerRef, setOwnerRef] = React.useState(props.id);
-  const [companyName, setCompanyName] = React.useState("");
-  const [coveredUnderAudit, setCoveredUnderAudit] = React.useState(false);
-  const [esicRegistrationNo, setEsicRegistrationNo] = React.useState();
-  const [panNumber, setPanNumber] = React.useState("");
-  const [dateOfRegistration, setDateOfRegistration] = React.useState(
-    dayjs(Date.now())
-  );
-  const [authorizedSignatory, setAuthorizedSignatory] = React.useState();
-
-  const [contactNumber, setcontactNumber] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-
-  const [status, setStatus] = React.useState();
-
-  const [createdDateTime, setCreatedDateTime] = React.useState("");
-  const [modifiedDateTime, setModifiedDateTime] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [severity, setSeverity] = React.useState();
   const [message, setMessage] = React.useState("");
+  const [openBackDrop, setOpenBackDrop] = React.useState(false);
+  const handleBackDropClose = () => {
+    setOpenBackDrop(false);
+  };
+  const handleBackDropOpen = () => {
+    setOpenBackDrop(true);
+  };
+  //----
+
+  const handleInputChange = (event) => {
+    const field = event.target.name;
+    const value = event.target.value;
+    dispatch({
+      type: "CHANGE_INPUT",
+      payload: {
+        value,
+        field,
+      },
+    });
+  };
 
   const [values, setValues] = React.useState({
     password: "",
     showPassword: false,
   });
-
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
 
   const handleClickShowPassword = () => {
     setValues({
@@ -69,89 +109,81 @@ const ESIC = (props) => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  //----
-  function setESICDetails(esicDetails) {
-    if (esicDetails) {
-      setId(esicDetails["id"]);
-      // setOwnerRef(gstDetails["ownerRef"]);
-      setCompanyName(esicDetails["companyName"]);
-      setCoveredUnderAudit(esicDetails["coveredUnderAudit"]);
-      setEsicRegistrationNo(esicDetails["esicRegistrationNo"]);
-      setPanNumber(esicDetails["panNumber"]);
-      setDateOfRegistration(dayjs(esicDetails["dateOfRegistration"]));
-      setAuthorizedSignatory(esicDetails["authorizedSignatory"]);
-      setcontactNumber(esicDetails["contactNumber"]);
-      setEmail(esicDetails["email"]);
-      setPassword(esicDetails["password"]);
-      setStatus(esicDetails["status"]);
-      setCreatedDateTime(esicDetails["createdDateTime"]);
-      setModifiedDateTime(esicDetails["modifiedDateTime"]);
-    }
-  }
 
   React.useEffect(() => {
+    console.log("incomeTax ownerRef: " + ownerRef);
     if (ownerRef) {
-      // get user and set form fields
-      getESICRecordByOwnerRefId(ownerRef).then((esicDetails) => {
-        setESICDetails(esicDetails);
-      });
+      handleBackDropOpen();
+      try {
+        // get user and set form fields
+        getESICRecordByOwnerRefId(ownerRef)
+          .then((res) => {
+            if (res && res.data) {
+              dispatch({
+                type: "INIT",
+                payload: res.data,
+              });
+              handleBackDropClose();
+            }
+          })
+          .catch((error) => {
+            console.error(error.request);
+            setMessage(error.message);
+            setSeverity("error");
+            setOpenSnackbar(true);
+            handleBackDropClose();
+          });
+      } catch (error) {
+        console.error("Error fetching incometax details:", error);
+        setMessage(error.message);
+        setSeverity("error");
+        setOpenSnackbar(true);
+        handleBackDropClose();
+      }
     }
   }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!id) {
-      let esicRecord = {
-        id: "",
-        ownerRef: ownerRef,
-        companyName: companyName,
-        coveredUnderAudit: coveredUnderAudit,
-        esicRegistrationNo: esicRegistrationNo,
-        panNumber: panNumber,
-        dateOfRegistration: dateOfRegistration,
-        authorizedSignatory: authorizedSignatory,
-        contactNumber: contactNumber,
-        email: email,
-        password: password,
-        status: status,
-      };
-      createESICRecord(esicRecord)
-        .then((esicRecord) => {
-          setESICDetails(esicRecord);
-          setMessage("ESIC Record created successfully");
-          setOpenSnackbar(true);
+    console.log("onsubmit");
+    dispatch({
+      type: "SAVING_TAX_DETAILS",
+    });
+    var response;
+    try {
+      if (!state.id) {
+        response = createESICRecord(state);
+      } else {
+        response = updateESICRecord(state);
+      }
+      response
+        .then((res) => {
+          if (res) {
+            dispatch({
+              type: "SAVED_TAX_DETAILS",
+              payload: res.data,
+            });
+          }
         })
         .catch((error) => {
-          console.error(error.message);
+          console.error("ERROR_SAVING_TAX_DETAILS" + error.message);
+          setSeverity("error");
           setMessage(error.message);
           setOpenSnackbar(true);
+          dispatch({
+            type: "ERROR_SAVING_TAX_DETAILS",
+            payload: error.message,
+          });
         });
-    } else {
-      let esicRecord = {
-        id: id,
-        ownerRef: ownerRef,
-        companyName: companyName,
-        coveredUnderAudit: coveredUnderAudit,
-        esicRegistrationNo: esicRegistrationNo,
-        panNumber: panNumber,
-        dateOfRegistration: dateOfRegistration,
-        authorizedSignatory: authorizedSignatory,
-        contactNumber: contactNumber,
-        email: email,
-        password: password,
-        status: status,
-      };
-      updateESICRecord(esicRecord)
-        .then((esicRecord) => {
-          setESICDetails(esicRecord);
-          setMessage("ESIC Record updated successfully");
-          setOpenSnackbar(true);
-        })
-        .catch((error) => {
-          console.error(error.message);
-          setMessage(error.message);
-          setOpenSnackbar(true);
-        });
+    } catch (error) {
+      console.error("ERROR_SAVING_TAX_DETAILS" + error.message);
+      setSeverity("error");
+      setMessage(error.message);
+      setOpenSnackbar(true);
+      dispatch({
+        type: "ERROR_SAVING_TAX_DETAILS",
+        payload: error,
+      });
     }
   };
 
@@ -175,10 +207,6 @@ const ESIC = (props) => {
       </IconButton>
     </React.Fragment>
   );
-
-  const handleCoveredUnderAuditChange = (event) => {
-    setCoveredUnderAudit(event.target.value);
-  };
 
   //----
   return (
@@ -207,161 +235,151 @@ const ESIC = (props) => {
         </Box>
       </Box>
       <ReadOnlyFields service="esic" data={props.data} />
-      <Divider />
-      <Box
-        display="grid"
-        gap="30px"
-        gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-        sx={{
-          "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-        }}
-      >
-        {/* <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Firm Name"
-          name="firmName"
-          value={companyName}
-          onChange={(event) => setCompanyName(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        /> */}
-
-        {/* <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Pan No"
-          name="pan"
-          value={panNumber}
-          onChange={(event) => setPanNumber(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        /> */}
-
-        {/* <TextField
-          required
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Contact Number"
-          name="contact"
-          value={contactNumber}
-          onChange={(event) => setcontactNumber(event.target.value)}
-          sx={{ gridColumn: "span 4" }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Address 1"
-          name="address1"
-          sx={{ gridColumn: "span 4" }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Address 2"
-          name="address2"
-          sx={{ gridColumn: "span 4" }}
-        />
-        <TextField
-          required
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Email"
-          name="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          sx={{ gridColumn: "span 4" }}
-        /> */}
-
-        <TextField
-          variant="filled"
-          sx={{ gridColumn: "span 4" }}
-          label="Password"
-          fullWidth
-          type={values.showPassword ? "text" : "password"}
-          value={values.password}
-          onChange={handleChange("password")}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Login Password"
-          name="loginPassword"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          sx={{ gridColumn: "span 4" }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="AUTHO SIGN"
-          name="authoSign"
-          value={authorizedSignatory}
-          onChange={(event) => setAuthorizedSignatory(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            label="DOI"
-            value={dateOfRegistration}
-            onChange={(newValue) => setDateOfRegistration(newValue)}
-            sx={{ gridColumn: "span 2" }}
-          />
-        </LocalizationProvider>
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="ESIC REGISTRATION  NO"
-          name="esicRegistrationNo"
-          value={esicRegistrationNo}
-          onChange={(event) => setEsicRegistrationNo(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
-        <FormControl sx={{ gridColumn: "span 4" }}>
-          <FormLabel id="coveredUnderAuditRadioGroupLabel">
-            Covered Under Audit
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="coveredUnderAuditRadioGroupLabel"
-            name="coveredUnderAudit"
-            value={coveredUnderAudit}
-            onChange={handleCoveredUnderAuditChange}
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          Tax Related
+        </AccordionSummary>
+        <AccordionDetails>
+          <Box
+            display="grid"
+            gap="30px"
+            gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+            sx={{
+              "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+            }}
           >
-            <FormControlLabel value={true} control={<Radio />} label="Yes" />
-            <FormControlLabel value={false} control={<Radio />} label="No" />
-          </RadioGroup>
-        </FormControl>
-      </Box>
+            <TextField
+              color="secondary"
+              variant="filled"
+              sx={{ gridColumn: "span 4" }}
+              label="Password"
+              fullWidth
+              type={values.showPassword ? "text" : "password"}
+              value={values.password}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <TextField
+              color="secondary"
+              fullWidth
+              variant="filled"
+              type="text"
+              label="Login Password"
+              name="loginPassword"
+              value={state.password}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+              sx={{ gridColumn: "span 4" }}
+            />
+            <TextField
+              color="secondary"
+              fullWidth
+              variant="filled"
+              type="text"
+              label="AUTHO SIGN"
+              name="authoSign"
+              value={state.authorizedSignatory}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+              sx={{ gridColumn: "span 2" }}
+            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                color="secondary"
+                label="DOI"
+                name="dateOfRegistration"
+                value={state.dateOfRegistration ?? ""}
+                onChange={(e) => {
+                  handleInputChange(e);
+                }}
+                sx={{ gridColumn: "span 2" }}
+              />
+            </LocalizationProvider>
+            <TextField
+              color="secondary"
+              fullWidth
+              variant="filled"
+              type="text"
+              label="ESIC REGISTRATION  NO"
+              name="esicRegistrationNo"
+              value={state.esicRegistrationNo}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+              sx={{ gridColumn: "span 2" }}
+            />
+            <FormControl sx={{ gridColumn: "span 4" }}>
+              <FormLabel
+                id="coveredUnderAuditRadioGroupLabel"
+                color="secondary"
+              >
+                Covered Under Audit
+              </FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="coveredUnderAuditRadioGroupLabel"
+                name="coveredUnderAudit"
+                value={state.coveredUnderAudit}
+                onChange={(e) => {
+                  handleInputChange(e);
+                }}
+              >
+                <FormControlLabel
+                  value={true}
+                  control={<Radio color="secondary" />}
+                  label="Yes"
+                />
+                <FormControlLabel
+                  value={false}
+                  control={<Radio color="secondary" />}
+                  label="No"
+                />
+              </RadioGroup>
+            </FormControl>
+          </Box>
+        </AccordionDetails>
+      </Accordion>
       <Snackbar
         open={openSnackbar}
-        autoHideDuration={5000}
+        autoHideDuration={60000}
         onClose={handleSnackbarClose}
         message={message}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         action={snackbarAction}
-      />
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={severity}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {message}
+        </Alert>
+      </Snackbar>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackDrop}
+        onClick={handleBackDropClose}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Box>
   );
 };

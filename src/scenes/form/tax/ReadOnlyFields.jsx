@@ -1,10 +1,9 @@
-import { Box, TextField, InputAdornment } from "@mui/material";
+import { Box, TextField, InputAdornment, useTheme } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import React from "react";
 import IconButton from "@mui/material/IconButton";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Accordion from "@mui/material/Accordion";
-import AccordionActions from "@mui/material/AccordionActions";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -13,7 +12,6 @@ const ReadOnlyFields = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const isIncomeTax = () => {
-    console.log(props.data);
     return props.service === "incomeTax";
   };
 
@@ -38,21 +36,31 @@ const ReadOnlyFields = (props) => {
   };
 
   const getName = () => {
-    console.log(props.data);
     return props.data.firstName + " " + props.data.lastName;
   };
 
   return (
-    <Box marginBottom="20px">
-      <Accordion>
+    <Box>
+      <Accordion
+      // sx={{
+      //   backgroundColor: "gray",
+      // }}
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1-content"
           id="panel1-header"
+          // sx={{
+          //   backgroundColor: "grey",
+          // }}
         >
           Personal
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails
+        // sx={{
+        //   backgroundColor: "gray",
+        // }}
+        >
           <Box
             display="grid"
             gap="30px"
@@ -153,7 +161,12 @@ const ReadOnlyFields = (props) => {
               />
             )}
             {/* Income Tax | GST | MCA | PF | TDS*/}
-            {(isIncomeTax() || isGST() || isMCA() || isPF() || isTDS()) && (
+            {(isIncomeTax() ||
+              isGST() ||
+              isMCA() ||
+              isPF() ||
+              isECIS() ||
+              isTDS()) && (
               <TextField
                 disabled
                 fullWidth
@@ -166,7 +179,12 @@ const ReadOnlyFields = (props) => {
               />
             )}
             {/* Income Tax | GST | MCA | PF | TDS*/}
-            {(isIncomeTax() || isGST() || isMCA() || isPF() || isTDS()) && (
+            {(isIncomeTax() ||
+              isGST() ||
+              isMCA() ||
+              isPF() ||
+              isECIS() ||
+              isTDS()) && (
               <TextField
                 disabled
                 fullWidth
