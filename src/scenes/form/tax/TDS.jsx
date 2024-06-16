@@ -246,10 +246,14 @@ const TDS = (props) => {
               sx={{ gridColumn: "span 4" }}
             />
             <FormControl sx={{ gridColumn: "span 4" }}>
-              <FormLabel id="coveredUnderAuditRadioGroupLabel">
+              <FormLabel
+                id="coveredUnderAuditRadioGroupLabel"
+                color="secondary"
+              >
                 Covered Under Audit
               </FormLabel>
               <RadioGroup
+                color="secondary"
                 row
                 aria-labelledby="coveredUnderAuditRadioGroupLabel"
                 name="coveredUnderAudit"
@@ -287,6 +291,7 @@ const TDS = (props) => {
             }}
           >
             <TextField
+              color="secondary"
               fullWidth
               variant="filled"
               type="text"
@@ -299,6 +304,7 @@ const TDS = (props) => {
               sx={{ gridColumn: "span 4" }}
             />
             <TextField
+              color="secondary"
               fullWidth
               variant="filled"
               type="text"
@@ -327,6 +333,7 @@ const TDS = (props) => {
             }}
           >
             <TextField
+              color="secondary"
               fullWidth
               variant="filled"
               type="text"

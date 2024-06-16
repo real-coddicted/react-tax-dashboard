@@ -240,7 +240,10 @@ const IncomeTax = (props) => {
               sx={{ gridColumn: "span 4" }}
             />
             <FormControl sx={{ gridColumn: "span 4" }}>
-              <FormLabel id="coveredUnderAuditRadioGroupLabel" color="grey">
+              <FormLabel
+                id="coveredUnderAuditRadioGroupLabel"
+                color="secondary"
+              >
                 Covered Under Audit
               </FormLabel>
               <RadioGroup
