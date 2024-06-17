@@ -176,9 +176,10 @@ export default function ParticipantDetails({ state, dispatch }) {
       resizable: true,
       width: 120,
       valueFormatter: (params) => dayjs(params.value).format("YYYY-MM-DD"),
-      valueGetter: (params) => dayjs(params.value).format("YYYY-MM-DD"),
-      // valueGetter: (value, row) =>
-      //   row.dateOfBirth !== null ? Date.parse(row.dateOfBirth) : "",
+      valueGetter: (value, row) =>
+        row.dateOfBirth !== null
+          ? dayjs(row.dateOfBirth).format("YYYY-MM-DD")
+          : "",
     },
     {
       field: "dinDpin",
@@ -299,6 +300,24 @@ export default function ParticipantDetails({ state, dispatch }) {
             "& .MuiDataGrid-columnHeaders": {
               // Forced to use important since overriding inline styles
               maxHeight: "180px !important",
+            },
+            "& .MuiDataGrid-booleanCell": {
+              color: "green !important",
+            },
+            "& .MuiDataGrid-cellCheckbox": {
+              color: "green !important",
+            },
+            "& .MuiDataGrid-checkboxInput": {
+              color: "green !important",
+            },
+            "& .MuiDataGrid-editBooleanCell": {
+              color: "green !important",
+            },
+            "& .baseCheckbox": {
+              color: "green !important",
+            },
+            "& .booleanCellTrueIcon": {
+              color: "green !important",
             },
           }}
           rows={rows}
