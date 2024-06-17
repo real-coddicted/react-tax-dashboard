@@ -41,9 +41,9 @@ export function addUserReducer(state, action) {
       oldAddress = { ...oldAddress, [payload.field]: payload.value };
       return { ...state, address: oldAddress };
     case "CHANGE_SERVICES":
-      var oldServices = state.services;
+      var oldServices = state.serviceAvailed;
       oldServices = { ...oldServices, [payload.field]: payload.value };
-      return { ...state, services: oldServices };
+      return { ...state, serviceAvailed: oldServices };
     case "SAVE_CUSTOMER":
       console.log("dispatch SAVE_CUSTOMER");
       return {

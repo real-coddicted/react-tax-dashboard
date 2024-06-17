@@ -35,7 +35,9 @@ const SelectTaxServices = ({ state, dispatch }) => {
             control={
               <Checkbox
                 name="incomeTax"
-                checked={state.services.incomeTax ?? false}
+                checked={
+                  state.serviceAvailed ? state.serviceAvailed.incomeTax : false
+                }
                 onChange={handleServiceChange}
                 color="secondary"
               />
@@ -46,7 +48,9 @@ const SelectTaxServices = ({ state, dispatch }) => {
             control={
               <Checkbox
                 name="gst"
-                checked={state.services.gst ?? false}
+                checked={
+                  state.serviceAvailed ? state.serviceAvailed.gst : false
+                }
                 onChange={handleServiceChange}
                 color="secondary"
               />
@@ -57,7 +61,9 @@ const SelectTaxServices = ({ state, dispatch }) => {
             control={
               <Checkbox
                 name="mca"
-                checked={state.services.mca ?? false}
+                checked={
+                  state.serviceAvailed ? state.serviceAvailed.mca : false
+                }
                 onChange={handleServiceChange}
                 color="secondary"
               />
@@ -68,7 +74,7 @@ const SelectTaxServices = ({ state, dispatch }) => {
             control={
               <Checkbox
                 name="pf"
-                checked={state.services.pf ?? false}
+                checked={state.serviceAvailed ? state.serviceAvailed.pf : false}
                 onChange={handleServiceChange}
                 color="secondary"
               />
@@ -79,7 +85,9 @@ const SelectTaxServices = ({ state, dispatch }) => {
             control={
               <Checkbox
                 name="esic"
-                checked={state.services.esic ?? false}
+                checked={
+                  state.serviceAvailed ? state.serviceAvailed.esic : false
+                }
                 onChange={handleServiceChange}
                 color="secondary"
               />
@@ -90,7 +98,9 @@ const SelectTaxServices = ({ state, dispatch }) => {
             control={
               <Checkbox
                 name="tds"
-                checked={state.services.tds ?? false}
+                checked={
+                  state.serviceAvailed ? state.serviceAvailed.tds : false
+                }
                 onChange={handleServiceChange}
                 color="secondary"
               />
