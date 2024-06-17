@@ -13,6 +13,7 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
+import dayjs from "dayjs";
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel, state } = props;
@@ -174,8 +175,10 @@ export default function ParticipantDetails({ state, dispatch }) {
       editable: true,
       resizable: true,
       width: 120,
-      valueGetter: (value, row) =>
-        row.dateOfBirth !== null ? row.dateOfBirth : "",
+      valueFormatter: (params) => dayjs(params.value).format("YYYY-MM-DD"),
+      valueGetter: (params) => dayjs(params.value).format("YYYY-MM-DD"),
+      // valueGetter: (value, row) =>
+      //   row.dateOfBirth !== null ? Date.parse(row.dateOfBirth) : "",
     },
     {
       field: "dinDpin",
