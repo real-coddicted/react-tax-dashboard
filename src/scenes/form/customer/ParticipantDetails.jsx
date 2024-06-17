@@ -107,7 +107,7 @@ export default function ParticipantDetails({ state, dispatch }) {
               icon={<SaveIcon />}
               label="Save"
               sx={{
-                color: "primary.main",
+                color: "secondary",
               }}
               onClick={handleSaveClick(id)}
             />,
@@ -127,58 +127,82 @@ export default function ParticipantDetails({ state, dispatch }) {
             label="Edit"
             className="textPrimary"
             onClick={handleEditClick(id)}
-            color="inherit"
+            color="secondary"
           />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
             onClick={handleDeleteClick(id)}
-            color="inherit"
+            color="error"
           />,
         ];
+      },
+    },
+    {
+      field: "isAuthorisedPerson",
+      headerName: "is Authorized Person?",
+      width: 80,
+      sortable: false,
+      editable: true,
+      type: "boolean",
+      valueGetter: (value, row) =>
+        row.isAuthorisedPerson ? row.isAuthorisedPerson : false,
+      valueSetter: (value, row) => {
+        var isAuthorisedPerson = value ? value : false;
+        return { ...row, isAuthorisedPerson: isAuthorisedPerson };
       },
     },
     { field: "name", headerName: "Name", width: 180, editable: true },
     {
       field: "panNumber",
-      headerName: "PAN",
+      headerName: "PAN No.",
       width: 120,
+      resizable: true,
       editable: true,
     },
     {
       field: "aadharNumber",
       headerName: "Aadhar",
       width: 120,
+      resizable: true,
       editable: true,
+    },
+    {
+      field: "dateOfBirth",
+      headerName: "DOB",
+      type: "date",
+      editable: true,
+      resizable: true,
+      width: 120,
+      valueGetter: (value, row) =>
+        row.dateOfBirth !== null ? row.dateOfBirth : "",
     },
     {
       field: "dinDpin",
       headerName: "DIN/DPIN",
       width: 120,
-      editable: true,
-    },
-    {
-      field: "shareholdingPercent",
-      headerName: "Shareholding/Partcipants profit sharing percentage",
-      width: 120,
+      resizable: true,
       editable: true,
     },
     {
       field: "contactNumber",
       headerName: "Contact",
       width: 120,
+      resizable: true,
       editable: true,
     },
     {
       field: "email",
       headerName: "Email",
       width: 180,
+      resizable: true,
       editable: true,
     },
     {
       field: "addressLine1",
       headerName: "Address Line 1",
       width: 180,
+      resizable: true,
       editable: true,
       valueGetter: (value, row) =>
         row.address !== null ? row.address.addressLine1 : "",
@@ -260,6 +284,20 @@ export default function ParticipantDetails({ state, dispatch }) {
         }}
       >
         <DataGrid
+          sx={{
+            "& .MuiDataGrid-columnHeaderTitle": {
+              whiteSpace: "normal",
+              lineHeight: "normal",
+            },
+            "& .MuiDataGrid-columnHeader": {
+              // Forced to use important since overriding inline styles
+              height: "unset !important",
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              // Forced to use important since overriding inline styles
+              maxHeight: "180px !important",
+            },
+          }}
           rows={rows}
           columns={columns}
           editMode="row"

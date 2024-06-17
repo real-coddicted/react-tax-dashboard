@@ -1,25 +1,21 @@
 import { Box, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import React from "react";
-import { getUserById } from "../../../service/userService";
 
-const AssociationSpecificFields = (props) => {
+const AssociationSpecificFields = ({ state, dispatch }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const [numberOfMembers, setNumberOfMembers] = React.useState("");
-  const isAddMode = !props.id;
 
-  function setUser(user) {
-    setNumberOfMembers(user["numberOfMembers"]);
-  }
-
-  React.useEffect(() => {
-    if (!isAddMode) {
-      // get user and set form fields
-      getUserById(props.id).then((user) => {
-        setUser(user);
-      });
-    }
-  }, []);
+  const handleInputChange = (event) => {
+    const field = event.target.name;
+    const value = event.target.value;
+    dispatch({
+      type: "CHANGE_INPUT",
+      payload: {
+        value,
+        field,
+      },
+    });
+  };
 
   return (
     <Box m="20px">
@@ -36,8 +32,10 @@ const AssociationSpecificFields = (props) => {
           variant="filled"
           type="text"
           label="Number of members"
-          value={numberOfMembers}
-          onChange={(event) => setNumberOfMembers(event.target.value)}
+          value={state.numberOfMembers}
+          onChange={(e) => {
+            handleInputChange(e);
+          }}
           name="numberOfMembers"
           sx={{ gridColumn: "span 2" }}
         />

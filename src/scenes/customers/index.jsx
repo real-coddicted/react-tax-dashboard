@@ -11,6 +11,10 @@ import { AddCustomerDialog } from "./AddCustomerDialog";
 import { DeleteCustomerConfirmationDialog } from "./DeleteCustomerConfirmationDialog";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import Alert from "@mui/material/Alert";
 
 const Customers = () => {
   const [rows, setRows] = React.useState([]);
@@ -18,6 +22,7 @@ const Customers = () => {
   const colors = tokens(theme.palette.mode);
   const [open, setOpen] = React.useState(false);
   const [id, setId] = React.useState();
+  const [data, setData] = React.useState();
   const [title, setTitle] = React.useState();
   const [authenticated, setauthenticated] = React.useState(null);
   const [openTaxDialog, setOpenTaxDialog] = React.useState(false);
@@ -26,14 +31,37 @@ const Customers = () => {
     React.useState(false);
 
   const [openBackDrop, setOpenBackDrop] = React.useState(false);
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [severity, setSeverity] = React.useState();
+  const [message, setMessage] = React.useState("");
+
   const handleBackDropClose = () => {
-    console.log("handleBackDropClose");
     setOpenBackDrop(false);
   };
   const handleBackDropOpen = () => {
-    console.log("handleBackDropOpen");
     setOpenBackDrop(true);
   };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setMessage("");
+    setOpenSnackbar(false);
+  };
+
+  const snackbarAction = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleSnackbarClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   React.useMemo(() => {
     const loggedInUser = localStorage.getItem("authenticated");
@@ -57,11 +85,17 @@ const Customers = () => {
           console.error(error.request);
           setRows([]);
           handleBackDropClose();
+          setSeverity("error");
+          setMessage(error.message);
+          setOpenSnackbar(true);
         });
     } catch (error) {
       console.error("Error fetching users:", error);
       setRows([]);
       handleBackDropClose();
+      setSeverity("error");
+      setMessage(error.message);
+      setOpenSnackbar(true);
     }
   }, []);
 
@@ -126,6 +160,11 @@ const Customers = () => {
       flex: 1,
     },
     {
+      field: "panNumber",
+      headerName: "Pan No.",
+      flex: 1,
+    },
+    {
       field: "name",
       headerName: "Name",
       valueGetter: (value, row) => {
@@ -163,6 +202,7 @@ const Customers = () => {
         const onClickTax = (e) => {
           const currentRow = params.row;
           setId(currentRow.id);
+          setData(currentRow);
           setTitle(getTitle(currentRow));
           setOpenTaxDialog(true);
         };
@@ -257,6 +297,7 @@ const Customers = () => {
           />
           <TaxDialog
             id={id}
+            data={data}
             title={title}
             open={openTaxDialog}
             setOpen={setOpenTaxDialog}
@@ -291,6 +332,23 @@ const Customers = () => {
         >
           <CircularProgress color="inherit" />
         </Backdrop>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={10000}
+          onClose={handleSnackbarClose}
+          message={message}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          action={snackbarAction}
+        >
+          <Alert
+            onClose={handleSnackbarClose}
+            severity={severity}
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            {message}
+          </Alert>
+        </Snackbar>
       </Box>
     );
   }
