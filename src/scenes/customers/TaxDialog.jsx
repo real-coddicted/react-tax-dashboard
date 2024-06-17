@@ -36,6 +36,7 @@ export const TaxDialog = (props) => {
         </Toolbar>
       </AppBar>
       <Tax
+        data={props.data}
         id={props.id}
         name={props.title}
         onAdd={props.setId}
