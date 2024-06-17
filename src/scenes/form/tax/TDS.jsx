@@ -1,3 +1,4 @@
+import { useReducer } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../../components/Header";
@@ -7,7 +8,7 @@ import {
   createTDSRecord,
   updateTDSRecord,
 } from "../../../service/tdsService";
-import Snackbar, { snackbarClasses } from "@mui/material/Snackbar";
+import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -16,111 +17,157 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import ReadOnlyFields from "./ReadOnlyFields";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import Alert from "@mui/material/Alert";
+
+const initialState = {
+  id: "",
+  companyType: "",
+  cin: "",
+  dateOfInit: "",
+  password: "",
+  securityQuestionOfCompany: "",
+  securrityAnswerOfCompany: "",
+  isCoveredUnderAudit: false,
+};
+
+function taxReducer(state, action) {
+  const { type, payload } = action;
+  switch (type) {
+    case "INIT":
+      return { ...state, ...payload };
+    case "CHANGE_INPUT":
+      return { ...state, [payload.field]: payload.value };
+    case "SAVING_TAX_DETAILS":
+      console.log("dispatch SAVING_TAX_DETAILS");
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case "SAVED_TAX_DETAILS":
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case "ERROR_SAVING_TAX_DETAILS":
+      console.log("dispatch ERROR_SAVING_TAX_DETAILS");
+      return {
+        ...state,
+        isLoading: false,
+      };
+    default:
+      return state;
+  }
+}
 
 const TDS = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const [id, setId] = React.useState("");
+  const [state, dispatch] = useReducer(taxReducer, initialState);
   const [ownerRef, setOwnerRef] = React.useState(props.id);
-  const [companyName, setCompanyName] = React.useState("");
-  const [tanNumber, setTanNumber] = React.useState("");
-  const [panNumber, setPanNumber] = React.useState("");
-  const [authorizedSignatory, setAuthorizedSignatory] = React.useState();
-  const [contactNumber, setcontactNumber] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [coveredUnderAudit, setCoveredUnderAudit] = React.useState(false);
-  const [status, setStatus] = React.useState();
-  const [createdDateTime, setCreatedDateTime] = React.useState("");
-  const [modifiedDateTime, setModifiedDateTime] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [severity, setSeverity] = React.useState();
   const [message, setMessage] = React.useState("");
+  const [openBackDrop, setOpenBackDrop] = React.useState(false);
+  const handleBackDropClose = () => {
+    setOpenBackDrop(false);
+  };
+  const handleBackDropOpen = () => {
+    setOpenBackDrop(true);
+  };
   //----
-  function setTDSDetails(tdsDetails) {
-    if (tdsDetails) {
-      setId(tdsDetails["id"]);
-      // setOwnerRef(gstDetails["ownerRef"]);
-      setCompanyName(tdsDetails["companyName"]);
-      setTanNumber(tdsDetails["tanNumber"]);
-      setPanNumber(tdsDetails["panNumber"]);
-      setAuthorizedSignatory(tdsDetails["authorizedSignatory"]);
-      setcontactNumber(tdsDetails["contactNumber"]);
-      setEmail(tdsDetails["email"]);
-      setPassword(tdsDetails["password"]);
-      setCoveredUnderAudit(tdsDetails["coveredUnderAudit"]);
-      setStatus(tdsDetails["status"]);
-      setCreatedDateTime(tdsDetails["createdDateTime"]);
-      setModifiedDateTime(tdsDetails["modifiedDateTime"]);
-    }
-  }
+
+  const handleInputChange = (event) => {
+    const field = event.target.name;
+    const value = event.target.value;
+    dispatch({
+      type: "CHANGE_INPUT",
+      payload: {
+        value,
+        field,
+      },
+    });
+  };
 
   React.useEffect(() => {
-    console.log(ownerRef);
+    console.log("incomeTax ownerRef: " + ownerRef);
     if (ownerRef) {
-      // get user and set form fields
-      getTDSRecordByOwnerRefId(ownerRef).then((res) => {
-        if (res && res.data) setTDSDetails(res.data[0]);
-      });
+      handleBackDropOpen();
+      try {
+        // get user and set form fields
+        getTDSRecordByOwnerRefId(ownerRef)
+          .then((res) => {
+            if (res && res.data) {
+              dispatch({
+                type: "INIT",
+                payload: res.data,
+              });
+              handleBackDropClose();
+            }
+          })
+          .catch((error) => {
+            console.error(error.request);
+            setMessage(error.message);
+            setSeverity("error");
+            setOpenSnackbar(true);
+            handleBackDropClose();
+          });
+      } catch (error) {
+        console.error("Error fetching incometax details:", error);
+        setMessage(error.message);
+        setSeverity("error");
+        setOpenSnackbar(true);
+        handleBackDropClose();
+      }
     }
   }, []);
 
   const onSubmit = (e) => {
-    console.log(ownerRef);
     e.preventDefault();
     console.log("onsubmit");
-    if (!id) {
-      let tdsRecord = {
-        id: "",
-        ownerRef: ownerRef,
-        companyName: companyName,
-        coveredUnderAudit: coveredUnderAudit,
-        tanNumber: tanNumber,
-        panNumber: panNumber,
-        authorizedSignatory: authorizedSignatory,
-        contactNumber: contactNumber,
-        email: email,
-        password: password,
-        status: status,
-      };
-      createTDSRecord(tdsRecord)
+    dispatch({
+      type: "SAVING_TAX_DETAILS",
+    });
+    var response;
+    try {
+      if (!state.id) {
+        response = createTDSRecord(state);
+      } else {
+        response = updateTDSRecord(state);
+      }
+      response
         .then((res) => {
-          if (res && res.data) {
-            setTDSDetails(res.data);
-            setMessage("TDS Record created successfully");
-            setOpenSnackbar(true);
+          if (res) {
+            dispatch({
+              type: "SAVED_TAX_DETAILS",
+              payload: res.data,
+            });
           }
         })
         .catch((error) => {
-          console.error(error.message);
+          console.error("ERROR_SAVING_TAX_DETAILS" + error.message);
+          setSeverity("error");
           setMessage(error.message);
           setOpenSnackbar(true);
+          dispatch({
+            type: "ERROR_SAVING_TAX_DETAILS",
+            payload: error.message,
+          });
         });
-    } else {
-      let tdsRecord = {
-        id: id,
-        ownerRef: ownerRef,
-        companyName: companyName,
-        coveredUnderAudit: coveredUnderAudit,
-        tanNumber: tanNumber,
-        panNumber: panNumber,
-        authorizedSignatory: authorizedSignatory,
-        contactNumber: contactNumber,
-        email: email,
-        password: password,
-        status: status,
-      };
-      updateTDSRecord(tdsRecord)
-        .then((res) => {
-          if (res && res.data) {
-            setTDSDetails(res.data);
-            setMessage("TDS Record updated successfully");
-            setOpenSnackbar(true);
-          }
-        })
-        .catch((error) => {
-          console.error(error.message);
-          setMessage(error.message);
-          setOpenSnackbar(true);
-        });
+    } catch (error) {
+      console.error("ERROR_SAVING_TAX_DETAILS" + error.message);
+      setSeverity("error");
+      setMessage(error.message);
+      setOpenSnackbar(true);
+      dispatch({
+        type: "ERROR_SAVING_TAX_DETAILS",
+        payload: error,
+      });
     }
   };
 
@@ -144,10 +191,6 @@ const TDS = (props) => {
       </IconButton>
     </React.Fragment>
   );
-
-  const handleCoveredUnderAuditChange = (event) => {
-    setCoveredUnderAudit(event.target.value);
-  };
 
   //----
   return (
@@ -175,110 +218,173 @@ const TDS = (props) => {
           </Button>
         </Box>
       </Box>
-      <Box
-        display="grid"
-        gap="30px"
-        gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-        sx={{
-          "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-        }}
-      >
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Firm Name"
-          name="firmName"
-          value={companyName}
-          onChange={(event) => setCompanyName(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="TAN NO"
-          name="tanNo"
-          value={tanNumber}
-          onChange={(event) => setTanNumber(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
-        <FormControl sx={{ gridColumn: "span 4" }}>
-          <FormLabel id="coveredUnderAuditRadioGroupLabel">
-            Covered Under Audit
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="coveredUnderAuditRadioGroupLabel"
-            name="coveredUnderAudit"
-            value={coveredUnderAudit}
-            onChange={handleCoveredUnderAuditChange}
+      <ReadOnlyFields service="tds" data={props.data} />
+      <Accordion defaultExpanded>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          Tax Related
+        </AccordionSummary>
+        <AccordionDetails>
+          <Box
+            display="grid"
+            gap="30px"
+            gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+            sx={{
+              "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+            }}
           >
-            <FormControlLabel value="true" control={<Radio />} label="Yes" />
-            <FormControlLabel value="false" control={<Radio />} label="No" />
-          </RadioGroup>
-        </FormControl>
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Pan No"
-          name="pan"
-          value={panNumber}
-          onChange={(event) => setPanNumber(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="AUTHO SIGN"
-          name="authoSign"
-          value={authorizedSignatory}
-          onChange={(event) => setAuthorizedSignatory(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
-        <TextField
-          required
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Contact Number"
-          name="contact"
-          value={contactNumber}
-          onChange={(event) => setcontactNumber(event.target.value)}
-          sx={{ gridColumn: "span 4" }}
-        />
-        <TextField
-          required
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Email"
-          name="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          sx={{ gridColumn: "span 4" }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Login Password"
-          name="login_password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          sx={{ gridColumn: "span 4" }}
-        />
-      </Box>
+            <TextField
+              color="secondary"
+              fullWidth
+              variant="filled"
+              type="text"
+              label="TAN NO"
+              name="tanNo"
+              value={state.tanNumber}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+              sx={{ gridColumn: "span 4" }}
+            />
+            <FormControl sx={{ gridColumn: "span 4" }}>
+              <FormLabel
+                id="coveredUnderAuditRadioGroupLabel"
+                color="secondary"
+              >
+                Covered Under Audit
+              </FormLabel>
+              <RadioGroup
+                color="secondary"
+                row
+                aria-labelledby="coveredUnderAuditRadioGroupLabel"
+                name="coveredUnderAudit"
+                value={state.coveredUnderAudit}
+                onChange={(e) => {
+                  handleInputChange(e);
+                }}
+              >
+                <FormControlLabel
+                  value="true"
+                  control={<Radio color="secondary" />}
+                  label="Yes"
+                />
+                <FormControlLabel
+                  value="false"
+                  control={<Radio color="secondary" />}
+                  label="No"
+                />
+              </RadioGroup>
+            </FormControl>
+          </Box>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          Login @ ITD
+        </AccordionSummary>
+        <AccordionDetails>
+          <Box
+            display="grid"
+            gap="30px"
+            gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+            sx={{
+              "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+            }}
+          >
+            <TextField
+              color="secondary"
+              fullWidth
+              variant="filled"
+              type="text"
+              label="ID"
+              name="loginIdITD"
+              value={state.password}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+              sx={{ gridColumn: "span 4" }}
+            />
+            <TextField
+              color="secondary"
+              fullWidth
+              variant="filled"
+              type="text"
+              label="Password"
+              name="passwordITD"
+              value={state.password}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+              sx={{ gridColumn: "span 4" }}
+            />
+          </Box>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          Login @ Traces
+        </AccordionSummary>
+        <AccordionDetails>
+          <Box
+            display="grid"
+            gap="30px"
+            gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+            sx={{
+              "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+            }}
+          >
+            <TextField
+              color="secondary"
+              fullWidth
+              variant="filled"
+              type="text"
+              label="ID"
+              name="loginIdTraces"
+              value={state.password}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+              sx={{ gridColumn: "span 4" }}
+            />
+            <TextField
+              color="secondary"
+              fullWidth
+              variant="filled"
+              type="text"
+              label="Password"
+              name="passwordTraces"
+              value={state.password}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+              sx={{ gridColumn: "span 4" }}
+            />
+          </Box>
+        </AccordionDetails>
+      </Accordion>
       <Snackbar
         open={openSnackbar}
-        autoHideDuration={5000}
+        autoHideDuration={60000}
         onClose={handleSnackbarClose}
         message={message}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         action={snackbarAction}
-      />
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={severity}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {message}
+        </Alert>
+      </Snackbar>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackDrop}
+        onClick={handleBackDropClose}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Box>
   );
 };

@@ -1,3 +1,4 @@
+import { useReducer } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../../components/Header";
@@ -11,125 +12,173 @@ import React from "react";
 // import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 // import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
+import ReadOnlyFields from "./ReadOnlyFields";
+
 import {
   getGSTRecordByOwnerRefId,
   createGSTRecord,
   updateGSTRecord,
 } from "../../../service/gstService";
-import Snackbar, { snackbarClasses } from "@mui/material/Snackbar";
+import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import Alert from "@mui/material/Alert";
+import GSTBusinessAddresses from "./GSTBusinessAddresses";
+
+const initialState = {
+  id: "",
+  gstin: "",
+  dealerType: "",
+  returnType: "",
+  dateOfRegistration: "",
+  currentStatus: "",
+  loginId: "",
+  password: "",
+  isCoveredUnderAudit: false,
+  businessAddresses: [],
+};
+
+function taxReducer(state, action) {
+  const { type, payload } = action;
+  switch (type) {
+    case "INIT":
+      return { ...state, ...payload };
+    case "CHANGE_INPUT":
+      return { ...state, [payload.field]: payload.value };
+    case "SAVING_TAX_DETAILS":
+      console.log("dispatch SAVING_TAX_DETAILS");
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case "SAVED_TAX_DETAILS":
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case "ERROR_SAVING_TAX_DETAILS":
+      console.log("dispatch ERROR_SAVING_TAX_DETAILS");
+      return {
+        ...state,
+        isLoading: false,
+      };
+    default:
+      return state;
+  }
+}
 
 const GST = (props) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-
-  const [id, setId] = React.useState();
+  const [state, dispatch] = useReducer(taxReducer, initialState);
   const [ownerRef, setOwnerRef] = React.useState(props.id);
-  const [tradeName, setTradeName] = React.useState("");
-  const [gstin, setGstin] = React.useState("");
-  const [dealerType, setDealerType] = React.useState("");
-  const [returnType, setReturnType] = React.useState("");
-  // const [dateOfRegistration, setDateOfRegistration] = React.useState(
-  //   dayjs("2022-04-17")
-  // );
-  const [currentStatus, setCurrentStatus] = React.useState();
-  const [address, setAddress] = React.useState("");
-  const [contactNumber, setcontactNumber] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [status, setStatus] = React.useState();
-
-  const [createdDateTime, setCreatedDateTime] = React.useState("");
-  const [modifiedDateTime, setModifiedDateTime] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [severity, setSeverity] = React.useState();
   const [message, setMessage] = React.useState("");
+  const [openBackDrop, setOpenBackDrop] = React.useState(false);
+  const handleBackDropClose = () => {
+    setOpenBackDrop(false);
+  };
+  const handleBackDropOpen = () => {
+    setOpenBackDrop(true);
+  };
   //----
-  function setGSTDetails(gstDetails) {
-    if (gstDetails) {
-      setId(gstDetails["id"]);
-      // setOwnerRef(gstDetails["ownerRef"]);
-      setTradeName(gstDetails["tradeName"]);
-      setGstin(gstDetails["gstin"]);
-      setDealerType(gstDetails["dealerType"]);
-      setReturnType(gstDetails["returnType"]);
-      // setDateOfRegistration(gstDetails["dateOfRegistration"]);
-      setCurrentStatus(gstDetails["currentStatus"]);
-      setAddress(gstDetails["address"]);
-      setcontactNumber(gstDetails["contactNumber"]);
-      setEmail(gstDetails["email"]);
-      setStatus(gstDetails["status"]);
-      setCreatedDateTime(gstDetails["createdDateTime"]);
-      setModifiedDateTime(gstDetails["modifiedDateTime"]);
-    }
-  }
+
+  const handleInputChange = (event) => {
+    const field = event.target.name;
+    const value = event.target.value;
+    dispatch({
+      type: "CHANGE_INPUT",
+      payload: {
+        value,
+        field,
+      },
+    });
+  };
 
   React.useEffect(() => {
-    console.log("GST: " + ownerRef);
+    console.log("incomeTax ownerRef: " + ownerRef);
     if (ownerRef) {
-      // get user and set form fields
-      getGSTRecordByOwnerRefId(ownerRef).then((res) => {
-        if (res && res.data) setGSTDetails(res.data[0]);
-      });
+      handleBackDropOpen();
+      try {
+        // get user and set form fields
+        getGSTRecordByOwnerRefId(ownerRef)
+          .then((res) => {
+            if (res && res.data) {
+              dispatch({
+                type: "INIT",
+                payload: res.data,
+              });
+              handleBackDropClose();
+            }
+          })
+          .catch((error) => {
+            console.error(error.request);
+            setMessage(error.message);
+            setSeverity("error");
+            setOpenSnackbar(true);
+            handleBackDropClose();
+          });
+      } catch (error) {
+        console.error("Error fetching incometax details:", error);
+        setMessage(error.message);
+        setSeverity("error");
+        setOpenSnackbar(true);
+        handleBackDropClose();
+      }
     }
   }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!id) {
-      let gstRecord = {
-        id: "",
-        ownerRef: ownerRef,
-        tradeName: tradeName,
-        gstin: gstin,
-        dealerType: dealerType,
-        returnType: returnType,
-        dateOfRegistration: "",
-        currentStatus: currentStatus,
-        address: address,
-        contactNumber: contactNumber,
-        email: email,
-        status: status,
-      };
-      createGSTRecord(gstRecord)
+    console.log("onsubmit");
+    dispatch({
+      type: "SAVING_TAX_DETAILS",
+    });
+    var response;
+    try {
+      if (!state.id) {
+        response = createGSTRecord(state);
+      } else {
+        response = updateGSTRecord(state);
+      }
+      response
         .then((res) => {
-          if (res && res.data) {
-            setGSTDetails(res.data);
-            setMessage("GST Record created successfully");
-            setOpenSnackbar(true);
+          if (res) {
+            dispatch({
+              type: "SAVED_TAX_DETAILS",
+              payload: res.data,
+            });
           }
         })
         .catch((error) => {
-          console.error(error.message);
+          console.error("ERROR_SAVING_TAX_DETAILS" + error.message);
+          setSeverity("error");
           setMessage(error.message);
           setOpenSnackbar(true);
+          dispatch({
+            type: "ERROR_SAVING_TAX_DETAILS",
+            payload: error.message,
+          });
         });
-    } else {
-      let gstRecord = {
-        id: id,
-        ownerRef: ownerRef,
-        tradeName: tradeName,
-        gstin: gstin,
-        dealerType: dealerType,
-        returnType: returnType,
-        // dateOfRegistration: dateOfRegistration,
-        currentStatus: currentStatus,
-        address: address,
-        contactNumber: contactNumber,
-        email: email,
-        status: status,
-      };
-      updateGSTRecord(gstRecord)
-        .then((res) => {
-          if (res && res.data) {
-            setGSTDetails(res.data);
-            setMessage("Income Tax Record updated successfully");
-            setOpenSnackbar(true);
-          }
-        })
-        .catch((error) => {
-          console.error(error.message);
-          setMessage(error.message);
-          setOpenSnackbar(true);
-        });
+    } catch (error) {
+      console.error("ERROR_SAVING_TAX_DETAILS" + error.message);
+      setSeverity("error");
+      setMessage(error.message);
+      setOpenSnackbar(true);
+      dispatch({
+        type: "ERROR_SAVING_TAX_DETAILS",
+        payload: error,
+      });
     }
   };
 
@@ -153,16 +202,6 @@ const GST = (props) => {
       </IconButton>
     </React.Fragment>
   );
-
-  //----
-
-  const handleDealerTypeChange = (event) => {
-    setDealerType(event.target.value);
-  };
-
-  const handleReturnTypeChange = (event) => {
-    setReturnType(event.target.value);
-  };
 
   return (
     <Box m="20px">
@@ -189,69 +228,22 @@ const GST = (props) => {
           </Button>
         </Box>
       </Box>
-      <Box
-        display="grid"
-        gap="30px"
-        gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-        sx={{
-          "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-        }}
-      >
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Trade Name"
-          name="tradeName"
-          value={tradeName}
-          onChange={(event) => setTradeName(event.target.value)}
-          sx={{ gridColumn: "span 4" }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="GSTIN"
-          name="gstin"
-          value={gstin}
-          onChange={(event) => setGstin(event.target.value)}
-          sx={{ gridColumn: "span 4" }}
-        />
-        <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
-          <InputLabel id="dealerTypeLabel" textColor="secondary">
-            Dealer Type
-          </InputLabel>
-          <Select
-            labelId="dealerTypeSelectLabel"
-            id="dealerTypeSelect"
-            value={dealerType ?? ""}
-            onChange={handleDealerTypeChange}
+      <ReadOnlyFields service="gst" data={props.data} />
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          Tax Related
+        </AccordionSummary>
+        <AccordionDetails>
+          <Box
+            display="grid"
+            gap="30px"
+            gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+            sx={{
+              "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+            }}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value="REGULAR">Regular</MenuItem>
-            <MenuItem value="COMPOSITION">Composition</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
-          <InputLabel id="returnTypeLabel" textColor="secondary">
-            Return Type
-          </InputLabel>
-          <Select
-            labelId="returnTypeSelectLabel"
-            id="returnTypeSelect"
-            value={returnType ?? ""}
-            onChange={handleReturnTypeChange}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value="MONTHLY">Monthly</MenuItem>
-            <MenuItem value="QUARTERLY">Quarterly</MenuItem>
-          </Select>
-        </FormControl>
-        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+            {/* Editable Fields */}
+            {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label="Date of Reg."
             value={dateOfRegistration}
@@ -259,65 +251,154 @@ const GST = (props) => {
             sx={{ gridColumn: "span 2" }}
           />
         </LocalizationProvider> */}
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Current Status"
-          name="currentStatus"
-          value={currentStatus}
-          onChange={(event) => setCurrentStatus(event.target.value)}
-          sx={{ gridColumn: "span 2" }}
-        />
-        <TextField
-          required
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Email"
-          name="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          sx={{ gridColumn: "span 4" }}
-        />
-        <TextField
-          required
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Contact Number"
-          name="contact"
-          value={contactNumber}
-          onChange={(event) => setcontactNumber(event.target.value)}
-          sx={{ gridColumn: "span 4" }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Address 1"
-          name="address1"
-          value={address}
-          onChange={(event) => setAddress(event.target.value)}
-          sx={{ gridColumn: "span 4" }}
-        />
-        <TextField
-          fullWidth
-          variant="filled"
-          type="text"
-          label="Address 2"
-          name="address2"
-          sx={{ gridColumn: "span 4" }}
-        />
-      </Box>
+            <TextField
+              color="secondary"
+              fullWidth
+              variant="filled"
+              type="text"
+              label="GSTIN"
+              name="gstin"
+              value={state.gstin}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+              sx={{ gridColumn: "span 4" }}
+            />
+            <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+              <InputLabel id="dealerTypeLabel" color="secondary">
+                Dealer Type
+              </InputLabel>
+              <Select
+                labelId="dealerTypeSelectLabel"
+                name="dealerType"
+                value={state.dealerType ?? ""}
+                onChange={(e) => {
+                  handleInputChange(e);
+                }}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value="REGULAR">Regular</MenuItem>
+                <MenuItem value="COMPOSITION">Composition</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+              <InputLabel id="returnTypeLabel" color="secondary">
+                Return Type
+              </InputLabel>
+              <Select
+                labelId="returnTypeSelectLabel"
+                name="returnType"
+                value={state.returnType ?? ""}
+                onChange={(e) => {
+                  handleInputChange(e);
+                }}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value="MONTHLY">Monthly</MenuItem>
+                <MenuItem value="QUARTERLY">Quarterly</MenuItem>
+              </Select>
+            </FormControl>
+
+            <TextField
+              color="secondary"
+              fullWidth
+              variant="filled"
+              type="text"
+              label="Current Status"
+              name="currentStatus"
+              value={state.currentStatus}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+              sx={{ gridColumn: "span 2" }}
+            />
+            <TextField
+              color="secondary"
+              fullWidth
+              variant="filled"
+              type="text"
+              label="Login Id"
+              name="loginId"
+              value={state.loginId}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+              sx={{ gridColumn: "span 4" }}
+            />
+            <TextField
+              color="secondary"
+              fullWidth
+              variant="filled"
+              type="text"
+              label="Login Password"
+              name="password"
+              value={state.password}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+              sx={{ gridColumn: "span 4" }}
+            />
+            <FormControl sx={{ gridColumn: "span 4" }}>
+              <FormLabel
+                id="coveredUnderAuditRadioGroupLabel"
+                color="secondary"
+              >
+                Covered Under Audit
+              </FormLabel>
+              <RadioGroup
+                color="secondary"
+                row
+                aria-labelledby="coveredUnderAuditRadioGroupLabel"
+                name="isCoveredUnderAudit"
+                value={state.isCoveredUnderAudit}
+                onChange={(e) => {
+                  handleInputChange(e);
+                }}
+              >
+                <FormControlLabel
+                  value="true"
+                  control={<Radio color="secondary" />}
+                  label="Yes"
+                />
+                <FormControlLabel
+                  value="false"
+                  control={<Radio color="secondary" />}
+                  label="No"
+                />
+              </RadioGroup>
+            </FormControl>
+          </Box>
+        </AccordionDetails>
+      </Accordion>
+      <GSTBusinessAddresses state={state} dispatch={dispatch} />
       <Snackbar
         open={openSnackbar}
-        autoHideDuration={5000}
+        autoHideDuration={60000}
         onClose={handleSnackbarClose}
         message={message}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         action={snackbarAction}
-      />
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={severity}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {message}
+        </Alert>
+      </Snackbar>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackDrop}
+        onClick={handleBackDropClose}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Box>
   );
 };

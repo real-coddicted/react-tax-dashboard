@@ -112,25 +112,25 @@ export default function Tax(props) {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <IncomeTax id={props.id} />
+        <IncomeTax data={props.data} id={props.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <GST id={props.id} />
+        <GST data={props.data} id={props.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <MCA id={props.id} />
+        <MCA data={props.data} id={props.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <PF id={props.id} />
+        <PF data={props.data} id={props.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        <ESIC id={props.id} />
+        <ESIC data={props.data} id={props.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
-        <TDS id={props.id} />
+        <TDS data={props.data} id={props.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={6}>
-        <FileUpload id={props.id} />
+        <FileUpload data={props.data} id={props.id} />
       </CustomTabPanel>
     </Box>
   );

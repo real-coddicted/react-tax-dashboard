@@ -2,6 +2,12 @@
 
 ## How to
 
+### Run application on your local
+
+- Create a file named .env.local
+- copy all the properties from .env file
+- Specify the correct value of the REACT_APP_API_URL property
+
 ### Build
 
 - install npm
