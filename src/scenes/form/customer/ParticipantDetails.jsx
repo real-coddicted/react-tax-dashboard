@@ -13,6 +13,7 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
+import dayjs from "dayjs";
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel, state } = props;
@@ -174,8 +175,11 @@ export default function ParticipantDetails({ state, dispatch }) {
       editable: true,
       resizable: true,
       width: 120,
+      valueFormatter: (params) => dayjs(params.value).format("YYYY-MM-DD"),
       valueGetter: (value, row) =>
-        row.dateOfBirth !== null ? row.dateOfBirth : "",
+        row.dateOfBirth !== null
+          ? dayjs(row.dateOfBirth).format("YYYY-MM-DD")
+          : "",
     },
     {
       field: "dinDpin",
@@ -296,6 +300,24 @@ export default function ParticipantDetails({ state, dispatch }) {
             "& .MuiDataGrid-columnHeaders": {
               // Forced to use important since overriding inline styles
               maxHeight: "180px !important",
+            },
+            "& .MuiDataGrid-booleanCell": {
+              color: "green !important",
+            },
+            "& .MuiDataGrid-cellCheckbox": {
+              color: "green !important",
+            },
+            "& .MuiDataGrid-checkboxInput": {
+              color: "green !important",
+            },
+            "& .MuiDataGrid-editBooleanCell": {
+              color: "green !important",
+            },
+            "& .baseCheckbox": {
+              color: "green !important",
+            },
+            "& .booleanCellTrueIcon": {
+              color: "green !important",
             },
           }}
           rows={rows}

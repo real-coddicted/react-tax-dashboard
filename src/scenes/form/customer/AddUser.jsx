@@ -20,11 +20,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
+import SelectTaxServices from "./SelectTaxServices";
 
 const steps = [
   "Select Customer Type",
   "Entity Information",
   "Additional Information",
+  "Select Services",
 ];
 
 export function addUserReducer(state, action) {
@@ -38,6 +40,10 @@ export function addUserReducer(state, action) {
       var oldAddress = state.address;
       oldAddress = { ...oldAddress, [payload.field]: payload.value };
       return { ...state, address: oldAddress };
+    case "CHANGE_SERVICES":
+      var oldServices = state.serviceAvailed;
+      oldServices = { ...oldServices, [payload.field]: payload.value };
+      return { ...state, serviceAvailed: oldServices };
     case "SAVE_CUSTOMER":
       console.log("dispatch SAVE_CUSTOMER");
       return {
@@ -61,6 +67,7 @@ export function addUserReducer(state, action) {
 }
 
 export const initialState = {
+  //-- individual
   id: "",
   accountRef: 1,
   category: "",
@@ -68,14 +75,14 @@ export const initialState = {
   lastName: "",
   aadhar: "",
   firmName: "",
-  //---
+  //---institutional fields
   companyName: "",
   registrationNumber: "",
-  //--
+  //-- common fields
   email: "",
   contactNumber: "",
   panNumber: "",
-  //--
+  //-- institutional fiels
   numberOfMembers: "",
   tanNumber: "",
   address: {
@@ -85,8 +92,17 @@ export const initialState = {
     country: "",
     pinCode: "",
   },
-  //--
+  //--particpants details
   persons: [],
+  //--services
+  services: {
+    incomeTax: false,
+    gst: false,
+    mca: false,
+    pf: false,
+    esic: false,
+    tds: false,
+  },
 };
 
 export default function AddUser(props) {
@@ -161,6 +177,8 @@ export default function AddUser(props) {
         return <EntityInformation state={state} dispatch={dispatch} />;
       case 2:
         return <AdditionalInformation state={state} dispatch={dispatch} />;
+      case 3:
+        return <SelectTaxServices state={state} dispatch={dispatch} />;
       default:
         return <h2>default step</h2>;
     }

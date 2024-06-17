@@ -23,11 +23,7 @@ function CustomTabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -60,14 +56,43 @@ export default function Tax(props) {
           indicatorColor="secondary"
           value={value}
           onChange={handleChange}
-          aria-label="basic tabs example"
+          aria-label="services tabs"
+          sx={{
+            "& .Mui-disabled": {
+              color: "black",
+            },
+          }}
         >
-          <Tab label="Income Tax" {...a11yProps(0)} />
-          <Tab label="GST" {...a11yProps(1)} />
-          <Tab label="MCA" {...a11yProps(2)} />
-          <Tab label="PF" {...a11yProps(3)} />
-          <Tab label="ESIC" {...a11yProps(4)} />
-          <Tab label="TDS" {...a11yProps(5)} />
+          <Tab
+            label="Income Tax"
+            {...a11yProps(0)}
+            disabled={!props.data.serviceAvailed.incomeTax}
+          />
+          <Tab
+            label="GST"
+            {...a11yProps(1)}
+            disabled={!props.data.serviceAvailed.gst}
+          />
+          <Tab
+            label="MCA"
+            {...a11yProps(2)}
+            disabled={!props.data.serviceAvailed.mca}
+          />
+          <Tab
+            label="PF"
+            {...a11yProps(3)}
+            disabled={!props.data.serviceAvailed.pf}
+          />
+          <Tab
+            label="ESIC"
+            {...a11yProps(4)}
+            disabled={!props.data.serviceAvailed.esic}
+          />
+          <Tab
+            label="TDS"
+            {...a11yProps(5)}
+            disabled={!props.data.serviceAvailed.tds}
+          />
           <Tab label="Documents" {...a11yProps(6)} />
         </Tabs>
       </Box>
