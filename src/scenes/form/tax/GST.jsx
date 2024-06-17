@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { Box, Button, Divider, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../../components/Header";
 import InputLabel from "@mui/material/InputLabel";
@@ -33,6 +33,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
+import GSTBusinessAddresses from "./GSTBusinessAddresses";
 
 const initialState = {
   id: "",
@@ -373,6 +374,7 @@ const GST = (props) => {
           </Box>
         </AccordionDetails>
       </Accordion>
+      <GSTBusinessAddresses state={state} dispatch={dispatch} />
       <Snackbar
         open={openSnackbar}
         autoHideDuration={60000}

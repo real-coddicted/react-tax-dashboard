@@ -34,6 +34,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
+import MCADirectors from "./MCADirectors";
 
 const initialState = {
   id: "",
@@ -44,6 +45,7 @@ const initialState = {
   securityQuestionOfCompany: "",
   securrityAnswerOfCompany: "",
   coveredUnderAudit: false,
+  directors: [],
 };
 
 function taxReducer(state, action) {
@@ -330,6 +332,7 @@ const MCA = (props) => {
           </Box>
         </AccordionDetails>
       </Accordion>
+      <MCADirectors state={state} dispatch={dispatch} />
       <Snackbar
         open={openSnackbar}
         autoHideDuration={60000}
