@@ -153,7 +153,7 @@ const Customers = () => {
   };
 
   const columns = [
-    // { field: "id", headerName: "ID", flex: 1 },
+    { field: "id", headerName: "ID", flex: 1 },
     {
       field: "category",
       headerName: "Category",
