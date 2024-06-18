@@ -63,59 +63,73 @@ export default function Tax(props) {
             },
           }}
         >
+          <Tab label="Documents" {...a11yProps(0)} />
           <Tab
             label="Income Tax"
-            {...a11yProps(0)}
-            disabled={!props.data.serviceAvailed.incomeTax}
+            {...a11yProps(1)}
+            disabled={
+              props.data.serviceAvailed
+                ? !props.data.serviceAvailed.incomeTax
+                : true
+            }
           />
           <Tab
             label="GST"
-            {...a11yProps(1)}
-            disabled={!props.data.serviceAvailed.gst}
+            {...a11yProps(2)}
+            disabled={
+              props.data.serviceAvailed ? !props.data.serviceAvailed.gst : true
+            }
           />
           <Tab
             label="MCA"
-            {...a11yProps(2)}
-            disabled={!props.data.serviceAvailed.mca}
+            {...a11yProps(3)}
+            disabled={
+              props.data.serviceAvailed ? !props.data.serviceAvailed.mca : true
+            }
           />
           <Tab
             label="PF"
-            {...a11yProps(3)}
-            disabled={!props.data.serviceAvailed.pf}
+            {...a11yProps(4)}
+            disabled={
+              props.data.serviceAvailed ? !props.data.serviceAvailed.pf : true
+            }
           />
           <Tab
             label="ESIC"
-            {...a11yProps(4)}
-            disabled={!props.data.serviceAvailed.esic}
+            {...a11yProps(5)}
+            disabled={
+              props.data.serviceAvailed ? !props.data.serviceAvailed.esic : true
+            }
           />
           <Tab
             label="TDS"
-            {...a11yProps(5)}
-            disabled={!props.data.serviceAvailed.tds}
+            {...a11yProps(6)}
+            disabled={
+              props.data.serviceAvailed ? !props.data.serviceAvailed.tds : true
+            }
           />
-          <Tab label="Documents" {...a11yProps(6)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <IncomeTax data={props.data} id={props.id} />
+        <FileUpload data={props.data} id={props.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <GST data={props.data} id={props.id} />
+        <IncomeTax data={props.data} id={props.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <MCA data={props.data} id={props.id} />
+        <GST data={props.data} id={props.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <PF data={props.data} id={props.id} />
+        <MCA data={props.data} id={props.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        <ESIC data={props.data} id={props.id} />
+        <PF data={props.data} id={props.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
-        <TDS data={props.data} id={props.id} />
+        <ESIC data={props.data} id={props.id} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={6}>
-        <FileUpload data={props.data} id={props.id} />
+        <TDS data={props.data} id={props.id} />
       </CustomTabPanel>
     </Box>
   );
