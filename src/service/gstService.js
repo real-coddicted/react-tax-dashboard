@@ -2,7 +2,7 @@ import axios from "axios";
 
 export function getGSTRecordByOwnerRefId(id) {
   const response = axios.get(
-    `${process.env.REACT_APP_API_URL}/api/gst/getByOwnerRefId/${id}`
+    `${process.env.REACT_APP_API_URL}/api/gst/getByCustomerRefId/${id}`
   );
   return response;
 }

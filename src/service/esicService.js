@@ -2,7 +2,7 @@ import axios from "axios";
 
 export function getESICRecordByOwnerRefId(id) {
   const response = axios.get(
-    `${process.env.REACT_APP_API_URL}/api/esic/getByOwnerRefId/${id}`
+    `${process.env.REACT_APP_API_URL}/api/esic/getByCustomerRefId/${id}`
   );
   return response;
 }
