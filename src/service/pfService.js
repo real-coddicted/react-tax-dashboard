@@ -2,7 +2,7 @@ import axios from "axios";
 
 export function getPFRecordByOwnerRefId(id) {
   const response = axios.get(
-    `${process.env.REACT_APP_API_URL}/api/pf/getByOwnerRefId/${id}`
+    `${process.env.REACT_APP_API_URL}/api/pf/getByCustomerRefId/${id}`
   );
   return response;
 }
