@@ -187,7 +187,7 @@ const Customers = () => {
     {
       field: "action",
       headerName: "Actions",
-      flex: 1,
+      flex: 1.2,
       sortable: false,
       disableClickEventBubbling: true,
 
