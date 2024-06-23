@@ -81,12 +81,12 @@ const IndividualSpecificFields = ({ mode, state, dispatch }) => {
           fullWidth
           variant="filled"
           type="text"
-          value={state.aadhar}
+          value={state.aadhaar}
           onChange={(e) => {
             handleInputChange(e);
           }}
-          label="Aadhar"
-          name="aadhar"
+          label="Aadhaar"
+          name="aadhaar"
           sx={{ gridColumn: "span 2" }}
         />
         <TextField

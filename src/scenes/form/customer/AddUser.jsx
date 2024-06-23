@@ -73,7 +73,7 @@ export const initialState = {
   category: "",
   firstName: "",
   lastName: "",
-  aadhar: "",
+  aadhaar: "",
   firmName: "",
   //---institutional fields
   companyName: "",
