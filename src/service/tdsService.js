@@ -2,7 +2,7 @@ import axios from "axios";
 
 export function getTDSRecordByOwnerRefId(id) {
   const response = axios.get(
-    `${process.env.REACT_APP_API_URL}/api/tds/getByOwnerRefId/${id}`
+    `${process.env.REACT_APP_API_URL}/api/tds/getByCustomerRefId/${id}`
   );
   return response;
 }
