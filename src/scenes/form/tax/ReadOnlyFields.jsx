@@ -141,16 +141,16 @@ const ReadOnlyFields = (props) => {
                 fullWidth
                 variant="filled"
                 type="text"
-                value={props.data.aadhar}
-                label="Aadhar"
-                name="aadharNumber"
+                value={props.data.aadhaar}
+                label="Aadhaar"
+                name="aadhaar"
                 sx={{ gridColumn: "span 4" }}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
                         onClick={() =>
-                          navigator.clipboard.writeText(props.data.aadharNumber)
+                          navigator.clipboard.writeText(props.data.aadhaar)
                         }
                       >
                         <ContentCopyIcon />

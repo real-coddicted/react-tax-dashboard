@@ -22,7 +22,7 @@ const Profile = (props) => {
   const [email, setEmail] = React.useState("");
   const [contactNumber, setcontactNumber] = React.useState("");
   const [panId, setPanId] = React.useState("");
-  const [aadharId, setAadharId] = React.useState("");
+  const [aadhaar, setAadhaar] = React.useState("");
   const [address1, setAddress1] = React.useState("");
   const [address2, setAddress2] = React.useState("");
   const [value, setValue] = React.useState();
@@ -36,7 +36,7 @@ const Profile = (props) => {
     setEmail(user["email"]);
     setcontactNumber(user["contactNumber"]);
     setPanId(user["panId"]);
-    setAadharId(user["aadharId"]);
+    setAadhaar(user["aadhaar"]);
     setAddress1(user["address1"]);
     setAddress2(user["address2"]);
   }
@@ -60,7 +60,7 @@ const Profile = (props) => {
         email: email,
         contactNumber: contactNumber,
         panId: panId,
-        aadharId: aadharId,
+        aadhaar: aadhaar,
         address1: address1,
         address2: address2,
       };
@@ -78,7 +78,7 @@ const Profile = (props) => {
         email: email,
         contactNumber: contactNumber,
         panId: panId,
-        aadharId: aadharId,
+        aadhaar: aadhaar,
         address1: address1,
         address2: address2,
       };
@@ -178,10 +178,10 @@ const Profile = (props) => {
           fullWidth
           variant="filled"
           type="text"
-          value={aadharId}
-          onChange={(event) => setAadharId(event.target.value)}
-          label="Aadhar"
-          name="aadhar"
+          value={aadhaar}
+          onChange={(event) => setAadhaar(event.target.value)}
+          label="Aadhaar"
+          name="aadhaar"
           sx={{ gridColumn: "span 2" }}
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>

@@ -162,8 +162,8 @@ export default function ParticipantDetails({ state, dispatch }) {
       editable: true,
     },
     {
-      field: "aadharNumber",
-      headerName: "Aadhar",
+      field: "aadhaar",
+      headerName: "Aadhaar",
       width: 120,
       resizable: true,
       editable: true,
