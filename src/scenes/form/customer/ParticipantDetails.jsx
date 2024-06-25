@@ -317,6 +317,9 @@ export default function ParticipantDetails({ state, dispatch }) {
             "& .booleanCellTrueIcon": {
               color: "green !important",
             },
+            "& .MuiSvgIcon-root": {
+              color: "green !important",
+            },
           }}
           rows={rows}
           columns={columns}
