@@ -158,14 +158,12 @@ export default function ParticipantDetails({ state, dispatch }) {
       field: "panNumber",
       headerName: "PAN No.",
       width: 120,
-      resizable: true,
       editable: true,
     },
     {
       field: "aadhaar",
       headerName: "Aadhaar",
       width: 120,
-      resizable: true,
       editable: true,
     },
     {
@@ -173,40 +171,40 @@ export default function ParticipantDetails({ state, dispatch }) {
       headerName: "DOB",
       type: "date",
       editable: true,
-      resizable: true,
       width: 120,
-      valueFormatter: (params) => dayjs(params.value).format("YYYY-MM-DD"),
-      valueGetter: (value, row) =>
-        row.dateOfBirth !== null
-          ? dayjs(row.dateOfBirth).format("YYYY-MM-DD")
-          : "",
+      valueGetter: (value, row) => {
+        return value ? dayjs(value).toDate() : "";
+      },
+      valueSetter: (value, row) => {
+        const date = value ? dayjs(value).format("YYYY-MM-DD") : "";
+        return { ...row, dateOfBirth: date };
+      },
+      valueFormatter: (value, row) => {
+        return value ? dayjs(value).format("YYYY-MM-DD") : "";
+      },
     },
     {
       field: "dinDpin",
       headerName: "DIN/DPIN",
       width: 120,
-      resizable: true,
       editable: true,
     },
     {
       field: "contactNumber",
       headerName: "Contact",
       width: 120,
-      resizable: true,
       editable: true,
     },
     {
       field: "email",
       headerName: "Email",
       width: 180,
-      resizable: true,
       editable: true,
     },
     {
       field: "addressLine1",
       headerName: "Address Line 1",
       width: 180,
-      resizable: true,
       editable: true,
       valueGetter: (value, row) =>
         row.address !== null ? row.address.addressLine1 : "",
