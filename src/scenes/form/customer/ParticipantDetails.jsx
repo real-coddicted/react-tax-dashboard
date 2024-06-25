@@ -117,7 +117,10 @@ export default function ParticipantDetails({ state, dispatch }) {
               label="Cancel"
               className="textPrimary"
               onClick={handleCancelClick(id)}
-              color="inherit"
+              color="red !important"
+              sx={{
+                color: "red !important",
+              }}
             />,
           ];
         }
@@ -129,12 +132,18 @@ export default function ParticipantDetails({ state, dispatch }) {
             className="textPrimary"
             onClick={handleEditClick(id)}
             color="secondary"
+            sx={{
+              color: "secondary",
+            }}
           />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
             onClick={handleDeleteClick(id)}
-            color="error"
+            color="red !important"
+            sx={{
+              color: "red !important",
+            }}
           />,
         ];
       },
@@ -299,26 +308,8 @@ export default function ParticipantDetails({ state, dispatch }) {
               // Forced to use important since overriding inline styles
               maxHeight: "180px !important",
             },
-            "& .MuiDataGrid-booleanCell": {
-              color: "green !important",
-            },
-            "& .MuiDataGrid-cellCheckbox": {
-              color: "green !important",
-            },
-            "& .MuiDataGrid-checkboxInput": {
-              color: "green !important",
-            },
-            "& .MuiDataGrid-editBooleanCell": {
-              color: "green !important",
-            },
-            "& .baseCheckbox": {
-              color: "green !important",
-            },
-            "& .booleanCellTrueIcon": {
-              color: "green !important",
-            },
-            "& .MuiSvgIcon-root": {
-              color: "green !important",
+            "& .MuiCheckbox-root": {
+              color: "green",
             },
           }}
           rows={rows}
