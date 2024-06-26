@@ -94,6 +94,16 @@ const ESIC = (props) => {
     });
   };
 
+  const handleDateChange = (field, value) => {
+    dispatch({
+      type: "CHANGE_INPUT",
+      payload: {
+        value,
+        field,
+      },
+    });
+  };
+
   const [values, setValues] = React.useState({
     password: "",
     showPassword: false,
@@ -111,7 +121,7 @@ const ESIC = (props) => {
   };
 
   React.useEffect(() => {
-    console.log("incomeTax ownerRef: " + ownerRef);
+    console.log("ecis ownerRef: " + ownerRef);
     if (ownerRef) {
       handleBackDropOpen();
       try {
@@ -121,7 +131,7 @@ const ESIC = (props) => {
             if (res && res.data) {
               dispatch({
                 type: "INIT",
-                payload: res.data,
+                payload: res.data[0],
               });
               handleBackDropClose();
             }
@@ -307,7 +317,7 @@ const ESIC = (props) => {
                 name="dateOfRegistration"
                 value={state.dateOfRegistration ?? ""}
                 onChange={(e) => {
-                  handleInputChange(e);
+                  handleDateChange("dateOfRegistration", e);
                 }}
                 sx={{ gridColumn: "span 2" }}
               />
