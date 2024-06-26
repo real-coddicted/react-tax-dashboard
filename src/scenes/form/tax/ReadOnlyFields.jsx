@@ -24,6 +24,7 @@ const ReadOnlyFields = (props) => {
   };
 
   const isECIS = () => {
+    console.log(props.service);
     return props.service === "ecis";
   };
 
@@ -41,26 +42,15 @@ const ReadOnlyFields = (props) => {
 
   return (
     <Box>
-      <Accordion
-      // sx={{
-      //   backgroundColor: "gray",
-      // }}
-      >
+      <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1-content"
           id="panel1-header"
-          // sx={{
-          //   backgroundColor: "grey",
-          // }}
         >
           Personal
         </AccordionSummary>
-        <AccordionDetails
-        // sx={{
-        //   backgroundColor: "gray",
-        // }}
-        >
+        <AccordionDetails>
           <Box
             display="grid"
             gap="30px"
