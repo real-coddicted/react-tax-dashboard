@@ -234,7 +234,7 @@ const ESIC = (props) => {
           </Button>
         </Box>
       </Box>
-      <ReadOnlyFields service="esic" data={props.data} />
+      <ReadOnlyFields service="ecis" data={props.data} />
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           Tax Related
