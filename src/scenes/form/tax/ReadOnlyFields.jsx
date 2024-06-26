@@ -210,7 +210,7 @@ const ReadOnlyFields = (props) => {
               />
             )}
             {/* Income Tax | MCA*/}
-            {(isIncomeTax() || isMCA()) && (
+            {(isIncomeTax() || isMCA() || isPF() || isECIS()) && (
               <TextField
                 disabled
                 fullWidth
@@ -223,7 +223,7 @@ const ReadOnlyFields = (props) => {
               />
             )}
             {/* Income Tax | MCA*/}
-            {(isIncomeTax() || isMCA()) && (
+            {(isIncomeTax() || isMCA() || isPF() || isECIS()) && (
               <TextField
                 disabled
                 fullWidth
@@ -236,7 +236,7 @@ const ReadOnlyFields = (props) => {
               />
             )}
             {/* Income Tax | MCA*/}
-            {(isIncomeTax() || isMCA()) && (
+            {(isIncomeTax() || isMCA() || isPF() || isECIS()) && (
               <TextField
                 disabled
                 fullWidth
@@ -249,7 +249,7 @@ const ReadOnlyFields = (props) => {
               />
             )}
             {/* Income Tax | MCA*/}
-            {(isIncomeTax() || isMCA()) && (
+            {(isIncomeTax() || isMCA() || isPF() || isECIS()) && (
               <TextField
                 disabled
                 fullWidth
@@ -262,7 +262,7 @@ const ReadOnlyFields = (props) => {
               />
             )}
             {/* Income Tax | MCA*/}
-            {(isIncomeTax() || isMCA()) && (
+            {(isIncomeTax() || isMCA() || isPF() || isECIS()) && (
               <TextField
                 disabled
                 fullWidth
