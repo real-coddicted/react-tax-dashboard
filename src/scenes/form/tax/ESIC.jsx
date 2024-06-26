@@ -263,6 +263,7 @@ const ESIC = (props) => {
               variant="filled"
               sx={{ gridColumn: "span 4" }}
               label="Password"
+              name="password"
               fullWidth
               type={values.showPassword ? "text" : "password"}
               value={values.password}
@@ -290,7 +291,7 @@ const ESIC = (props) => {
               variant="filled"
               type="text"
               label="Login Password"
-              name="loginPassword"
+              name="password"
               value={state.password}
               onChange={(e) => {
                 handleInputChange(e);
