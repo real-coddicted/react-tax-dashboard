@@ -24,7 +24,6 @@ const ReadOnlyFields = (props) => {
   };
 
   const isECIS = () => {
-    console.log(props.service);
     return props.service === "ecis";
   };
 
