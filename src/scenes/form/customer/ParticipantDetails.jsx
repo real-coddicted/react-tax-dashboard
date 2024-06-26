@@ -117,7 +117,10 @@ export default function ParticipantDetails({ state, dispatch }) {
               label="Cancel"
               className="textPrimary"
               onClick={handleCancelClick(id)}
-              color="inherit"
+              color="red !important"
+              sx={{
+                color: "red !important",
+              }}
             />,
           ];
         }
@@ -129,12 +132,18 @@ export default function ParticipantDetails({ state, dispatch }) {
             className="textPrimary"
             onClick={handleEditClick(id)}
             color="secondary"
+            sx={{
+              color: "secondary",
+            }}
           />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
             onClick={handleDeleteClick(id)}
-            color="error"
+            color="red !important"
+            sx={{
+              color: "red !important",
+            }}
           />,
         ];
       },
@@ -158,14 +167,12 @@ export default function ParticipantDetails({ state, dispatch }) {
       field: "panNumber",
       headerName: "PAN No.",
       width: 120,
-      resizable: true,
       editable: true,
     },
     {
       field: "aadhaar",
       headerName: "Aadhaar",
       width: 120,
-      resizable: true,
       editable: true,
     },
     {
@@ -173,40 +180,40 @@ export default function ParticipantDetails({ state, dispatch }) {
       headerName: "DOB",
       type: "date",
       editable: true,
-      resizable: true,
       width: 120,
-      valueFormatter: (params) => dayjs(params.value).format("YYYY-MM-DD"),
-      valueGetter: (value, row) =>
-        row.dateOfBirth !== null
-          ? dayjs(row.dateOfBirth).format("YYYY-MM-DD")
-          : "",
+      valueGetter: (value, row) => {
+        return value ? dayjs(value).toDate() : "";
+      },
+      valueSetter: (value, row) => {
+        const date = value ? dayjs(value).format("YYYY-MM-DD") : "";
+        return { ...row, dateOfBirth: date };
+      },
+      valueFormatter: (value, row) => {
+        return value ? dayjs(value).format("YYYY-MM-DD") : "";
+      },
     },
     {
       field: "dinDpin",
       headerName: "DIN/DPIN",
       width: 120,
-      resizable: true,
       editable: true,
     },
     {
       field: "contactNumber",
       headerName: "Contact",
       width: 120,
-      resizable: true,
       editable: true,
     },
     {
       field: "email",
       headerName: "Email",
       width: 180,
-      resizable: true,
       editable: true,
     },
     {
       field: "addressLine1",
       headerName: "Address Line 1",
       width: 180,
-      resizable: true,
       editable: true,
       valueGetter: (value, row) =>
         row.address !== null ? row.address.addressLine1 : "",
@@ -301,23 +308,8 @@ export default function ParticipantDetails({ state, dispatch }) {
               // Forced to use important since overriding inline styles
               maxHeight: "180px !important",
             },
-            "& .MuiDataGrid-booleanCell": {
-              color: "green !important",
-            },
-            "& .MuiDataGrid-cellCheckbox": {
-              color: "green !important",
-            },
-            "& .MuiDataGrid-checkboxInput": {
-              color: "green !important",
-            },
-            "& .MuiDataGrid-editBooleanCell": {
-              color: "green !important",
-            },
-            "& .baseCheckbox": {
-              color: "green !important",
-            },
-            "& .booleanCellTrueIcon": {
-              color: "green !important",
+            "& .MuiCheckbox-root": {
+              color: "green",
             },
           }}
           rows={rows}
