@@ -155,8 +155,11 @@ export default function ParticipantDetails({ state, dispatch }) {
       sortable: false,
       editable: true,
       type: "boolean",
-      valueGetter: (value, row) =>
-        row.authorisedPerson ? row.authorisedPerson : false,
+      valueGetter: (value, row) => {
+        console.log("authorisedPerson: " + value);
+        console.log(row);
+        return row.authorisedPerson ? row.authorisedPerson : false;
+      },
       valueSetter: (value, row) => {
         var authorisedPerson = value ? value : false;
         return { ...row, authorisedPerson: authorisedPerson };
@@ -197,8 +200,7 @@ export default function ParticipantDetails({ state, dispatch }) {
       headerName: "DIN/DPIN",
       width: 120,
       editable: true,
-      valueGetter: (value, row) =>
-        row.dinDpin !== null ? row.dinDpin : "",
+      valueGetter: (value, row) => (row.dinDpin !== null ? row.dinDpin : ""),
       valueSetter: (value, row) => {
         var dinDpin = value ? value : "";
         return { ...row, dinDpin: dinDpin };
@@ -215,8 +217,7 @@ export default function ParticipantDetails({ state, dispatch }) {
       headerName: "Email",
       width: 180,
       editable: true,
-      valueGetter: (value, row) =>
-        row.email !== null ? row.email : "",
+      valueGetter: (value, row) => (row.email !== null ? row.email : ""),
       valueSetter: (value, row) => {
         var email = value ? value : "";
         return { ...row, email: email };
@@ -321,6 +322,9 @@ export default function ParticipantDetails({ state, dispatch }) {
               maxHeight: "180px !important",
             },
             "& .MuiCheckbox-root": {
+              color: "green",
+            },
+            "& .MuiCheckbox-root.Mui-checked": {
               color: "green",
             },
           }}
