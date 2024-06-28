@@ -14,9 +14,15 @@ import {
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 import dayjs from "dayjs";
+import { AddParticipantDialog } from "./AddParticipantDialog";
 
 function EditToolbar(props) {
+  const [openAddDialog, setOpenAddDialog] = React.useState(false);
   const { setRows, setRowModesModel, state } = props;
+
+  const handleCloseAddDialog = () => {
+    setOpenAddDialog(false);
+  };
 
   const handleClick = () => {
     const id = state.persons.length + 1;
@@ -34,11 +40,30 @@ function EditToolbar(props) {
     }));
   };
 
+  const handleAddExistingClick = () => {
+    setOpenAddDialog(true);
+  };
+
   return (
     <GridToolbarContainer>
       <Button color="secondary" startIcon={<AddIcon />} onClick={handleClick}>
-        Add record
+        Add New
       </Button>
+      <Button
+        color="secondary"
+        startIcon={<AddIcon />}
+        onClick={handleAddExistingClick}
+      >
+        Add Existing
+      </Button>
+      <AddParticipantDialog
+        open={openAddDialog}
+        setOpen={setOpenAddDialog}
+        onClose={handleCloseAddDialog}
+        setRows={setRows}
+        setRowModesModel={setRowModesModel}
+        state={state}
+      />
     </GridToolbarContainer>
   );
 }
@@ -339,7 +364,11 @@ export default function ParticipantDetails({ state, dispatch }) {
             toolbar: EditToolbar,
           }}
           slotProps={{
-            toolbar: { setRows, setRowModesModel, state },
+            toolbar: {
+              setRows,
+              setRowModesModel,
+              state,
+            },
           }}
         />
       </Box>
