@@ -2,6 +2,7 @@ import * as React from "react";
 import { Box } from "@mui/material";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
+import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
@@ -51,7 +52,7 @@ function EditToolbar(props) {
       </Button>
       <Button
         color="secondary"
-        startIcon={<AddIcon />}
+        startIcon={<SearchIcon />}
         onClick={handleAddExistingClick}
       >
         Add Existing
