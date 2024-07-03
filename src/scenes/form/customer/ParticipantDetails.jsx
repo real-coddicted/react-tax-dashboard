@@ -108,7 +108,7 @@ export default function ParticipantDetails({ state, dispatch }) {
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     state.persons = state.persons.map((row) =>
-      row.id === newRow.id ? updatedRow : row
+      row.id === newRow.id ? newRow : row
     );
     return updatedRow;
   };
