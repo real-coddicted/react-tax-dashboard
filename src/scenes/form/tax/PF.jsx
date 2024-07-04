@@ -2,11 +2,11 @@ import { useReducer } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../../components/Header";
-// import { DatePicker } from "@mui/x-date-pickers";
+import { DatePicker } from "@mui/x-date-pickers";
 import React from "react";
 // import dayjs from "dayjs";
-// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import {
   getByCustomerRefId,
   createPFRecord,
@@ -90,6 +90,16 @@ const PF = (props) => {
   const handleInputChange = (event) => {
     const field = event.target.name;
     const value = event.target.value;
+    dispatch({
+      type: "CHANGE_INPUT",
+      payload: {
+        value,
+        field,
+      },
+    });
+  };
+
+  const handleDateChange = (field, value) => {
     dispatch({
       type: "CHANGE_INPUT",
       payload: {
@@ -262,6 +272,18 @@ const PF = (props) => {
               }}
               sx={{ gridColumn: "span 2" }}
             />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                color="secondary"
+                label="DOI"
+                name="dateOfRegistration"
+                value={state.dateOfRegistration ?? ""}
+                onChange={(e) => {
+                  handleDateChange("dateOfRegistration", e);
+                }}
+                sx={{ gridColumn: "span 2" }}
+              />
+            </LocalizationProvider>
             <FormControl sx={{ gridColumn: "span 4" }}>
               <FormLabel
                 id="coveredUnderAuditRadioGroupLabel"
@@ -305,6 +327,7 @@ const PF = (props) => {
               sx={{ gridColumn: "span 4" }}
             />
             <TextField
+              color="secondary"
               fullWidth
               variant="filled"
               type="text"
@@ -317,6 +340,7 @@ const PF = (props) => {
               sx={{ gridColumn: "span 4" }}
             />
             <TextField
+              color="secondary"
               fullWidth
               variant="filled"
               type="text"
@@ -329,6 +353,7 @@ const PF = (props) => {
               sx={{ gridColumn: "span 2" }}
             />
             <TextField
+              color="secondary"
               fullWidth
               variant="filled"
               type="text"
@@ -341,6 +366,7 @@ const PF = (props) => {
               sx={{ gridColumn: "span 2" }}
             />
             <TextField
+              color="secondary"
               fullWidth
               variant="filled"
               type="text"
@@ -353,6 +379,7 @@ const PF = (props) => {
               sx={{ gridColumn: "span 2" }}
             />
             <TextField
+              color="secondary"
               fullWidth
               variant="filled"
               type="text"
@@ -364,14 +391,6 @@ const PF = (props) => {
               name="pinCode"
               sx={{ gridColumn: "span 2" }}
             />
-            {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            label="DOR"
-            value={dateOfRegistration}
-            onChange={(newValue) => setDateOfRegistration(newValue)}
-            sx={{ gridColumn: "span 2" }}
-          />
-        </LocalizationProvider> */}
           </Box>
         </AccordionDetails>
       </Accordion>
