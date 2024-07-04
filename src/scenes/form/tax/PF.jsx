@@ -33,6 +33,7 @@ import Alert from "@mui/material/Alert";
 
 const initialState = {
   id: "",
+  isCoveredUnderAudit: false,
   address: {},
 };
 
@@ -255,7 +256,7 @@ const PF = (props) => {
               variant="filled"
               type="text"
               label="PF REGISTRATION NO"
-              name="pfRegistrationNo"
+              name="pfRegistrationNumber"
               value={state.pfRegistrationNumber}
               onChange={(e) => {
                 handleInputChange(e);
@@ -272,8 +273,8 @@ const PF = (props) => {
               <RadioGroup
                 row
                 aria-labelledby="coveredUnderAuditRadioGroupLabel"
-                name="coveredUnderAudit"
-                value={state.coveredUnderAudit}
+                name="isCoveredUnderAudit"
+                value={state.isCoveredUnderAudit}
                 onChange={(e) => {
                   handleInputChange(e);
                 }}
