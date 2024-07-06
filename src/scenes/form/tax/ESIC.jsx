@@ -194,6 +194,9 @@ const ESIC = (props) => {
               type: "SAVED_TAX_DETAILS",
               payload: res.data,
             });
+            setSeverity("success");
+            setMessage("Tax details saved successfully");
+            setOpenSnackbar(true);
           }
         })
         .catch((error) => {
