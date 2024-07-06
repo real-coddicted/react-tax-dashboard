@@ -1,12 +1,13 @@
+import React from "react";
 import { useReducer } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../../components/Header";
-// import { DatePicker } from "@mui/x-date-pickers";
-import React from "react";
-// import dayjs from "dayjs";
-// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers";
+
+import dayjs from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -40,7 +41,6 @@ const initialState = {
   id: "",
   companyType: "",
   cin: "",
-  dateOfInit: "",
   password: "",
   securityQuestionOfCompany: "",
   securrityAnswerOfCompany: "",
@@ -64,6 +64,7 @@ function taxReducer(state, action) {
     case "SAVED_TAX_DETAILS":
       return {
         ...state,
+        ...payload,
         isLoading: false,
       };
     case "ERROR_SAVING_TAX_DETAILS":
@@ -107,6 +108,16 @@ const MCA = (props) => {
     });
   };
 
+  const handleDateChange = (field, value) => {
+    dispatch({
+      type: "CHANGE_INPUT",
+      payload: {
+        value,
+        field,
+      },
+    });
+  };
+
   React.useEffect(() => {
     console.log("incomeTax ownerRef: " + props.id);
     if (props.id) {
@@ -115,6 +126,8 @@ const MCA = (props) => {
         // get user and set form fields
         getByCustomerRefId(props.id)
           .then((res) => {
+            console.log(res);
+            console.log(res.data);
             if (res && res.data) {
               dispatch({
                 type: "INIT",
@@ -155,11 +168,14 @@ const MCA = (props) => {
       }
       response
         .then((res) => {
-          if (res) {
+          if (res && res.data) {
             dispatch({
               type: "SAVED_TAX_DETAILS",
               payload: res.data,
             });
+            setSeverity("success");
+            setMessage("Tax details saved successfully");
+            setOpenSnackbar(true);
           }
         })
         .catch((error) => {
@@ -280,14 +296,25 @@ const MCA = (props) => {
               sx={{ gridColumn: "span 2" }}
             />
 
-            {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            label="DOI"
-            value={dateOfInit}
-            onChange={(newValue) => setDateOfInit(newValue)}
-            sx={{ gridColumn: "span 2" }}
-          />
-        </LocalizationProvider> */}
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                color="secondary"
+                label="Date of Incorporation"
+                name="dateOfRegistration"
+                inputFormat="YYYY-MM-DD"
+                value={dayjs(state.dateOfRegistration) ?? ""}
+                onChange={(e) => {
+                  handleDateChange("dateOfRegistration", e);
+                }}
+                sx={{ backgroundColor: "#3d3d3d", gridColumn: "span 2" }}
+                slotProps={{
+                  textField: {
+                    color: "secondary",
+                    focused: false,
+                  },
+                }}
+              />
+            </LocalizationProvider>
 
             <TextField
               color="secondary"
