@@ -35,6 +35,7 @@ import Alert from "@mui/material/Alert";
 
 const initialState = {
   id: "",
+  isCoveredUnderAudit: false,
   address: {},
 };
 
@@ -364,8 +365,8 @@ const ESIC = (props) => {
               <RadioGroup
                 row
                 aria-labelledby="coveredUnderAuditRadioGroupLabel"
-                name="coveredUnderAudit"
-                value={state.coveredUnderAudit}
+                name="isCoveredUnderAudit"
+                value={state.isCoveredUnderAudit}
                 onChange={(e) => {
                   handleInputChange(e);
                 }}

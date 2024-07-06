@@ -44,7 +44,7 @@ const initialState = {
   password: "",
   securityQuestionOfCompany: "",
   securrityAnswerOfCompany: "",
-  coveredUnderAudit: false,
+  isCoveredUnderAudit: false,
   directors: [],
 };
 
@@ -313,8 +313,8 @@ const MCA = (props) => {
               <RadioGroup
                 row
                 aria-labelledby="coveredUnderAuditRadioGroupLabel"
-                name="coveredUnderAudit"
-                value={state.coveredUnderAudit}
+                name="isCoveredUnderAudit"
+                value={state.isCoveredUnderAudit}
                 onChange={(e) => {
                   handleInputChange(e);
                 }}
