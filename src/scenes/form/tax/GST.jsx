@@ -260,7 +260,25 @@ const GST = (props) => {
             }}
           >
             {/* Editable Fields */}
-
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                color="secondary"
+                label="Date of Registration"
+                name="dateOfRegistration"
+                inputFormat="YYYY-MM-DD"
+                value={dayjs(state.dateOfRegistration) ?? ""}
+                onChange={(e) => {
+                  handleDateChange("dateOfRegistration", e);
+                }}
+                sx={{ backgroundColor: "#3d3d3d", gridColumn: "span 2" }}
+                slotProps={{
+                  textField: {
+                    color: "secondary",
+                    focused: false,
+                  },
+                }}
+              />
+            </LocalizationProvider>
             <TextField
               color="secondary"
               fullWidth
@@ -311,25 +329,7 @@ const GST = (props) => {
                 <MenuItem value="QUARTERLY">Quarterly</MenuItem>
               </Select>
             </FormControl>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                color="secondary"
-                label="Date of Registration"
-                name="dateOfRegistration"
-                inputFormat="YYYY-MM-DD"
-                value={dayjs(state.dateOfRegistration) ?? ""}
-                onChange={(e) => {
-                  handleDateChange("dateOfRegistration", e);
-                }}
-                sx={{ backgroundColor: "#3d3d3d", gridColumn: "span 2" }}
-                slotProps={{
-                  textField: {
-                    color: "secondary",
-                    focused: false,
-                  },
-                }}
-              />
-            </LocalizationProvider>
+
             <TextField
               color="secondary"
               fullWidth
