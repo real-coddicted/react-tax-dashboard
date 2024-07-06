@@ -328,6 +328,30 @@ const MCA = (props) => {
               }}
               sx={{ gridColumn: "span 4" }}
             />
+            <TextField
+              color="secondary"
+              fullWidth
+              type="text"
+              label="Security Question"
+              name="securityQuestionOfCompany"
+              value={state.securityQuestionOfCompany}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+              sx={{ gridColumn: "span 2" }}
+            />
+            <TextField
+              color="secondary"
+              fullWidth
+              type="text"
+              label="Security Answer"
+              name="securrityAnswerOfCompany"
+              value={state.securrityAnswerOfCompany}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+              sx={{ gridColumn: "span 2" }}
+            />
             <FormControl sx={{ gridColumn: "span 4" }}>
               <FormLabel
                 id="coveredUnderAuditRadioGroupLabel"
