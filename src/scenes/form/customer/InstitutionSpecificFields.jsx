@@ -54,6 +54,7 @@ const InstitutionSpecificFields = ({ state, dispatch }) => {
         }}
       >
         <TextField
+          color="secondary"
           fullWidth
           variant="filled"
           type="text"
@@ -66,6 +67,7 @@ const InstitutionSpecificFields = ({ state, dispatch }) => {
           sx={{ gridColumn: "span 2" }}
         />
         <TextField
+          color="secondary"
           fullWidth
           variant="filled"
           type="text"

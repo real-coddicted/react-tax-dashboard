@@ -68,6 +68,7 @@ const CommonFields = ({ state, dispatch }) => {
       >
         <TextField
           fullWidth
+          color="secondary"
           variant="filled"
           type="text"
           value={state.panNumber}
@@ -92,6 +93,7 @@ const CommonFields = ({ state, dispatch }) => {
           }}
         />
         <TextField
+          color="secondary"
           required
           fullWidth
           variant="filled"
@@ -105,6 +107,7 @@ const CommonFields = ({ state, dispatch }) => {
           sx={{ gridColumn: "span 2" }}
         />
         <TextField
+          color="secondary"
           required
           fullWidth
           variant="filled"
@@ -118,6 +121,7 @@ const CommonFields = ({ state, dispatch }) => {
           sx={{ gridColumn: "span 2" }}
         />
         <TextField
+          color="secondary"
           fullWidth
           variant="filled"
           type="text"
@@ -130,6 +134,7 @@ const CommonFields = ({ state, dispatch }) => {
           sx={{ gridColumn: "span 4" }}
         />
         <TextField
+          color="secondary"
           fullWidth
           variant="filled"
           type="text"
@@ -142,6 +147,7 @@ const CommonFields = ({ state, dispatch }) => {
           sx={{ gridColumn: "span 2" }}
         />
         <TextField
+          color="secondary"
           required
           fullWidth
           variant="filled"
@@ -155,6 +161,7 @@ const CommonFields = ({ state, dispatch }) => {
           sx={{ gridColumn: "span 2" }}
         />
         <TextField
+          color="secondary"
           required
           fullWidth
           variant="filled"
@@ -168,6 +175,7 @@ const CommonFields = ({ state, dispatch }) => {
           sx={{ gridColumn: "span 2" }}
         />
         <TextField
+          color="secondary"
           required
           fullWidth
           variant="filled"
