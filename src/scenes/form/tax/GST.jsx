@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import React from "react";
 import { useReducer } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -8,8 +8,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { DatePicker } from "@mui/x-date-pickers";
-import React from "react";
 
+import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
@@ -65,6 +65,7 @@ function taxReducer(state, action) {
     case "SAVED_TAX_DETAILS":
       return {
         ...state,
+        ...payload,
         isLoading: false,
       };
     case "ERROR_SAVING_TAX_DETAILS":
@@ -167,7 +168,7 @@ const GST = (props) => {
       }
       response
         .then((res) => {
-          if (res) {
+          if (res && res.data) {
             dispatch({
               type: "SAVED_TAX_DETAILS",
               payload: res.data,
@@ -260,7 +261,25 @@ const GST = (props) => {
             }}
           >
             {/* Editable Fields */}
-
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                color="secondary"
+                label="Date of Registration"
+                name="dateOfRegistration"
+                inputFormat="YYYY-MM-DD"
+                value={dayjs(state.dateOfRegistration) ?? ""}
+                onChange={(e) => {
+                  handleDateChange("dateOfRegistration", e);
+                }}
+                sx={{ backgroundColor: "#3d3d3d", gridColumn: "span 2" }}
+                slotProps={{
+                  textField: {
+                    color: "secondary",
+                    focused: false,
+                  },
+                }}
+              />
+            </LocalizationProvider>
             <TextField
               color="secondary"
               fullWidth
@@ -311,25 +330,7 @@ const GST = (props) => {
                 <MenuItem value="QUARTERLY">Quarterly</MenuItem>
               </Select>
             </FormControl>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                color="secondary"
-                label="Date of Registration"
-                name="dateOfRegistration"
-                inputFormat="YYYY-MM-DD"
-                value={dayjs(state.dateOfRegistration) ?? ""}
-                onChange={(e) => {
-                  handleDateChange("dateOfRegistration", e);
-                }}
-                sx={{ backgroundColor: "#3d3d3d", gridColumn: "span 2" }}
-                slotProps={{
-                  textField: {
-                    color: "secondary",
-                    focused: false,
-                  },
-                }}
-              />
-            </LocalizationProvider>
+
             <TextField
               color="secondary"
               fullWidth

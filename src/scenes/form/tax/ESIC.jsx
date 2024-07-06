@@ -59,6 +59,7 @@ function taxReducer(state, action) {
     case "SAVED_TAX_DETAILS":
       return {
         ...state,
+        ...payload,
         isLoading: false,
       };
     case "ERROR_SAVING_TAX_DETAILS":
@@ -188,7 +189,7 @@ const ESIC = (props) => {
       }
       response
         .then((res) => {
-          if (res) {
+          if (res && res.data) {
             dispatch({
               type: "SAVED_TAX_DETAILS",
               payload: res.data,
