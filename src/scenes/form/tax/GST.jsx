@@ -172,6 +172,9 @@ const GST = (props) => {
               type: "SAVED_TAX_DETAILS",
               payload: res.data,
             });
+            setSeverity("success");
+            setMessage("Tax details saved successfully");
+            setOpenSnackbar(true);
           }
         })
         .catch((error) => {
@@ -310,16 +313,17 @@ const GST = (props) => {
             </FormControl>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
+                color="secondary"
                 label="Date of Registration"
                 name="dateOfRegistration"
-                value={state.dateOfRegistration ?? ""}
+                inputFormat="YYYY-MM-DD"
+                value={dayjs(state.dateOfRegistration) ?? ""}
                 onChange={(e) => {
                   handleDateChange("dateOfRegistration", e);
                 }}
                 sx={{ backgroundColor: "#3d3d3d", gridColumn: "span 2" }}
                 slotProps={{
                   textField: {
-                    variant: "filled",
                     color: "secondary",
                     focused: false,
                   },
