@@ -144,6 +144,9 @@ const IncomeTax = (props) => {
               type: "SAVED_TAX_DETAILS",
               payload: res.data,
             });
+            setSeverity("success");
+            setMessage("Tax details saved successfully");
+            setOpenSnackbar(true);
           }
         })
         .catch((error) => {
@@ -232,7 +235,6 @@ const IncomeTax = (props) => {
             <TextField
               color="secondary"
               fullWidth
-              variant="filled"
               type="text"
               label="Login Password"
               name="password"
@@ -284,8 +286,8 @@ const IncomeTax = (props) => {
       >
         <Alert
           onClose={handleSnackbarClose}
-          severity={severity}
           variant="filled"
+          severity={severity}
           sx={{ width: "100%" }}
         >
           {message}

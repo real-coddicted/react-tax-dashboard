@@ -280,7 +280,6 @@ const ESIC = (props) => {
           >
             <TextField
               color="secondary"
-              variant="filled"
               sx={{ gridColumn: "span 4" }}
               label="Password"
               fullWidth
@@ -307,7 +306,6 @@ const ESIC = (props) => {
             <TextField
               color="secondary"
               fullWidth
-              variant="filled"
               type="text"
               label="Login Password"
               name="loginPassword"
@@ -320,7 +318,6 @@ const ESIC = (props) => {
             <TextField
               color="secondary"
               fullWidth
-              variant="filled"
               type="text"
               label="AUTHO SIGN"
               name="authoSign"
@@ -345,7 +342,6 @@ const ESIC = (props) => {
             <TextField
               color="secondary"
               fullWidth
-              variant="filled"
               type="text"
               label="ESIC REGISTRATION  NO"
               name="esicRegistrationNo"
@@ -385,7 +381,6 @@ const ESIC = (props) => {
             </FormControl>
             <TextField
               fullWidth
-              variant="filled"
               type="text"
               value={state.address.addressLine1}
               onChange={(e) => {
@@ -397,7 +392,6 @@ const ESIC = (props) => {
             />
             <TextField
               fullWidth
-              variant="filled"
               type="text"
               value={state.address.city}
               onChange={(e) => {
@@ -409,7 +403,6 @@ const ESIC = (props) => {
             />
             <TextField
               fullWidth
-              variant="filled"
               type="text"
               value={state.address.state}
               onChange={(e) => {
@@ -421,7 +414,6 @@ const ESIC = (props) => {
             />
             <TextField
               fullWidth
-              variant="filled"
               type="text"
               value={state.address.country}
               onChange={(e) => {
@@ -433,7 +425,6 @@ const ESIC = (props) => {
             />
             <TextField
               fullWidth
-              variant="filled"
               type="text"
               value={state.address.pinCode}
               onChange={(e) => {
@@ -456,8 +447,8 @@ const ESIC = (props) => {
       >
         <Alert
           onClose={handleSnackbarClose}
-          severity={severity}
           variant="filled"
+          severity={severity}
           sx={{ width: "100%" }}
         >
           {message}

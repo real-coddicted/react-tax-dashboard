@@ -246,7 +246,7 @@ const MCA = (props) => {
               "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
             }}
           >
-            <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+            <FormControl sx={{ gridColumn: "span 2" }}>
               <InputLabel id="typeOfEntityLabel" color="secondary">
                 Type of Entity
               </InputLabel>
@@ -270,7 +270,6 @@ const MCA = (props) => {
             <TextField
               color="secondary"
               fullWidth
-              variant="filled"
               type="text"
               label="CIN/LLPIN"
               name="cin"
@@ -293,7 +292,6 @@ const MCA = (props) => {
             <TextField
               color="secondary"
               fullWidth
-              variant="filled"
               type="text"
               label="Login Password"
               name="password"
@@ -345,8 +343,8 @@ const MCA = (props) => {
       >
         <Alert
           onClose={handleSnackbarClose}
-          severity={severity}
           variant="filled"
+          severity={severity}
           sx={{ width: "100%" }}
         >
           {message}

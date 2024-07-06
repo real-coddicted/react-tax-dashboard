@@ -237,7 +237,6 @@ const TDS = (props) => {
             <TextField
               color="secondary"
               fullWidth
-              variant="filled"
               type="text"
               label="TAN NO"
               name="tanNo"
@@ -295,7 +294,6 @@ const TDS = (props) => {
             <TextField
               color="secondary"
               fullWidth
-              variant="filled"
               type="text"
               label="ID"
               name="loginIdITD"
@@ -308,7 +306,6 @@ const TDS = (props) => {
             <TextField
               color="secondary"
               fullWidth
-              variant="filled"
               type="text"
               label="Password"
               name="passwordITD"
@@ -337,7 +334,6 @@ const TDS = (props) => {
             <TextField
               color="secondary"
               fullWidth
-              variant="filled"
               type="text"
               label="ID"
               name="loginIdTraces"
@@ -350,7 +346,6 @@ const TDS = (props) => {
             <TextField
               color="secondary"
               fullWidth
-              variant="filled"
               type="text"
               label="Password"
               name="passwordTraces"
@@ -373,8 +368,8 @@ const TDS = (props) => {
       >
         <Alert
           onClose={handleSnackbarClose}
-          severity={severity}
           variant="filled"
+          severity={severity}
           sx={{ width: "100%" }}
         >
           {message}

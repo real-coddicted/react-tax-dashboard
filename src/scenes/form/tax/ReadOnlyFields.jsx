@@ -63,7 +63,6 @@ const ReadOnlyFields = (props) => {
               <TextField
                 disabled
                 fullWidth
-                variant="filled"
                 value={getName()}
                 type="text"
                 label="Name"
@@ -76,7 +75,6 @@ const ReadOnlyFields = (props) => {
               <TextField
                 disabled
                 fullWidth
-                variant="filled"
                 value={props.data.firmName ?? ""}
                 type="text"
                 label="Firm Name"
@@ -89,7 +87,6 @@ const ReadOnlyFields = (props) => {
               <TextField
                 disabled
                 fullWidth
-                variant="filled"
                 value={props.data.companyName}
                 type="text"
                 label="Company/LLP Name"
@@ -102,7 +99,6 @@ const ReadOnlyFields = (props) => {
               <TextField
                 disabled
                 fullWidth
-                variant="filled"
                 type="text"
                 value={props.data.panNumber}
                 label="Pan No"
@@ -128,7 +124,6 @@ const ReadOnlyFields = (props) => {
               <TextField
                 disabled
                 fullWidth
-                variant="filled"
                 type="text"
                 value={props.data.aadhaar}
                 label="Aadhaar"
@@ -159,7 +154,6 @@ const ReadOnlyFields = (props) => {
               <TextField
                 disabled
                 fullWidth
-                variant="filled"
                 value={props.data.email}
                 type="text"
                 label="Email"
@@ -175,9 +169,9 @@ const ReadOnlyFields = (props) => {
               isECIS() ||
               isTDS()) && (
               <TextField
+                color="secondary"
                 disabled
                 fullWidth
-                variant="filled"
                 type="text"
                 value={props.data.contactNumber}
                 label="Contact Number"
@@ -185,12 +179,11 @@ const ReadOnlyFields = (props) => {
                 sx={{ gridColumn: "span 2" }}
               />
             )}
-            {/* Income Tax  | GST | MCA | TDS*/}
-            {(isIncomeTax() || isGST() || isMCA() || isTDS()) && (
+            {/* GST | MCA | TDS*/}
+            {(isGST() || isMCA() || isTDS()) && (
               <TextField
                 disabled
                 fullWidth
-                variant="filled"
                 value={getName}
                 type="text"
                 label="Authorised Person"
@@ -203,7 +196,6 @@ const ReadOnlyFields = (props) => {
               <TextField
                 disabled
                 fullWidth
-                variant="filled"
                 type="text"
                 value={props.data.address.addressLine1}
                 label="Address"
@@ -216,7 +208,6 @@ const ReadOnlyFields = (props) => {
               <TextField
                 disabled
                 fullWidth
-                variant="filled"
                 type="text"
                 value={props.data.address.city}
                 label="City"
@@ -229,7 +220,6 @@ const ReadOnlyFields = (props) => {
               <TextField
                 disabled
                 fullWidth
-                variant="filled"
                 value={props.data.address.state}
                 type="text"
                 label="State"
@@ -242,7 +232,6 @@ const ReadOnlyFields = (props) => {
               <TextField
                 disabled
                 fullWidth
-                variant="filled"
                 value={props.data.address.country}
                 type="text"
                 label="Country"
@@ -255,7 +244,6 @@ const ReadOnlyFields = (props) => {
               <TextField
                 disabled
                 fullWidth
-                variant="filled"
                 value={props.data.address.pinCode}
                 type="text"
                 label="Pin Code"

@@ -261,7 +261,6 @@ const GST = (props) => {
             <TextField
               color="secondary"
               fullWidth
-              variant="filled"
               type="text"
               label="GSTIN"
               name="gstin"
@@ -271,7 +270,7 @@ const GST = (props) => {
               }}
               sx={{ gridColumn: "span 4" }}
             />
-            <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+            <FormControl sx={{ gridColumn: "span 2" }}>
               <InputLabel id="dealerTypeLabel" color="secondary">
                 Dealer Type
               </InputLabel>
@@ -290,7 +289,7 @@ const GST = (props) => {
                 <MenuItem value="COMPOSITION">Composition</MenuItem>
               </Select>
             </FormControl>
-            <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+            <FormControl sx={{ gridColumn: "span 2" }}>
               <InputLabel id="returnTypeLabel" color="secondary">
                 Return Frequency
               </InputLabel>
@@ -330,7 +329,6 @@ const GST = (props) => {
             <TextField
               color="secondary"
               fullWidth
-              variant="filled"
               type="text"
               label="Current Status"
               name="currentStatus"
@@ -343,7 +341,6 @@ const GST = (props) => {
             <TextField
               color="secondary"
               fullWidth
-              variant="filled"
               type="text"
               label="Login Id"
               name="loginId"
@@ -356,7 +353,6 @@ const GST = (props) => {
             <TextField
               color="secondary"
               fullWidth
-              variant="filled"
               type="text"
               label="Login Password"
               name="password"
@@ -409,8 +405,8 @@ const GST = (props) => {
       >
         <Alert
           onClose={handleSnackbarClose}
-          severity={severity}
           variant="filled"
+          severity={severity}
           sx={{ width: "100%" }}
         >
           {message}

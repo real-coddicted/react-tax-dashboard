@@ -253,7 +253,6 @@ const PF = (props) => {
             <TextField
               color="secondary"
               fullWidth
-              variant="filled"
               type="text"
               label="PF REGISTRATION NO"
               name="pfRegistrationNumber"
@@ -295,7 +294,6 @@ const PF = (props) => {
             <TextField
               color="secondary"
               fullWidth
-              variant="filled"
               type="text"
               label="Login Password"
               name="password"
@@ -307,7 +305,6 @@ const PF = (props) => {
             />
             <TextField
               fullWidth
-              variant="filled"
               type="text"
               value={state.address.addressLine1}
               onChange={(e) => {
@@ -319,7 +316,6 @@ const PF = (props) => {
             />
             <TextField
               fullWidth
-              variant="filled"
               type="text"
               value={state.address.city}
               onChange={(e) => {
@@ -331,7 +327,6 @@ const PF = (props) => {
             />
             <TextField
               fullWidth
-              variant="filled"
               type="text"
               value={state.address.state}
               onChange={(e) => {
@@ -343,7 +338,6 @@ const PF = (props) => {
             />
             <TextField
               fullWidth
-              variant="filled"
               type="text"
               value={state.address.country}
               onChange={(e) => {
@@ -355,7 +349,6 @@ const PF = (props) => {
             />
             <TextField
               fullWidth
-              variant="filled"
               type="text"
               value={state.address.pinCode}
               onChange={(e) => {
@@ -386,8 +379,8 @@ const PF = (props) => {
       >
         <Alert
           onClose={handleSnackbarClose}
-          severity={severity}
           variant="filled"
+          severity={severity}
           sx={{ width: "100%" }}
         >
           {message}
