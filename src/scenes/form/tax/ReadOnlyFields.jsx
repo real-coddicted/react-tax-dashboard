@@ -71,7 +71,7 @@ const ReadOnlyFields = (props) => {
               />
             )}
 
-            {(isIncomeTax() || isGST()) && (
+            {(isIncomeTax() || isGST() || isPF()) && (
               <TextField
                 disabled
                 fullWidth
@@ -79,6 +79,28 @@ const ReadOnlyFields = (props) => {
                 type="text"
                 label="Firm Name"
                 name="firmName"
+                sx={{ gridColumn: "span 4" }}
+              />
+            )}
+            {isPF() && (
+              <TextField
+                disabled
+                fullWidth
+                value={props.data.authorisedPerson ?? ""}
+                type="text"
+                label="Authorised Person"
+                name="authorisedPerson"
+                sx={{ gridColumn: "span 2" }}
+              />
+            )}
+            {isPF() && (
+              <TextField
+                disabled
+                fullWidth
+                value={props.data.aadhaarOfAuthrorisedPerson ?? ""}
+                type="text"
+                label="Authorised Person Aadhaar"
+                name="aadhaarOfAuthrorisedPerson"
                 sx={{ gridColumn: "span 2" }}
               />
             )}
@@ -95,7 +117,7 @@ const ReadOnlyFields = (props) => {
               />
             )}
             {/* Income Tax | MCA | TDS*/}
-            {(isIncomeTax() || isMCA() || isTDS()) && (
+            {(isIncomeTax() || isMCA() || isTDS() || isPF()) && (
               <TextField
                 disabled
                 fullWidth

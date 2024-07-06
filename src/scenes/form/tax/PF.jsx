@@ -1,12 +1,12 @@
+import React from "react";
 import { useReducer } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../../components/Header";
-// import { DatePicker } from "@mui/x-date-pickers";
-import React from "react";
-// import dayjs from "dayjs";
-// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers";
 import {
   getByCustomerRefId,
   createPFRecord,
@@ -101,6 +101,16 @@ const PF = (props) => {
     });
   };
 
+  const handleDateChange = (field, value) => {
+    dispatch({
+      type: "CHANGE_INPUT",
+      payload: {
+        value,
+        field,
+      },
+    });
+  };
+
   const handleAddressChange = (event) => {
     const field = event.target.name;
     const value = event.target.value;
@@ -166,6 +176,9 @@ const PF = (props) => {
               type: "SAVED_TAX_DETAILS",
               payload: res.data,
             });
+            setSeverity("success");
+            setMessage("Tax details saved successfully");
+            setOpenSnackbar(true);
           }
         })
         .catch((error) => {
@@ -305,6 +318,7 @@ const PF = (props) => {
               sx={{ gridColumn: "span 4" }}
             />
             <TextField
+              color="secondary"
               fullWidth
               type="text"
               value={state.address.addressLine1}
@@ -316,6 +330,7 @@ const PF = (props) => {
               sx={{ gridColumn: "span 4" }}
             />
             <TextField
+              color="secondary"
               fullWidth
               type="text"
               value={state.address.city}
@@ -327,6 +342,7 @@ const PF = (props) => {
               sx={{ gridColumn: "span 2" }}
             />
             <TextField
+              color="secondary"
               fullWidth
               type="text"
               value={state.address.state}
@@ -338,6 +354,7 @@ const PF = (props) => {
               sx={{ gridColumn: "span 2" }}
             />
             <TextField
+              color="secondary"
               fullWidth
               type="text"
               value={state.address.country}
@@ -349,6 +366,7 @@ const PF = (props) => {
               sx={{ gridColumn: "span 2" }}
             />
             <TextField
+              color="secondary"
               fullWidth
               type="text"
               value={state.address.pinCode}
@@ -359,14 +377,26 @@ const PF = (props) => {
               name="pinCode"
               sx={{ gridColumn: "span 2" }}
             />
-            {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            label="DOR"
-            value={dateOfRegistration}
-            onChange={(newValue) => setDateOfRegistration(newValue)}
-            sx={{ gridColumn: "span 2" }}
-          />
-        </LocalizationProvider> */}
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                dispabled={!state.dateOfRegistration}
+                color="secondary"
+                label="Date of Registration"
+                name="dateOfRegistration"
+                inputFormat="YYYY-MM-DD"
+                value={dayjs(state.dateOfRegistration) ?? ""}
+                onChange={(e) => {
+                  handleDateChange("dateOfRegistration", e);
+                }}
+                sx={{ backgroundColor: "#3d3d3d", gridColumn: "span 2" }}
+                slotProps={{
+                  textField: {
+                    color: "secondary",
+                    focused: false,
+                  },
+                }}
+              />
+            </LocalizationProvider>
           </Box>
         </AccordionDetails>
       </Accordion>
