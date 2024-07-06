@@ -346,8 +346,8 @@ export default function AddUser(props) {
             >
               <Alert
                 onClose={handleSnackbarClose}
-                severity={severity}
                 variant="filled"
+                severity={severity}
                 sx={{ width: "100%" }}
               >
                 {message}
