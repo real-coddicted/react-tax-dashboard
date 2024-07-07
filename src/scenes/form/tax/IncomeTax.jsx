@@ -255,8 +255,8 @@ const IncomeTax = (props) => {
               <RadioGroup
                 row
                 aria-labelledby="coveredUnderAuditRadioGroupLabel"
-                name="isCoveredUnderAudit"
-                value={state.isCoveredUnderAudit}
+                name="coveredUnderAudit"
+                value={state.coveredUnderAudit}
                 onChange={(e) => {
                   handleInputChange(e);
                 }}

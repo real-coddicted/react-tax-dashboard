@@ -71,7 +71,7 @@ const ReadOnlyFields = (props) => {
               />
             )}
 
-            {(isIncomeTax() || isGST() || isPF()) && (
+            {(isIncomeTax() || isGST() || isPF() || isECIS()) && (
               <TextField
                 disabled
                 fullWidth
@@ -82,28 +82,7 @@ const ReadOnlyFields = (props) => {
                 sx={{ gridColumn: "span 4" }}
               />
             )}
-            {isPF() && (
-              <TextField
-                disabled
-                fullWidth
-                value={props.data.authorisedPerson ?? ""}
-                type="text"
-                label="Authorised Person"
-                name="authorisedPerson"
-                sx={{ gridColumn: "span 2" }}
-              />
-            )}
-            {isPF() && (
-              <TextField
-                disabled
-                fullWidth
-                value={props.data.aadhaarOfAuthrorisedPerson ?? ""}
-                type="text"
-                label="Authorised Person Aadhaar"
-                name="aadhaarOfAuthrorisedPerson"
-                sx={{ gridColumn: "span 2" }}
-              />
-            )}
+
             {/* MCA | TDS */}
             {(isMCA() || isTDS()) && (
               <TextField
@@ -117,7 +96,7 @@ const ReadOnlyFields = (props) => {
               />
             )}
             {/* Income Tax | MCA | TDS*/}
-            {(isIncomeTax() || isMCA() || isTDS() || isPF()) && (
+            {(isIncomeTax() || isMCA() || isTDS() || isPF() || isECIS()) && (
               <TextField
                 disabled
                 fullWidth
@@ -166,6 +145,29 @@ const ReadOnlyFields = (props) => {
                 }}
               />
             )}
+            {/* GST | MCA | TDS*/}
+            {(isGST() || isMCA() || isTDS() || isPF() || isECIS()) && (
+              <TextField
+                disabled
+                fullWidth
+                value={getName}
+                type="text"
+                label="Authorised Person"
+                name="authorisedPerson"
+                sx={{ gridColumn: "span 2" }}
+              />
+            )}
+            {(isPF() || isECIS()) && (
+              <TextField
+                disabled
+                fullWidth
+                value={props.data.aadhaarOfAuthrorisedPerson ?? ""}
+                type="text"
+                label="Authorised Person Aadhaar"
+                name="aadhaarOfAuthrorisedPerson"
+                sx={{ gridColumn: "span 2" }}
+              />
+            )}
             {/* Income Tax | GST | MCA | PF | TDS*/}
             {(isIncomeTax() ||
               isGST() ||
@@ -201,18 +203,7 @@ const ReadOnlyFields = (props) => {
                 sx={{ gridColumn: "span 2" }}
               />
             )}
-            {/* GST | MCA | TDS*/}
-            {(isGST() || isMCA() || isTDS()) && (
-              <TextField
-                disabled
-                fullWidth
-                value={getName}
-                type="text"
-                label="Authorised Person"
-                name="authorisedPerson"
-                sx={{ gridColumn: "span 2" }}
-              />
-            )}
+
             {/* Income Tax | MCA*/}
             {(isIncomeTax() || isMCA()) && (
               <TextField
