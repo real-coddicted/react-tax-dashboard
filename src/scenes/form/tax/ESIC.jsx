@@ -284,6 +284,19 @@ const ESIC = (props) => {
           >
             <TextField
               color="secondary"
+              fullWidth
+              type="text"
+              label="ESIC Registration No."
+              name="esicRegistrationNo"
+              value={state.esicRegistrationNo}
+              onChange={(e) => {
+                handleInputChange(e);
+              }}
+              sx={{ gridColumn: "span 2" }}
+              InputLabelProps={{ shrink: !!state.esicRegistrationNo }}
+            />
+            {/* <TextField
+              color="secondary"
               sx={{ gridColumn: "span 4" }}
               label="Password"
               fullWidth
@@ -306,55 +319,33 @@ const ESIC = (props) => {
                   </InputAdornment>
                 ),
               }}
-            />
+            /> */}
             <TextField
               color="secondary"
               fullWidth
               type="text"
               label="Login Password"
-              name="loginPassword"
+              name="password"
               value={state.password}
               onChange={(e) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 4" }}
-            />
-            <TextField
-              color="secondary"
-              fullWidth
-              type="text"
-              label="AUTHO SIGN"
-              name="authoSign"
-              value={state.authorizedSignatory}
-              onChange={(e) => {
-                handleInputChange(e);
-              }}
-              sx={{ gridColumn: "span 2" }}
+              InputLabelProps={{ shrink: !!state.password }}
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 color="secondary"
-                label="DOI"
+                label="Date of Registration"
                 name="dateOfRegistration"
-                value={state.dateOfRegistration ?? ""}
+                value={dayjs(state.dateOfRegistration) ?? ""}
                 onChange={(e) => {
                   handleDateChange("dateOfRegistration", e);
                 }}
                 sx={{ gridColumn: "span 2" }}
               />
             </LocalizationProvider>
-            <TextField
-              color="secondary"
-              fullWidth
-              type="text"
-              label="ESIC REGISTRATION  NO"
-              name="esicRegistrationNo"
-              value={state.esicRegistrationNo}
-              onChange={(e) => {
-                handleInputChange(e);
-              }}
-              sx={{ gridColumn: "span 2" }}
-            />
+
             <FormControl sx={{ gridColumn: "span 4" }}>
               <FormLabel
                 id="coveredUnderAuditRadioGroupLabel"
@@ -365,25 +356,26 @@ const ESIC = (props) => {
               <RadioGroup
                 row
                 aria-labelledby="coveredUnderAuditRadioGroupLabel"
-                name="isCoveredUnderAudit"
-                value={state.isCoveredUnderAudit}
+                name="coveredUnderAudit"
+                value={state.coveredUnderAudit}
                 onChange={(e) => {
                   handleInputChange(e);
                 }}
               >
                 <FormControlLabel
-                  value={true}
+                  value="true"
                   control={<Radio color="secondary" />}
                   label="Yes"
                 />
                 <FormControlLabel
-                  value={false}
+                  value="false"
                   control={<Radio color="secondary" />}
                   label="No"
                 />
               </RadioGroup>
             </FormControl>
             <TextField
+              color="secondary"
               fullWidth
               type="text"
               value={state.address.addressLine1}
@@ -393,8 +385,10 @@ const ESIC = (props) => {
               label="Address"
               name="addressLine1"
               sx={{ gridColumn: "span 4" }}
+              InputLabelProps={{ shrink: !!state.address.addressLine1 }}
             />
             <TextField
+              color="secondary"
               fullWidth
               type="text"
               value={state.address.city}
@@ -404,8 +398,10 @@ const ESIC = (props) => {
               label="City"
               name="city"
               sx={{ gridColumn: "span 2" }}
+              InputLabelProps={{ shrink: !!state.address.city }}
             />
             <TextField
+              color="secondary"
               fullWidth
               type="text"
               value={state.address.state}
@@ -415,8 +411,10 @@ const ESIC = (props) => {
               label="State"
               name="state"
               sx={{ gridColumn: "span 2" }}
+              InputLabelProps={{ shrink: !!state.address.state }}
             />
             <TextField
+              color="secondary"
               fullWidth
               type="text"
               value={state.address.country}
@@ -426,8 +424,10 @@ const ESIC = (props) => {
               label="Country"
               name="country"
               sx={{ gridColumn: "span 2" }}
+              InputLabelProps={{ shrink: !!state.address.country }}
             />
             <TextField
+              color="secondary"
               fullWidth
               type="text"
               value={state.address.pinCode}
@@ -437,6 +437,7 @@ const ESIC = (props) => {
               label="Pin Code"
               name="pinCode"
               sx={{ gridColumn: "span 2" }}
+              InputLabelProps={{ shrink: !!state.address.pinCode }}
             />
           </Box>
         </AccordionDetails>
