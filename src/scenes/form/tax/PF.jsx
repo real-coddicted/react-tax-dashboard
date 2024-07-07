@@ -286,8 +286,8 @@ const PF = (props) => {
               <RadioGroup
                 row
                 aria-labelledby="coveredUnderAuditRadioGroupLabel"
-                name="isCoveredUnderAudit"
-                value={state.isCoveredUnderAudit}
+                name="coveredUnderAudit"
+                value={state.coveredUnderAudit?.toString() || ""}
                 onChange={(e) => {
                   handleInputChange(e);
                 }}

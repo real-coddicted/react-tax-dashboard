@@ -45,7 +45,6 @@ const initialState = {
   currentStatus: "",
   loginId: "",
   password: "",
-  isCoveredUnderAudit: false,
   addresses: [],
 };
 
@@ -378,8 +377,8 @@ const GST = (props) => {
                 color="secondary"
                 row
                 aria-labelledby="coveredUnderAuditRadioGroupLabel"
-                name="isCoveredUnderAudit"
-                value={state.isCoveredUnderAudit}
+                name="coveredUnderAudit"
+                value={state.coveredUnderAudit?.toString() || ""}
                 onChange={(e) => {
                   handleInputChange(e);
                 }}

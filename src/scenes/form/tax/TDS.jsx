@@ -243,12 +243,13 @@ const TDS = (props) => {
               fullWidth
               type="text"
               label="TAN NO"
-              name="tanNo"
+              name="tanNumber"
               value={state.tanNumber}
               onChange={(e) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 4" }}
+              InputLabelProps={{ shrink: !!state.tanNumber }}
             />
             <FormControl sx={{ gridColumn: "span 4" }}>
               <FormLabel
@@ -262,7 +263,7 @@ const TDS = (props) => {
                 row
                 aria-labelledby="coveredUnderAuditRadioGroupLabel"
                 name="coveredUnderAudit"
-                value={state.coveredUnderAudit}
+                value={state.coveredUnderAudit?.toString() || ""}
                 onChange={(e) => {
                   handleInputChange(e);
                 }}
@@ -306,6 +307,7 @@ const TDS = (props) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 4" }}
+              InputLabelProps={{ shrink: !!state.password }}
             />
             <TextField
               color="secondary"
@@ -318,6 +320,7 @@ const TDS = (props) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 4" }}
+              InputLabelProps={{ shrink: !!state.password }}
             />
           </Box>
         </AccordionDetails>
@@ -346,6 +349,7 @@ const TDS = (props) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 4" }}
+              InputLabelProps={{ shrink: !!state.password }}
             />
             <TextField
               color="secondary"
@@ -358,6 +362,7 @@ const TDS = (props) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 4" }}
+              InputLabelProps={{ shrink: !!state.password }}
             />
           </Box>
         </AccordionDetails>
