@@ -290,6 +290,7 @@ const GST = (props) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 4" }}
+              InputLabelProps={{ shrink: !!state.gstin }}
             />
             <FormControl sx={{ gridColumn: "span 2" }}>
               <InputLabel id="dealerTypeLabel" color="secondary">
@@ -353,6 +354,7 @@ const GST = (props) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 4" }}
+              InputLabelProps={{ shrink: !!state.loginId }}
             />
             <TextField
               color="secondary"
@@ -365,6 +367,7 @@ const GST = (props) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 4" }}
+              InputLabelProps={{ shrink: !!state.password }}
             />
             <FormControl sx={{ gridColumn: "span 4" }}>
               <FormLabel

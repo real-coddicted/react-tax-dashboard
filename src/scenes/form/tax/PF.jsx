@@ -275,6 +275,7 @@ const PF = (props) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 2" }}
+              InputLabelProps={{ shrink: !!state.pfRegistrationNumber }}
             />
             <FormControl sx={{ gridColumn: "span 4" }}>
               <FormLabel
@@ -316,6 +317,7 @@ const PF = (props) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 4" }}
+              InputLabelProps={{ shrink: !!state.password }}
             />
             <TextField
               color="secondary"
@@ -328,6 +330,7 @@ const PF = (props) => {
               label="Address"
               name="addressLine1"
               sx={{ gridColumn: "span 4" }}
+              InputLabelProps={{ shrink: !!state.address.addressLine1 }}
             />
             <TextField
               color="secondary"
@@ -340,6 +343,7 @@ const PF = (props) => {
               label="City"
               name="city"
               sx={{ gridColumn: "span 2" }}
+              InputLabelProps={{ shrink: !!state.address.city }}
             />
             <TextField
               color="secondary"
@@ -352,6 +356,7 @@ const PF = (props) => {
               label="State"
               name="state"
               sx={{ gridColumn: "span 2" }}
+              InputLabelProps={{ shrink: !!state.address.state }}
             />
             <TextField
               color="secondary"
@@ -364,6 +369,7 @@ const PF = (props) => {
               label="Country"
               name="country"
               sx={{ gridColumn: "span 2" }}
+              InputLabelProps={{ shrink: !!state.address.country }}
             />
             <TextField
               color="secondary"
@@ -376,6 +382,7 @@ const PF = (props) => {
               label="Pin Code"
               name="pinCode"
               sx={{ gridColumn: "span 2" }}
+              InputLabelProps={{ shrink: !!state.address.pinCode }}
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker

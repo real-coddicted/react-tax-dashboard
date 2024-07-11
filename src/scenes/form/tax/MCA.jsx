@@ -293,6 +293,7 @@ const MCA = (props) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 2" }}
+              InputLabelProps={{ shrink: !!state.cin }}
             />
 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -326,6 +327,7 @@ const MCA = (props) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 4" }}
+              InputLabelProps={{ shrink: !!state.password }}
             />
             <TextField
               color="secondary"
@@ -338,6 +340,7 @@ const MCA = (props) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 2" }}
+              InputLabelProps={{ shrink: !!state.securityQuestionOfCompany }}
             />
             <TextField
               color="secondary"
@@ -350,6 +353,7 @@ const MCA = (props) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 2" }}
+              InputLabelProps={{ shrink: !!state.securrityAnswerOfCompany }}
             />
             <FormControl sx={{ gridColumn: "span 4" }}>
               <FormLabel

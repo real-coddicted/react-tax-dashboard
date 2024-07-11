@@ -243,6 +243,7 @@ const IncomeTax = (props) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 4" }}
+              InputLabelProps={{ shrink: !!state.password }}
             />
             <FormControl sx={{ gridColumn: "span 4" }}>
               <FormLabel
