@@ -300,11 +300,11 @@ const MCA = (props) => {
               <DatePicker
                 color="secondary"
                 label="Date of Incorporation"
-                name="dateOfRegistration"
+                name="dateOfInit"
                 inputFormat="YYYY-MM-DD"
-                value={dayjs(state.dateOfRegistration) ?? ""}
+                value={dayjs(state.dateOfInit) ?? ""}
                 onChange={(e) => {
-                  handleDateChange("dateOfRegistration", e);
+                  handleDateChange("dateOfInit", e);
                 }}
                 sx={{ backgroundColor: "#3d3d3d", gridColumn: "span 2" }}
                 slotProps={{
@@ -334,26 +334,26 @@ const MCA = (props) => {
               fullWidth
               type="text"
               label="Security Question"
-              name="securityQuestionOfCompany"
-              value={state.securityQuestionOfCompany}
+              name="securityQuestion"
+              value={state.securityQuestion}
               onChange={(e) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 2" }}
-              InputLabelProps={{ shrink: !!state.securityQuestionOfCompany }}
+              InputLabelProps={{ shrink: !!state.securityQuestion }}
             />
             <TextField
               color="secondary"
               fullWidth
               type="text"
               label="Security Answer"
-              name="securrityAnswerOfCompany"
-              value={state.securrityAnswerOfCompany}
+              name="securityAnswer"
+              value={state.securityAnswer}
               onChange={(e) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 2" }}
-              InputLabelProps={{ shrink: !!state.securrityAnswerOfCompany }}
+              InputLabelProps={{ shrink: !!state.securityAnswer }}
             />
             <FormControl sx={{ gridColumn: "span 4" }}>
               <FormLabel
