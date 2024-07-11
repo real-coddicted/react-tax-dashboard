@@ -301,26 +301,26 @@ const TDS = (props) => {
               fullWidth
               type="text"
               label="ID"
-              name="loginIdITD"
-              value={state.password}
+              name="itdLoginId"
+              value={state.itdLoginId}
               onChange={(e) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 4" }}
-              InputLabelProps={{ shrink: !!state.password }}
+              InputLabelProps={{ shrink: !!state.itdLoginId }}
             />
             <TextField
               color="secondary"
               fullWidth
               type="text"
               label="Password"
-              name="passwordITD"
-              value={state.password}
+              name="itdPassword"
+              value={state.itdPassword}
               onChange={(e) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 4" }}
-              InputLabelProps={{ shrink: !!state.password }}
+              InputLabelProps={{ shrink: !!state.itdPassword }}
             />
           </Box>
         </AccordionDetails>
@@ -343,26 +343,26 @@ const TDS = (props) => {
               fullWidth
               type="text"
               label="ID"
-              name="loginIdTraces"
-              value={state.password}
+              name="tracesLoginId"
+              value={state.tracesLoginId}
               onChange={(e) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 4" }}
-              InputLabelProps={{ shrink: !!state.password }}
+              InputLabelProps={{ shrink: !!state.tracesLoginId }}
             />
             <TextField
               color="secondary"
               fullWidth
               type="text"
               label="Password"
-              name="passwordTraces"
-              value={state.password}
+              name="tracesPassword"
+              value={state.tracesPassword}
               onChange={(e) => {
                 handleInputChange(e);
               }}
               sx={{ gridColumn: "span 4" }}
-              InputLabelProps={{ shrink: !!state.password }}
+              InputLabelProps={{ shrink: !!state.tracesPassword }}
             />
           </Box>
         </AccordionDetails>

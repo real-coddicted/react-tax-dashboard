@@ -317,8 +317,8 @@ const GST = (props) => {
               </InputLabel>
               <Select
                 labelId="returnTypeSelectLabel"
-                name="returnType"
-                value={state.returnType ?? ""}
+                name="returnFrequency"
+                value={state.returnFrequency ?? ""}
                 onChange={(e) => {
                   handleInputChange(e);
                 }}
