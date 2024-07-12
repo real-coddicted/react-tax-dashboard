@@ -22,10 +22,10 @@ function EditToolbar(props) {
   const { setRows, setRowModesModel, state } = props;
 
   const handleClick = () => {
-    const id = state.directors.length + 1;
+    const id = state.mcaDirectors.length + 1;
     setRows((oldRows) => [...oldRows, { id, addressLine1: "", isNew: true }]);
-    state.directors = [
-      ...state.directors,
+    state.mcaDirectors = [
+      ...state.mcaDirectors,
       { id, addressLine1: "", isNew: true },
     ];
     setRowModesModel((oldModel) => ({
@@ -44,7 +44,7 @@ function EditToolbar(props) {
 }
 
 export default function MCADirectors({ state, dispatch }) {
-  const [rows, setRows] = React.useState(state.directors);
+  const [rows, setRows] = React.useState(state.mcaDirectors ?? []);
   const [rowModesModel, setRowModesModel] = React.useState({});
 
   const handleRowEditStop = (params, event) => {
@@ -63,7 +63,7 @@ export default function MCADirectors({ state, dispatch }) {
 
   const handleDeleteClick = (id) => () => {
     setRows(rows.filter((row) => row.id !== id));
-    state.directors = state.directors.filter((row) => row.id !== id);
+    state.mcaDirectors = state.mcaDirectors.filter((row) => row.id !== id);
   };
 
   const handleCancelClick = (id) => () => {
@@ -75,14 +75,14 @@ export default function MCADirectors({ state, dispatch }) {
     const editedRow = rows.find((row) => row.id === id);
     if (editedRow.isNew) {
       setRows(rows.filter((row) => row.id !== id));
-      state.directors = state.directors.filter((row) => row.id !== id);
+      state.mcaDirectors = state.mcaDirectors.filter((row) => row.id !== id);
     }
   };
 
   const processRowUpdate = (newRow, oldRow) => {
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    state.directors = state.directors.map((row) =>
+    state.mcaDirectors = state.mcaDirectors.map((row) =>
       row.id === newRow.id ? updatedRow : row
     );
     return updatedRow;
