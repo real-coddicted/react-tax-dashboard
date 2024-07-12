@@ -44,7 +44,7 @@ function EditToolbar(props) {
 }
 
 export default function GSTBusinessAddresses({ state, dispatch }) {
-  const [rows, setRows] = React.useState(state.addresses);
+  const [rows, setRows] = React.useState(state.addresses ?? []);
   const [rowModesModel, setRowModesModel] = React.useState({});
 
   const handleRowEditStop = (params, event) => {
@@ -213,6 +213,7 @@ export default function GSTBusinessAddresses({ state, dispatch }) {
             },
           }}
         >
+          {console.log(rows)}
           <DataGrid
             sx={{
               "& .MuiDataGrid-columnHeaderTitle": {

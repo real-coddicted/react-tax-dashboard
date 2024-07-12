@@ -301,7 +301,7 @@ export default function ParticipantDetails({ state, dispatch }) {
       },
     },
     {
-      field: "address.pinCode",
+      field: "pinCode",
       headerName: "Pin Code",
       width: 120,
       editable: true,
