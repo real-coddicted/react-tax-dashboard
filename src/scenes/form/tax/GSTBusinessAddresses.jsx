@@ -219,6 +219,12 @@ export default function GSTBusinessAddresses({ state, dispatch }) {
             // Forced to use important since overriding inline styles
             maxHeight: "180px !important",
           },
+          "& .MuiCheckbox-root": {
+            color: "green",
+          },
+          "& .MuiCheckbox-root.Mui-checked": {
+            color: "green",
+          },
         }}
         rows={rows}
         columns={columns}
