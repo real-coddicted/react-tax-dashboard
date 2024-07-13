@@ -196,54 +196,47 @@ export default function MCADirectors({ state, dispatch }) {
   ];
 
   return (
-    <Accordion>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        Directors
-      </AccordionSummary>
-      <AccordionDetails>
-        <Box
-          sx={{
-            height: 400,
-            width: "100%",
-            "& .actions": {
-              color: "text.secondary",
-            },
-            "& .textPrimary": {
-              color: "text.primary",
-            },
-          }}
-        >
-          <DataGrid
-            sx={{
-              "& .MuiDataGrid-columnHeaderTitle": {
-                whiteSpace: "normal",
-                lineHeight: "normal",
-              },
-              "& .MuiDataGrid-columnHeader": {
-                // Forced to use important since overriding inline styles
-                height: "unset !important",
-              },
-              "& .MuiDataGrid-columnHeaders": {
-                // Forced to use important since overriding inline styles
-                maxHeight: "180px !important",
-              },
-            }}
-            rows={rows}
-            columns={columns}
-            editMode="row"
-            rowModesModel={rowModesModel}
-            onRowModesModelChange={handleRowModesModelChange}
-            onRowEditStop={handleRowEditStop}
-            processRowUpdate={processRowUpdate}
-            slots={{
-              toolbar: EditToolbar,
-            }}
-            slotProps={{
-              toolbar: { setRows, setRowModesModel, state },
-            }}
-          />
-        </Box>
-      </AccordionDetails>
-    </Accordion>
+    <Box
+      sx={{
+        height: 400,
+        width: "100%",
+        "& .actions": {
+          color: "text.secondary",
+        },
+        "& .textPrimary": {
+          color: "text.primary",
+        },
+      }}
+    >
+      <DataGrid
+        sx={{
+          "& .MuiDataGrid-columnHeaderTitle": {
+            whiteSpace: "normal",
+            lineHeight: "normal",
+          },
+          "& .MuiDataGrid-columnHeader": {
+            // Forced to use important since overriding inline styles
+            height: "unset !important",
+          },
+          "& .MuiDataGrid-columnHeaders": {
+            // Forced to use important since overriding inline styles
+            maxHeight: "180px !important",
+          },
+        }}
+        rows={rows}
+        columns={columns}
+        editMode="row"
+        rowModesModel={rowModesModel}
+        onRowModesModelChange={handleRowModesModelChange}
+        onRowEditStop={handleRowEditStop}
+        processRowUpdate={processRowUpdate}
+        slots={{
+          toolbar: EditToolbar,
+        }}
+        slotProps={{
+          toolbar: { setRows, setRowModesModel, state },
+        }}
+      />
+    </Box>
   );
 }

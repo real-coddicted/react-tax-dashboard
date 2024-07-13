@@ -13,10 +13,6 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel, state } = props;
@@ -196,55 +192,48 @@ export default function GSTBusinessAddresses({ state, dispatch }) {
   ];
 
   return (
-    <Accordion>
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        Business Addresses
-      </AccordionSummary>
-      <AccordionDetails>
-        <Box
-          sx={{
-            height: 400,
-            width: "100%",
-            "& .actions": {
-              color: "text.secondary",
-            },
-            "& .textPrimary": {
-              color: "text.primary",
-            },
-          }}
-        >
-          {console.log(rows)}
-          <DataGrid
-            sx={{
-              "& .MuiDataGrid-columnHeaderTitle": {
-                whiteSpace: "normal",
-                lineHeight: "normal",
-              },
-              "& .MuiDataGrid-columnHeader": {
-                // Forced to use important since overriding inline styles
-                height: "unset !important",
-              },
-              "& .MuiDataGrid-columnHeaders": {
-                // Forced to use important since overriding inline styles
-                maxHeight: "180px !important",
-              },
-            }}
-            rows={rows}
-            columns={columns}
-            editMode="row"
-            rowModesModel={rowModesModel}
-            onRowModesModelChange={handleRowModesModelChange}
-            onRowEditStop={handleRowEditStop}
-            processRowUpdate={processRowUpdate}
-            slots={{
-              toolbar: EditToolbar,
-            }}
-            slotProps={{
-              toolbar: { setRows, setRowModesModel, state },
-            }}
-          />
-        </Box>
-      </AccordionDetails>
-    </Accordion>
+    <Box
+      sx={{
+        height: 400,
+        width: "100%",
+        "& .actions": {
+          color: "text.secondary",
+        },
+        "& .textPrimary": {
+          color: "text.primary",
+        },
+      }}
+    >
+      {console.log(rows)}
+      <DataGrid
+        sx={{
+          "& .MuiDataGrid-columnHeaderTitle": {
+            whiteSpace: "normal",
+            lineHeight: "normal",
+          },
+          "& .MuiDataGrid-columnHeader": {
+            // Forced to use important since overriding inline styles
+            height: "unset !important",
+          },
+          "& .MuiDataGrid-columnHeaders": {
+            // Forced to use important since overriding inline styles
+            maxHeight: "180px !important",
+          },
+        }}
+        rows={rows}
+        columns={columns}
+        editMode="row"
+        rowModesModel={rowModesModel}
+        onRowModesModelChange={handleRowModesModelChange}
+        onRowEditStop={handleRowEditStop}
+        processRowUpdate={processRowUpdate}
+        slots={{
+          toolbar: EditToolbar,
+        }}
+        slotProps={{
+          toolbar: { setRows, setRowModesModel, state },
+        }}
+      />
+    </Box>
   );
 }
