@@ -386,7 +386,14 @@ const MCA = (props) => {
           </Box>
         </AccordionDetails>
       </Accordion>
-      {!openBackDrop && <MCADirectors state={state} dispatch={dispatch} />}
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          Directors
+        </AccordionSummary>
+        <AccordionDetails>
+          {!openBackDrop && <MCADirectors state={state} dispatch={dispatch} />}
+        </AccordionDetails>
+      </Accordion>
       <Snackbar
         open={openSnackbar}
         autoHideDuration={60000}

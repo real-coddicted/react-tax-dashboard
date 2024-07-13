@@ -401,9 +401,16 @@ const GST = (props) => {
           </Box>
         </AccordionDetails>
       </Accordion>
-      {!openBackDrop && (
-        <GSTBusinessAddresses state={state} dispatch={dispatch} />
-      )}
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          Business Addresses
+        </AccordionSummary>
+        <AccordionDetails>
+          {!openBackDrop && (
+            <GSTBusinessAddresses state={state} dispatch={dispatch} />
+          )}
+        </AccordionDetails>
+      </Accordion>
       <Snackbar
         open={openSnackbar}
         autoHideDuration={60000}
