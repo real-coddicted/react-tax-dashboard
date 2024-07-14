@@ -55,20 +55,20 @@ function taxReducer(state, action) {
       return { ...state, ...payload };
     case "CHANGE_INPUT":
       return { ...state, [payload.field]: payload.value };
-    case "SAVING_TAX_DETAILS":
-      console.log("dispatch SAVING_TAX_DETAILS");
+    case "SAVING_DETAILS":
+      console.log("dispatch SAVING_DETAILS");
       return {
         ...state,
         isLoading: true,
       };
-    case "SAVED_TAX_DETAILS":
+    case "SAVED_DETAILS":
       return {
         ...state,
         ...payload,
         isLoading: false,
       };
-    case "ERROR_SAVING_TAX_DETAILS":
-      console.log("dispatch ERROR_SAVING_TAX_DETAILS");
+    case "ERROR_SAVING_DETAILS":
+      console.log("dispatch ERROR_SAVING_DETAILS");
       return {
         ...state,
         isLoading: false,
@@ -120,7 +120,7 @@ const GST = (props) => {
   };
 
   React.useEffect(() => {
-    console.log("incomeTax ownerRef: " + props.id);
+    console.log("gst ownerRef: " + props.id);
     if (props.id) {
       handleBackDropOpen();
       try {
@@ -143,7 +143,7 @@ const GST = (props) => {
             handleBackDropClose();
           });
       } catch (error) {
-        console.error("Error fetching incometax details:", error);
+        console.error("Error fetching gst details:", error);
         setMessage(error.message);
         setSeverity("error");
         setOpenSnackbar(true);
@@ -156,7 +156,7 @@ const GST = (props) => {
     e.preventDefault();
     console.log("onsubmit");
     dispatch({
-      type: "SAVING_TAX_DETAILS",
+      type: "SAVING_DETAILS",
     });
     var response;
     try {
@@ -169,31 +169,31 @@ const GST = (props) => {
         .then((res) => {
           if (res && res.data) {
             dispatch({
-              type: "SAVED_TAX_DETAILS",
+              type: "SAVED_DETAILS",
               payload: res.data,
             });
             setSeverity("success");
-            setMessage("Tax details saved successfully");
+            setMessage("GST details saved successfully");
             setOpenSnackbar(true);
           }
         })
         .catch((error) => {
-          console.error("ERROR_SAVING_TAX_DETAILS" + error.message);
+          console.error("ERROR_SAVING_DETAILS" + error.message);
           setSeverity("error");
           setMessage(error.message);
           setOpenSnackbar(true);
           dispatch({
-            type: "ERROR_SAVING_TAX_DETAILS",
+            type: "ERROR_SAVING_DETAILS",
             payload: error.message,
           });
         });
     } catch (error) {
-      console.error("ERROR_SAVING_TAX_DETAILS" + error.message);
+      console.error("ERROR_SAVING_DETAILS" + error.message);
       setSeverity("error");
       setMessage(error.message);
       setOpenSnackbar(true);
       dispatch({
-        type: "ERROR_SAVING_TAX_DETAILS",
+        type: "ERROR_SAVING_DETAILS",
         payload: error,
       });
     }
@@ -248,7 +248,7 @@ const GST = (props) => {
       <ReadOnlyFields service="gst" data={props.data} />
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          Tax Related
+          GST Specific
         </AccordionSummary>
         <AccordionDetails>
           <Box
@@ -330,19 +330,27 @@ const GST = (props) => {
                 <MenuItem value="QUARTERLY">Quarterly</MenuItem>
               </Select>
             </FormControl>
+            <FormControl sx={{ gridColumn: "span 2" }}>
+              <InputLabel id="currentStatusLabel" color="secondary">
+                Current Status
+              </InputLabel>
+              <Select
+                labelId="currentStatusSelectLabel"
+                name="currentStatus"
+                value={state.currentStatus ?? ""}
+                onChange={(e) => {
+                  handleInputChange(e);
+                }}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value="ACTIVE">Active</MenuItem>
+                <MenuItem value="SUSPENDED">Suspended</MenuItem>
+                <MenuItem value="CANCELLED">Cancelled</MenuItem>
+              </Select>
+            </FormControl>
 
-            <TextField
-              color="secondary"
-              fullWidth
-              type="text"
-              label="Current Status"
-              name="currentStatus"
-              value={state.currentStatus}
-              onChange={(e) => {
-                handleInputChange(e);
-              }}
-              sx={{ gridColumn: "span 2" }}
-            />
             <TextField
               color="secondary"
               fullWidth
@@ -380,8 +388,8 @@ const GST = (props) => {
                 color="secondary"
                 row
                 aria-labelledby="coveredUnderAuditRadioGroupLabel"
-                name="coveredUnderAudit"
-                value={state.coveredUnderAudit?.toString() || ""}
+                name="isCoveredUnderAudit"
+                value={state.isCoveredUnderAudit?.toString() || ""}
                 onChange={(e) => {
                   handleInputChange(e);
                 }}
