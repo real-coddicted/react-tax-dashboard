@@ -144,11 +144,13 @@ const Customers = () => {
   };
 
   const getTitle = (row) => {
+    let name = "";
     if (row.category === "INDIVIDUAL") {
-      return `${row.category}: ${row.firstName} ${row.lastName}`;
+      name = `${row.firstName} ${row.lastName}`;
     } else {
-      return `${row.category}: ${row.companyName}`;
+      name = `${row.companyName}`;
     }
+    return `${row.customerId} | ${name} | ${row.category}`;
   };
 
   const columns = [

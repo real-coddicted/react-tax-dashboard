@@ -90,6 +90,7 @@ const PF = (props) => {
   //----
 
   const handleInputChange = (event) => {
+    props.setEdited(true);
     const field = event.target.name;
     const value = event.target.value;
     dispatch({
@@ -112,6 +113,7 @@ const PF = (props) => {
   };
 
   const handleAddressChange = (event) => {
+    props.setEdited(true);
     const field = event.target.name;
     const value = event.target.value;
     dispatch({
@@ -179,6 +181,7 @@ const PF = (props) => {
             setSeverity("success");
             setMessage("PF details saved successfully");
             setOpenSnackbar(true);
+            props.setEdited(false);
           }
         })
         .catch((error) => {

@@ -36,6 +36,7 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
 import MCADirectors from "./MCADirectors";
+import { mcaSecurityQuestions as securityQuestions } from "../../../data/mcaData";
 
 const initialState = {
   id: "",
@@ -96,6 +97,7 @@ const MCA = (props) => {
   //----
 
   const handleInputChange = (event) => {
+    props.setEdited(true);
     const field = event.target.name;
     const value = event.target.value;
     dispatch({
@@ -175,6 +177,7 @@ const MCA = (props) => {
             setSeverity("success");
             setMessage("PF details saved successfully");
             setOpenSnackbar(true);
+            props.setEdited(false);
           }
         })
         .catch((error) => {
@@ -329,19 +332,23 @@ const MCA = (props) => {
               sx={{ gridColumn: "span 4" }}
               InputLabelProps={{ shrink: !!state.password }}
             />
-            <TextField
-              color="secondary"
-              fullWidth
-              type="text"
-              label="Security Question"
-              name="securityQuestion"
-              value={state.securityQuestion}
-              onChange={(e) => {
-                handleInputChange(e);
-              }}
-              sx={{ gridColumn: "span 2" }}
-              InputLabelProps={{ shrink: !!state.securityQuestion }}
-            />
+            <FormControl sx={{ gridColumn: "span 2" }}>
+              <InputLabel id="dealerTypeLabel" color="secondary">
+                Security Question
+              </InputLabel>
+              <Select
+                labelId="securityQuestionSelectLabel"
+                name="securityQuestion"
+                value={state.securityQuestion ?? ""}
+                onChange={(e) => {
+                  handleInputChange(e);
+                }}
+              >
+                {securityQuestions.map((question) => (
+                  <MenuItem value={question.value}>{question.label}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <TextField
               color="secondary"
               fullWidth
@@ -391,7 +398,13 @@ const MCA = (props) => {
           Directors
         </AccordionSummary>
         <AccordionDetails>
-          {!openBackDrop && <MCADirectors state={state} dispatch={dispatch} />}
+          {!openBackDrop && (
+            <MCADirectors
+              state={state}
+              dispatch={dispatch}
+              setEdited={props.setEdited}
+            />
+          )}
         </AccordionDetails>
       </Accordion>
       <Snackbar

@@ -98,6 +98,7 @@ const GST = (props) => {
   //----
 
   const handleInputChange = (event) => {
+    props.setEdited(true);
     const field = event.target.name;
     const value = event.target.value;
     dispatch({
@@ -175,6 +176,7 @@ const GST = (props) => {
             setSeverity("success");
             setMessage("GST details saved successfully");
             setOpenSnackbar(true);
+            props.setEdited(false);
           }
         })
         .catch((error) => {
@@ -415,7 +417,11 @@ const GST = (props) => {
         </AccordionSummary>
         <AccordionDetails>
           {!openBackDrop && (
-            <GSTBusinessAddresses state={state} dispatch={dispatch} />
+            <GSTBusinessAddresses
+              state={state}
+              dispatch={dispatch}
+              setEdited={props.setEdited}
+            />
           )}
         </AccordionDetails>
       </Accordion>

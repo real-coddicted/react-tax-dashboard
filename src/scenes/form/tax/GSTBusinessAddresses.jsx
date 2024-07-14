@@ -39,7 +39,7 @@ function EditToolbar(props) {
   );
 }
 
-export default function GSTBusinessAddresses({ state, dispatch }) {
+export default function GSTBusinessAddresses({ state, dispatch, setEdited }) {
   const [rows, setRows] = React.useState(state.addresses ?? []);
   const [rowModesModel, setRowModesModel] = React.useState({});
 
@@ -54,6 +54,7 @@ export default function GSTBusinessAddresses({ state, dispatch }) {
   };
 
   const handleSaveClick = (id) => () => {
+    setEdited(true);
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
@@ -152,13 +153,6 @@ export default function GSTBusinessAddresses({ state, dispatch }) {
       field: "addressLine1",
       headerName: "Address Line1",
       width: 180,
-      editable: true,
-    },
-    {
-      field: "addressLine2",
-      headerName: "Address Line2",
-      width: 180,
-      resizable: true,
       editable: true,
     },
     {

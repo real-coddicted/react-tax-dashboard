@@ -13,10 +13,6 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel, state } = props;
@@ -43,7 +39,7 @@ function EditToolbar(props) {
   );
 }
 
-export default function MCADirectors({ state, dispatch }) {
+export default function MCADirectors({ state, dispatch, setEdited }) {
   const [rows, setRows] = React.useState(state.mcaDirectors ?? []);
   const [rowModesModel, setRowModesModel] = React.useState({});
 
@@ -58,6 +54,7 @@ export default function MCADirectors({ state, dispatch }) {
   };
 
   const handleSaveClick = (id) => () => {
+    setEdited(true);
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
@@ -236,12 +233,12 @@ export default function MCADirectors({ state, dispatch }) {
         onRowModesModelChange={handleRowModesModelChange}
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
-        slots={{
-          toolbar: EditToolbar,
-        }}
-        slotProps={{
-          toolbar: { setRows, setRowModesModel, state },
-        }}
+        // slots={{
+        //   toolbar: EditToolbar,
+        // }}
+        // slotProps={{
+        //   toolbar: { setRows, setRowModesModel, state },
+        // }}
       />
     </Box>
   );
