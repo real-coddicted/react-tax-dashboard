@@ -80,6 +80,7 @@ const IncomeTax = (props) => {
   //----
 
   const handleInputChange = (event) => {
+    props.setEdited(true);
     const field = event.target.name;
     const value = event.target.value;
     dispatch({
@@ -147,6 +148,7 @@ const IncomeTax = (props) => {
             setSeverity("success");
             setMessage("Tax details saved successfully");
             setOpenSnackbar(true);
+            props.setEdited(false);
           }
         })
         .catch((error) => {

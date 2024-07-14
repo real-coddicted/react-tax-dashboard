@@ -91,6 +91,7 @@ const ESIC = (props) => {
   //----
 
   const handleInputChange = (event) => {
+    props.setEdited(true);
     const field = event.target.name;
     const value = event.target.value;
     dispatch({
@@ -113,6 +114,7 @@ const ESIC = (props) => {
   };
 
   const handleAddressChange = (event) => {
+    props.setEdited(true);
     const field = event.target.name;
     const value = event.target.value;
     dispatch({
@@ -196,6 +198,7 @@ const ESIC = (props) => {
             setSeverity("success");
             setMessage("Tax details saved successfully");
             setOpenSnackbar(true);
+            props.setEdited(false);
           }
         })
         .catch((error) => {

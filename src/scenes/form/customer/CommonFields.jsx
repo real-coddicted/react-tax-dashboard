@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
-const CommonFields = ({ state, dispatch }) => {
+const CommonFields = ({ state, dispatch, setEdited }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [message, setMessage] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
@@ -33,6 +33,7 @@ const CommonFields = ({ state, dispatch }) => {
   );
 
   const handleInputChange = (event) => {
+    setEdited(true);
     const field = event.target.name;
     const value = event.target.value;
     dispatch({
@@ -45,6 +46,7 @@ const CommonFields = ({ state, dispatch }) => {
   };
 
   const handleAddressChange = (event) => {
+    setEdited(true);
     const field = event.target.name;
     const value = event.target.value;
     dispatch({

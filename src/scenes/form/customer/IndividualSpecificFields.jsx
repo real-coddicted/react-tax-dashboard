@@ -5,7 +5,7 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
-const IndividualSpecificFields = ({ mode, state, dispatch }) => {
+const IndividualSpecificFields = ({ mode, state, dispatch, setEdited }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [message, setMessage] = React.useState("");
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
@@ -32,6 +32,7 @@ const IndividualSpecificFields = ({ mode, state, dispatch }) => {
   );
 
   const handleInputChange = (event) => {
+    setEdited(true);
     const field = event.target.name;
     const value = event.target.value;
     dispatch({
