@@ -48,20 +48,20 @@ function taxReducer(state, action) {
       var oldAddress = state.address;
       oldAddress = { ...oldAddress, [payload.field]: payload.value };
       return { ...state, address: oldAddress };
-    case "SAVING_TAX_DETAILS":
-      console.log("dispatch SAVING_TAX_DETAILS");
+    case "SAVING_DETAILS":
+      console.log("dispatch SAVING_DETAILS");
       return {
         ...state,
         isLoading: true,
       };
-    case "SAVED_TAX_DETAILS":
+    case "SAVED_DETAILS":
       return {
         ...state,
         ...payload,
         isLoading: false,
       };
-    case "ERROR_SAVING_TAX_DETAILS":
-      console.log("dispatch ERROR_SAVING_TAX_DETAILS");
+    case "ERROR_SAVING_DETAILS":
+      console.log("dispatch ERROR_SAVING_DETAILS");
       return {
         ...state,
         isLoading: false,
@@ -147,7 +147,7 @@ const PF = (props) => {
             handleBackDropClose();
           });
       } catch (error) {
-        console.error("Error fetching incometax details:", error);
+        console.error("Error fetching PF details:", error);
         setMessage(error.message);
         setSeverity("error");
         setOpenSnackbar(true);
@@ -160,7 +160,7 @@ const PF = (props) => {
     e.preventDefault();
     console.log("onsubmit");
     dispatch({
-      type: "SAVING_TAX_DETAILS",
+      type: "SAVING_DETAILS",
     });
     var response;
     try {
@@ -173,31 +173,31 @@ const PF = (props) => {
         .then((res) => {
           if (res && res.data) {
             dispatch({
-              type: "SAVED_TAX_DETAILS",
+              type: "SAVED_DETAILS",
               payload: res.data,
             });
             setSeverity("success");
-            setMessage("Tax details saved successfully");
+            setMessage("PF details saved successfully");
             setOpenSnackbar(true);
           }
         })
         .catch((error) => {
-          console.error("ERROR_SAVING_TAX_DETAILS" + error.message);
+          console.error("ERROR_SAVING_DETAILS" + error.message);
           setSeverity("error");
           setMessage(error.message);
           setOpenSnackbar(true);
           dispatch({
-            type: "ERROR_SAVING_TAX_DETAILS",
+            type: "ERROR_SAVING_DETAILS",
             payload: error.message,
           });
         });
     } catch (error) {
-      console.error("ERROR_SAVING_TAX_DETAILS" + error.message);
+      console.error("ERROR_SAVING_DETAILS" + error.message);
       setSeverity("error");
       setMessage(error.message);
       setOpenSnackbar(true);
       dispatch({
-        type: "ERROR_SAVING_TAX_DETAILS",
+        type: "ERROR_SAVING_DETAILS",
         payload: error,
       });
     }
@@ -253,7 +253,7 @@ const PF = (props) => {
       <ReadOnlyFields service="pf" data={props.data} />
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          Tax Related
+          PF Specific
         </AccordionSummary>
         <AccordionDetails>
           <Box
