@@ -262,8 +262,8 @@ const TDS = (props) => {
                 color="secondary"
                 row
                 aria-labelledby="coveredUnderAuditRadioGroupLabel"
-                name="coveredUnderAudit"
-                value={state.coveredUnderAudit?.toString() || ""}
+                name="isCoveredUnderAudit"
+                value={state.isCoveredUnderAudit?.toString() || ""}
                 onChange={(e) => {
                   handleInputChange(e);
                 }}
