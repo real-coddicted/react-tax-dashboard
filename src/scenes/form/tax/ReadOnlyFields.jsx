@@ -36,7 +36,13 @@ const ReadOnlyFields = (props) => {
   };
 
   const getName = () => {
-    return props.data.firstName + " " + props.data.lastName;
+    let name = "";
+    if (props.data.category === "INDIVIDUAL") {
+      name = `${props.data.firstName} ${props.data.lastName}`;
+    } else {
+      name = `${props.data.companyName}`;
+    }
+    return name;
   };
 
   return (
@@ -59,7 +65,12 @@ const ReadOnlyFields = (props) => {
             }}
           >
             {/* Income Tax  | GST */}
-            {(isIncomeTax() || isGST()) && (
+            {(isIncomeTax() ||
+              isGST() ||
+              isPF() ||
+              isECIS() ||
+              isMCA() ||
+              isTDS()) && (
               <TextField
                 disabled
                 fullWidth
@@ -79,19 +90,6 @@ const ReadOnlyFields = (props) => {
                 type="text"
                 label="Firm Name"
                 name="firmName"
-                sx={{ gridColumn: "span 4" }}
-              />
-            )}
-
-            {/* MCA | TDS */}
-            {(isMCA() || isTDS()) && (
-              <TextField
-                disabled
-                fullWidth
-                value={props.data.companyName}
-                type="text"
-                label="Company/LLP Name"
-                name="companyName"
                 sx={{ gridColumn: "span 2" }}
               />
             )}
@@ -110,7 +108,7 @@ const ReadOnlyFields = (props) => {
                     <InputAdornment position="end">
                       <IconButton
                         onClick={() =>
-                          navigator.clipboard.writeText(props.state.panNumber)
+                          navigator.clipboard.writeText(props.data.panNumber)
                         }
                       >
                         <ContentCopyIcon />
@@ -121,21 +119,21 @@ const ReadOnlyFields = (props) => {
               />
             )}
             {/* Income Tax */}
-            {isIncomeTax() && (
+            {isIncomeTax() && props.data.category === "INDIVIDUAL" && (
               <TextField
                 disabled
                 fullWidth
                 type="text"
-                value={props.data.aadhaar}
+                value={props.data.aadhar}
                 label="Aadhaar"
-                name="aadhaar"
+                name="aadhar"
                 sx={{ gridColumn: "span 4" }}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
                         onClick={() =>
-                          navigator.clipboard.writeText(props.data.aadhaar)
+                          navigator.clipboard.writeText(props.data.aadhar)
                         }
                       >
                         <ContentCopyIcon />
