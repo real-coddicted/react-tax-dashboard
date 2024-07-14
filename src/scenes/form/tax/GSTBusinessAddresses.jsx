@@ -155,13 +155,6 @@ export default function GSTBusinessAddresses({ state, dispatch }) {
       editable: true,
     },
     {
-      field: "addressLine2",
-      headerName: "Address Line2",
-      width: 180,
-      resizable: true,
-      editable: true,
-    },
-    {
       field: "city",
       headerName: "City",
       width: 120,
