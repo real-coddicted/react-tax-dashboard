@@ -148,7 +148,7 @@ const ReadOnlyFields = (props) => {
               <TextField
                 disabled
                 fullWidth
-                value={getName}
+                value={props.data.authorisedPerson}
                 type="text"
                 label="Authorised Person"
                 name="authorisedPerson"
