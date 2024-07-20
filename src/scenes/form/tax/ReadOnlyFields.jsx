@@ -35,10 +35,24 @@ const ReadOnlyFields = (props) => {
     return props.service === "tds";
   };
 
+  const isIndividual = () => {
+    return props.data.category === "INDIVIDUAL";
+  };
+
   const getName = () => {
     let name = "";
     if (props.data.category === "INDIVIDUAL") {
       name = `${props.data.firstName} ${props.data.lastName}`;
+    } else {
+      name = `${props.data.companyName}`;
+    }
+    return name;
+  };
+
+  const getFirmName = () => {
+    let name = "";
+    if (props.data.category === "INDIVIDUAL") {
+      name = `${props.data.firmName ?? ""}`;
     } else {
       name = `${props.data.companyName}`;
     }
@@ -65,12 +79,7 @@ const ReadOnlyFields = (props) => {
             }}
           >
             {/* Income Tax  | GST */}
-            {(isIncomeTax() ||
-              isGST() ||
-              isPF() ||
-              isECIS() ||
-              isMCA() ||
-              isTDS()) && (
+            {(isIndividual()) && (
               <TextField
                 disabled
                 fullWidth
@@ -82,11 +91,11 @@ const ReadOnlyFields = (props) => {
               />
             )}
 
-            {(isIncomeTax() || isGST() || isPF() || isECIS()) && (
+            {(isIncomeTax() || isMCA() || isTDS() || isGST() || isPF() || isECIS()) && (
               <TextField
                 disabled
                 fullWidth
-                value={props.data.firmName ?? ""}
+                value={getFirmName()}
                 type="text"
                 label="Firm Name"
                 name="firmName"
@@ -119,7 +128,7 @@ const ReadOnlyFields = (props) => {
               />
             )}
             {/* Income Tax */}
-            {isIncomeTax() && props.data.category === "INDIVIDUAL" && (
+            {isIncomeTax() && isIndividual() && (
               <TextField
                 disabled
                 fullWidth
@@ -144,7 +153,7 @@ const ReadOnlyFields = (props) => {
               />
             )}
             {/* GST | MCA | TDS*/}
-            {(isGST() || isMCA() || isTDS() || isPF() || isECIS()) && (
+            {(isGST() || isMCA() || isTDS() || isPF() || isECIS()) && (!isIndividual()) && (
               <TextField
                 disabled
                 fullWidth
@@ -159,7 +168,7 @@ const ReadOnlyFields = (props) => {
               <TextField
                 disabled
                 fullWidth
-                value={props.data.aadhaarOfAuthrorisedPerson ?? ""}
+                value={props.data.authorisedPersonAadhaar ?? ""}
                 type="text"
                 label="Authorised Person Aadhaar"
                 name="aadhaarOfAuthrorisedPerson"
