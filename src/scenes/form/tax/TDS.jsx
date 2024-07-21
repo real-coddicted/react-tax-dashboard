@@ -28,12 +28,6 @@ import Alert from "@mui/material/Alert";
 
 const initialState = {
   id: "",
-  companyType: "",
-  cin: "",
-  dateOfInit: "",
-  password: "",
-  securityQuestionOfCompany: "",
-  securrityAnswerOfCompany: "",
   isCoveredUnderAudit: false,
 };
 
@@ -44,20 +38,20 @@ function taxReducer(state, action) {
       return { ...state, ...payload };
     case "CHANGE_INPUT":
       return { ...state, [payload.field]: payload.value };
-    case "SAVING_TAX_DETAILS":
-      console.log("dispatch SAVING_TAX_DETAILS");
+    case "SAVING_DETAILS":
+      console.log("dispatch SAVING_DETAILS");
       return {
         ...state,
         isLoading: true,
       };
-    case "SAVED_TAX_DETAILS":
+    case "SAVED_DETAILS":
       return {
         ...state,
         ...payload,
         isLoading: false,
       };
-    case "ERROR_SAVING_TAX_DETAILS":
-      console.log("dispatch ERROR_SAVING_TAX_DETAILS");
+    case "ERROR_SAVING_DETAILS":
+      console.log("dispatch ERROR_SAVING_DETAILS");
       return {
         ...state,
         isLoading: false,
@@ -99,7 +93,7 @@ const TDS = (props) => {
   };
 
   React.useEffect(() => {
-    console.log("incomeTax ownerRef: " + props.id);
+    console.log("TDS ownerRef: " + props.id);
     if (props.id) {
       handleBackDropOpen();
       try {
@@ -122,7 +116,7 @@ const TDS = (props) => {
             handleBackDropClose();
           });
       } catch (error) {
-        console.error("Error fetching incometax details:", error);
+        console.error("Error fetching TDS details:", error);
         setMessage(error.message);
         setSeverity("error");
         setOpenSnackbar(true);
@@ -135,7 +129,7 @@ const TDS = (props) => {
     e.preventDefault();
     console.log("onsubmit");
     dispatch({
-      type: "SAVING_TAX_DETAILS",
+      type: "SAVING_DETAILS",
     });
     var response;
     try {
@@ -148,32 +142,32 @@ const TDS = (props) => {
         .then((res) => {
           if (res && res.data) {
             dispatch({
-              type: "SAVED_TAX_DETAILS",
+              type: "SAVED_DETAILS",
               payload: res.data,
             });
             setSeverity("success");
-            setMessage("Tax details saved successfully");
+            setMessage("TDS details saved successfully");
             setOpenSnackbar(true);
             props.setEdited(false);
           }
         })
         .catch((error) => {
-          console.error("ERROR_SAVING_TAX_DETAILS" + error.message);
+          console.error("ERROR_SAVING_DETAILS" + error.message);
           setSeverity("error");
           setMessage(error.message);
           setOpenSnackbar(true);
           dispatch({
-            type: "ERROR_SAVING_TAX_DETAILS",
+            type: "ERROR_SAVING_DETAILS",
             payload: error.message,
           });
         });
     } catch (error) {
-      console.error("ERROR_SAVING_TAX_DETAILS" + error.message);
+      console.error("ERROR_SAVING_DETAILS" + error.message);
       setSeverity("error");
       setMessage(error.message);
       setOpenSnackbar(true);
       dispatch({
-        type: "ERROR_SAVING_TAX_DETAILS",
+        type: "ERROR_SAVING_DETAILS",
         payload: error,
       });
     }
@@ -229,7 +223,7 @@ const TDS = (props) => {
       <ReadOnlyFields service="tds" data={props.data} />
       <Accordion defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          Tax Related
+          TDS Related
         </AccordionSummary>
         <AccordionDetails>
           <Box
