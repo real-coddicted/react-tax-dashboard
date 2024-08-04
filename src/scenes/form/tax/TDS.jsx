@@ -28,7 +28,6 @@ import Alert from "@mui/material/Alert";
 
 const initialState = {
   id: "",
-  isCoveredUnderAudit: false,
 };
 
 function taxReducer(state, action) {

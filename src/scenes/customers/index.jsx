@@ -63,7 +63,7 @@ const Customers = () => {
   );
 
   React.useMemo(() => {
-    const loggedInUser = localStorage.getItem("authenticated");
+    const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
       setauthenticated(loggedInUser);
     }
