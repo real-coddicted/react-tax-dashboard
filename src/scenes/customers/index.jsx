@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import * as React from "react";
-import { getCustomers } from "../../service/customerService";
+import { getCustomers, searchCustomers } from "../../service/customerService";
 import { Navigate } from "react-router-dom";
 import { CustomerGridToolBar } from "./CustomerGridToolBar";
 import { TaxDialog } from "./TaxDialog";
@@ -129,6 +129,24 @@ const Customers = () => {
 
   const handleSearch = () => {
     console.log(searchText);
+    handleBackDropOpen();
+    try {
+      searchCustomers(searchText)
+        .then((res) => {
+          if (res) setRows(res.data);
+          else setRows([]);
+          handleBackDropClose();
+        })
+        .catch((error) => {
+          console.error(error.request);
+          setRows([]);
+          handleBackDropClose();
+        });
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      setRows([]);
+      handleBackDropClose();
+    }
   };
 
   const handleClose = () => {
