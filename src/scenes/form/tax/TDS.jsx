@@ -236,6 +236,7 @@ const TDS = (props) => {
             <TextField
               color="secondary"
               fullWidth
+              required
               type="text"
               label="TAN NO"
               name="tanNumber"
@@ -256,6 +257,7 @@ const TDS = (props) => {
               <RadioGroup
                 color="secondary"
                 row
+                required
                 aria-labelledby="coveredUnderAuditRadioGroupLabel"
                 name="isCoveredUnderAudit"
                 value={state.isCoveredUnderAudit?.toString() || ""}

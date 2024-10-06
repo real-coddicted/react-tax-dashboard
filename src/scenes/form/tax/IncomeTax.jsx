@@ -238,6 +238,7 @@ const IncomeTax = (props) => {
               color="secondary"
               fullWidth
               type="text"
+              required
               label="Login Password"
               name="password"
               value={state.password}
@@ -256,6 +257,7 @@ const IncomeTax = (props) => {
               </FormLabel>
               <RadioGroup
                 row
+                required
                 aria-labelledby="coveredUnderAuditRadioGroupLabel"
                 name="isCoveredUnderAudit"
                 value={state.isCoveredUnderAudit?.toString() || ""}

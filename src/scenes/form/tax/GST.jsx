@@ -287,6 +287,7 @@ const GST = (props) => {
               type="text"
               label="GSTIN"
               name="gstin"
+              required
               value={state.gstin}
               onChange={(e) => {
                 handleInputChange(e);
@@ -301,6 +302,7 @@ const GST = (props) => {
               <Select
                 labelId="dealerTypeSelectLabel"
                 name="dealerType"
+                required
                 value={state.dealerType ?? ""}
                 onChange={(e) => {
                   handleInputChange(e);
