@@ -362,6 +362,7 @@ export default function AddUser(props) {
             </Box>
             <Snackbar
               open={openSnackbar}
+              autoHideDuration={10000}
               onClose={handleSnackbarClose}
               message={message}
               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
