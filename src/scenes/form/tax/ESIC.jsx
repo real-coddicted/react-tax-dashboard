@@ -104,6 +104,7 @@ const ESIC = (props) => {
   };
 
   const handleDateChange = (field, value) => {
+    props.setEdited(true);
     value = dayjs(value).format("YYYY-MM-DD");
     dispatch({
       type: "CHANGE_INPUT",
@@ -341,7 +342,8 @@ const ESIC = (props) => {
                 color="secondary"
                 label="Date of Registration"
                 name="dateOfRegistration"
-                value={dayjs(state.dateOfRegistration) ?? ""}
+                inputFormat="YYYY-MM-DD"
+                value={state.dateOfRegistration}
                 onChange={(e) => {
                   handleDateChange("dateOfRegistration", e);
                 }}

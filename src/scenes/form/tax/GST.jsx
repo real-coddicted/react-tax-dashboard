@@ -111,6 +111,7 @@ const GST = (props) => {
   };
 
   const handleDateChange = (field, value) => {
+    props.setEdited(true);
     value = dayjs(value).format("YYYY-MM-DD");
     dispatch({
       type: "CHANGE_INPUT",
@@ -269,7 +270,7 @@ const GST = (props) => {
                 label="Date of Registration"
                 name="dateOfRegistration"
                 inputFormat="YYYY-MM-DD"
-                value={dayjs(state.dateOfRegistration) ?? ""}
+                value={state.dateOfRegistration}
                 onChange={(e) => {
                   handleDateChange("dateOfRegistration", e);
                 }}
