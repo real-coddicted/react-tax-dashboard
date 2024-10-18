@@ -234,13 +234,18 @@ export default function AddUser(props) {
   };
 
   const handleSave = () => {
-    const isValidated = validatePersonArray();
-    if (!isValidated) {
-      return;
-    }
     dispatch({
       type: "SAVE_CUSTOMER",
     });
+    const isValidated = validatePersonArray();
+    if (!isValidated) {
+      dispatch({
+        type: "ERROR_SAVING_CUSTOMER",
+        payload: "Validation Error",
+      });
+      return;
+    }
+
     var response;
     try {
       if (state.id) {
