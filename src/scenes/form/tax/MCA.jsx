@@ -110,6 +110,7 @@ const MCA = (props) => {
   };
 
   const handleDateChange = (field, value) => {
+    value = dayjs(value).format("YYYY-MM-DD");
     dispatch({
       type: "CHANGE_INPUT",
       payload: {
