@@ -110,6 +110,7 @@ const MCA = (props) => {
   };
 
   const handleDateChange = (field, value) => {
+    value = dayjs(value).format("YYYY-MM-DD");
     dispatch({
       type: "CHANGE_INPUT",
       payload: {
@@ -175,7 +176,7 @@ const MCA = (props) => {
               payload: res.data,
             });
             setSeverity("success");
-            setMessage("PF details saved successfully");
+            setMessage("MCA details saved successfully");
             setOpenSnackbar(true);
             props.setEdited(false);
           }
