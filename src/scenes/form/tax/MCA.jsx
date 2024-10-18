@@ -110,6 +110,7 @@ const MCA = (props) => {
   };
 
   const handleDateChange = (field, value) => {
+    props.setEdited(true);
     value = dayjs(value).format("YYYY-MM-DD");
     dispatch({
       type: "CHANGE_INPUT",
@@ -306,7 +307,7 @@ const MCA = (props) => {
                 label="Date of Incorporation"
                 name="dateOfInit"
                 inputFormat="YYYY-MM-DD"
-                value={dayjs(state.dateOfInit) ?? ""}
+                value={state.dateOfInit}
                 onChange={(e) => {
                   handleDateChange("dateOfInit", e);
                 }}
