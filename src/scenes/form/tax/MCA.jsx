@@ -175,7 +175,7 @@ const MCA = (props) => {
               payload: res.data,
             });
             setSeverity("success");
-            setMessage("PF details saved successfully");
+            setMessage("MCA details saved successfully");
             setOpenSnackbar(true);
             props.setEdited(false);
           }
