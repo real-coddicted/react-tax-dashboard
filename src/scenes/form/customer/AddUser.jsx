@@ -385,7 +385,7 @@ export default function AddUser(props) {
             <Backdrop
               sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
               open={openBackDrop}
-              onClick={handleBackDropClose}
+              // onClick={handleBackDropClose}
             >
               <CircularProgress color="inherit" />
             </Backdrop>
