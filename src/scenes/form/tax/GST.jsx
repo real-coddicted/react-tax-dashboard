@@ -270,7 +270,7 @@ const GST = (props) => {
                 label="Date of Registration"
                 name="dateOfRegistration"
                 inputFormat="YYYY-MM-DD"
-                value={state.dateOfRegistration}
+                value={dayjs(state.dateOfRegistration)}
                 onChange={(e) => {
                   handleDateChange("dateOfRegistration", e);
                 }}

@@ -183,7 +183,7 @@ const Profile = (props) => {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label="DOB/DOI"
-            value={value}
+            value={dayjs(value)}
             onChange={(newValue) => setValue(newValue)}
             sx={{ gridColumn: "span 2" }}
           />
