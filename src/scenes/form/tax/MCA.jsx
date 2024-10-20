@@ -307,7 +307,7 @@ const MCA = (props) => {
                 label="Date of Incorporation"
                 name="dateOfInit"
                 inputFormat="YYYY-MM-DD"
-                value={state.dateOfInit}
+                value={dayjs(state.dateOfInit)}
                 onChange={(e) => {
                   handleDateChange("dateOfInit", e);
                 }}
