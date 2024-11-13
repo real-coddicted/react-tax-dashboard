@@ -146,7 +146,7 @@ const IncomeTax = (props) => {
               payload: res.data,
             });
             setSeverity("success");
-            setMessage("Tax details saved successfully");
+            setMessage("Income-Tax details saved successfully");
             setOpenSnackbar(true);
             props.setEdited(false);
           }
