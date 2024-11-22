@@ -198,7 +198,7 @@ const ESIC = (props) => {
               payload: res.data,
             });
             setSeverity("success");
-            setMessage("Tax details saved successfully");
+            setMessage("ESIC details saved successfully");
             setOpenSnackbar(true);
             props.setEdited(false);
           }
