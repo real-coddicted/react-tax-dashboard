@@ -74,7 +74,7 @@ const InstitutionSpecificFields = ({ state, dispatch, setEdited }) => {
           onChange={(e) => {
             handleInputChange(e);
           }}
-          label="Registration Number"
+          label="CIN"
           name="registrationNumber"
           sx={{ gridColumn: "span 2" }}
         />
