@@ -4,19 +4,23 @@ export let mcaSecurityQuestions = [
     label: "None",
   },
   {
+    value: "MOTHER_MAIDEN_NAME",
+    label: "What is your mother's maiden name?",
+  },
+  {
+    value: "PLACE_OF_BIRTH",
+    label: "What is your place of birth?",
+  },
+  {
+    value: "FIRST_CAR",
+    label: "What was your first car?",
+  },
+  {
+    value: "FIRST_PET",
+    label: "What was your first pet?",
+  },
+  {
     value: "FIRST_SCHOOL_NAME",
-    label: "What is the name of your first school?",
-  },
-  {
-    value: "FIRST_PET_NAME",
-    label: "What is the name of your first pet?",
-  },
-  {
-    value: "FIRST_COMPANY_NAME",
-    label: "What is the name of your first company?",
-  },
-  {
-    value: "FAVORITE_COLOR",
-    label: "What is your favorite color?",
+    label: "What was your first school?",
   },
 ];
